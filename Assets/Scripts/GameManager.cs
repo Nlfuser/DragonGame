@@ -82,7 +82,7 @@ public class GameManager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.DownArrow)) direction = Vector2.down;
             if (direction != Vector2.zero)
             {                
-                Shift(direction);
+                MovePlayer(direction);
                 _turnTimer = 0;
                 ChangeState(GameState.EnemiesMoving);
             }
@@ -136,7 +136,6 @@ public class GameManager : MonoBehaviour
 
     void MovePlayer(Vector2 dir) {
 
-        _lastDir = dir;
         Vector2 possibleLocation = (Vector2)player.transform.position + dir;
         var possibleNode = GetNodeAtPosition(possibleLocation);
             if (possibleNode != null) {//if grid exists
