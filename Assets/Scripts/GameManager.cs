@@ -6,8 +6,8 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private int _width = 4;
     [SerializeField] private int _height = 4;
+    [SerializeField] private int _width = 4;
     [SerializeField] private Transform grid;
     [SerializeField] private Node _nodePrefab;
     [SerializeField] private Player playerPrefab;
