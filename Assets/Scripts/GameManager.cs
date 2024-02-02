@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int _width;
     [SerializeField] private float TurnLimit;
     private float _turnTimer;
+    private Vector2 _lastDir = Vector2.right;
     [SerializeField] private Transform grid;
     [SerializeField] private Transform others;
     [SerializeField] private Node nodePrefab;
@@ -31,19 +32,14 @@ public class GameManager : MonoBehaviour
     // private int _round;
     // Start is called before the first frame update
 
-    void Start()
-    {
-        var center = new Vector2((float)_width / 2 - 0.5f, (float)_height / 2 - 0.5f);
-        Camera.main.transform.position = new Vector3(center.x, center.y, -10);
-        ChangeState(GameState.GenerateLevel);
+    void Start() {
+       ChangeState(GameState.GenerateLevel);
     }
 
-    private void ChangeState(GameState newState)
-    {
+    private void ChangeState(GameState newState) {
         _state = newState;
 
-        switch (newState)
-        {
+        switch (newState) {
             case GameState.GenerateLevel:
                 GenerateGrid();
                 ChangeState(GameState.SpawningBlocks);
@@ -53,7 +49,6 @@ public class GameManager : MonoBehaviour
                 ChangeState(GameState.WaitingInput);
                 break;
             case GameState.WaitingInput:
-                //Begin clock
                 break;
             case GameState.Moving:
                 break;
@@ -66,50 +61,36 @@ public class GameManager : MonoBehaviour
             //     break;
             // case GameState.Lose:
             //     _loseScreen.SetActive(true);
-            // break;
+                // break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
         }
     }
-    void Update()
-    {
-        if (_state == GameState.WaitingInput)
-        {
-            Vector2 direction = Vector2.zero;
-            if (Input.GetKeyDown(KeyCode.LeftArrow)) direction = Vector2.left;
-            if (Input.GetKeyDown(KeyCode.RightArrow)) direction = Vector2.right;
-            if (Input.GetKeyDown(KeyCode.UpArrow)) direction = Vector2.up;
-            if (Input.GetKeyDown(KeyCode.DownArrow)) direction = Vector2.down;
-            if (direction != Vector2.zero)
-            {                
-                Shift(direction);
-                _turnTimer = 0;
-                ChangeState(GameState.EnemiesMoving);
-            }
-            _turnTimer += Time.deltaTime; //coroutine
-            if (_turnTimer >= TurnLimit)
-            {
-                _turnTimer = 0;
-                ChangeState(GameState.EnemiesMoving); //EnemyBehaviour
-            }
+    void Update() {
+        if(_state != GameState.WaitingInput) return;
+
+        if(Input.GetKeyDown(KeyCode.LeftArrow)) MovePlayer(Vector2.left);
+        if(Input.GetKeyDown(KeyCode.RightArrow)) MovePlayer(Vector2.right);
+        if(Input.GetKeyDown(KeyCode.UpArrow)) MovePlayer(Vector2.up);
+        if(Input.GetKeyDown(KeyCode.DownArrow)) MovePlayer(Vector2.down);
+
+        _turnTimer += Time.deltaTime;
+        if(_turnTimer >= TurnLimit){
+            ChangeState(GameState.EnemiesMoving);
+            _turnTimer = 0;
         }
-        // if(Input.GetKeyDown(KeyCode.Space)) ExitLevel();        
-        if (exit.transform.position == player.transform.position)
-        {
-            ExitLevel();
-        }        
+
+        // if(Input.GetKeyDown(KeyCode.Space)) 
+
     }
-    void GenerateGrid()
-    {
+    void GenerateGrid() {
         // _round = 0;
         // print("grid making");
         _nodes = new List<Node>();
         _enemies = new List<Enemy>();
         // _blocks = new List<Block>();
-        for (int x = 0; x < _width; x++)
-        {
-            for (int y = 0; y < _height; y++)
-            {
+        for (int x = 0; x < _width; x++) {
+            for (int y = 0; y < _height; y++) {
                 var node = Instantiate(nodePrefab, new Vector2(x, y), Quaternion.identity, grid);
                 _nodes.Add(node);
             }
@@ -125,6 +106,8 @@ public class GameManager : MonoBehaviour
 
         // var board = Instantiate(_boardPrefab, center, Quaternion.identity);
         // board.size = new Vector2(_width,_height);
+
+        Camera.main.transform.position = new Vector3(center.x,center.y,-10);
     }
 
     void InitEnemies(){
@@ -138,6 +121,8 @@ public class GameManager : MonoBehaviour
 
         _lastDir = dir;
         Vector2 possibleLocation = (Vector2)player.transform.position + dir;
+
+
         var possibleNode = GetNodeAtPosition(possibleLocation);
             if (possibleNode != null) {//if grid exists
                 _turnTimer = 0;
@@ -201,8 +186,7 @@ public class GameManager : MonoBehaviour
         ExitLevel();
     }
 
-    Node GetNodeAtPosition(Vector2 pos)
-    {
+    Node GetNodeAtPosition(Vector2 pos) {
         return _nodes.FirstOrDefault(n => n.Pos == pos);
     }
 
@@ -211,8 +195,7 @@ public class GameManager : MonoBehaviour
     }
 }
 
-public enum GameState
-{
+public enum GameState {
     GenerateLevel,
     SpawningBlocks,
     WaitingInput,
