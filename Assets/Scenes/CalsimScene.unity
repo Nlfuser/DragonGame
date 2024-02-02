@@ -136,6 +136,22 @@ PrefabInstance:
       value: GameManager
       objectReference: {fileID: 0}
     - target: {fileID: 3643527895345360353, guid: f269a45db0b3e6f4b94a6f90b1877779, type: 3}
+      propertyPath: _width
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 3643527895345360353, guid: f269a45db0b3e6f4b94a6f90b1877779, type: 3}
+      propertyPath: _height
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3643527895345360353, guid: f269a45db0b3e6f4b94a6f90b1877779, type: 3}
+      propertyPath: xcamera
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3643527895345360353, guid: f269a45db0b3e6f4b94a6f90b1877779, type: 3}
+      propertyPath: ycamera
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3643527895345360353, guid: f269a45db0b3e6f4b94a6f90b1877779, type: 3}
       propertyPath: enemyPrefab
       value: 
       objectReference: {fileID: 7084748816684298171, guid: 8483c6410c8762a4eb8d64f3dbfe251d, type: 3}

@@ -31,10 +31,13 @@ public class GameManager : MonoBehaviour
     private GameState _state;
     // private int _round;
     // Start is called before the first frame update
-
+    private Camera myCamera;
+    public int xcamera;
+    public int ycamera;
     void Start()
     {
         ChangeState(GameState.GenerateLevel);
+        myCamera = Camera.main;
     }
 
     private void ChangeState(GameState newState)
@@ -54,6 +57,7 @@ public class GameManager : MonoBehaviour
             case GameState.WaitingInput:
                 break;
             case GameState.Moving:
+                HeuristicCamera();
                 break;
             case GameState.EnemiesMoving:
                 MoveEnemies();
@@ -84,8 +88,24 @@ public class GameManager : MonoBehaviour
             _turnTimer = 0;
             ChangeState(GameState.EnemiesMoving);
         }
+        
         // if(Input.GetKeyDown(KeyCode.Space)) 
     }
+
+    private void HeuristicCamera()
+    {
+        Vector3 playertp = player.transform.position;
+        Vector3 cameratp = myCamera.transform.position;
+        if (playertp.x < cameratp.x - xcamera)
+        {
+            myCamera.transform.position = cameratp + Vector3.left + Vector3.back;
+        }
+        else if (playertp.x > cameratp.x + xcamera)
+        {
+            myCamera.transform.position = cameratp + Vector3.right + Vector3.back;
+        } 
+    }
+
     void GenerateGrid()
     {
         // _round = 0;
@@ -113,7 +133,7 @@ public class GameManager : MonoBehaviour
         // var board = Instantiate(_boardPrefab, center, Quaternion.identity);
         // board.size = new Vector2(_width,_height);
 
-        Camera.main.transform.position = new Vector3(center.x, center.y, -10);
+        Camera.main.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, -10);
     }
     void InitEnemies()
     {
@@ -129,6 +149,7 @@ public class GameManager : MonoBehaviour
         if (possibleNode != null)
         {//if grid exists
             _turnTimer = 0;
+            ChangeState(GameState.Moving);
             var Enemy = GetEnemyAtPosition(possibleLocation);
             if (Enemy == null)
             {//if there are no enemies at the location
