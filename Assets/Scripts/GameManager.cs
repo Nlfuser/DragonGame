@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -10,7 +11,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Transform grid;
     [SerializeField] private Node _nodePrefab;
     [SerializeField] private Player playerPrefab;
-    private Player _player;
+    private Player player;
 
 
     private List<Node> _nodes;
@@ -54,10 +55,10 @@ public class GameManager : MonoBehaviour
     void Update() {
         if(_state != GameState.WaitingInput) return;
 
-        // if(Input.GetKeyDown(KeyCode.LeftArrow)) Shift(Vector2.left);
-        // if(Input.GetKeyDown(KeyCode.RightArrow)) Shift(Vector2.right);
-        // if(Input.GetKeyDown(KeyCode.UpArrow)) Shift(Vector2.up);
-        // if(Input.GetKeyDown(KeyCode.DownArrow)) Shift(Vector2.down);
+        if(Input.GetKeyDown(KeyCode.LeftArrow)) Shift(Vector2.left);
+        if(Input.GetKeyDown(KeyCode.RightArrow)) Shift(Vector2.right);
+        if(Input.GetKeyDown(KeyCode.UpArrow)) Shift(Vector2.up);
+        if(Input.GetKeyDown(KeyCode.DownArrow)) Shift(Vector2.down);
     }
 
     void GenerateGrid() {
@@ -73,7 +74,7 @@ public class GameManager : MonoBehaviour
 
         var center = new Vector2((float) _width /2 - 0.5f,(float) _height / 2 -0.5f);
         print(_height%2 == 0 ? _height / 2 : _height / 2 -0.5f);
-        _player = Instantiate(playerPrefab, new Vector2(0, _height%2 == 0 ? _height / 2 : _height / 2 -0.5f), Quaternion.identity);
+        player = Instantiate(playerPrefab, new Vector2(0, _height%2 == 0 ? _height / 2 : _height / 2 -0.5f), Quaternion.identity);
 
         // var board = Instantiate(_boardPrefab, center, Quaternion.identity);
         // board.size = new Vector2(_width,_height);
@@ -83,35 +84,22 @@ public class GameManager : MonoBehaviour
         ChangeState(GameState.SpawningBlocks);
     }
 
-    // void Shift(Vector2 dir) {
-    //     ChangeState(GameState.Moving);
+    void Shift(Vector2 dir) {
+        ChangeState(GameState.WaitingInput);
 
-    //     var orderedBlocks = _blocks.OrderBy(b => b.Pos.x).ThenBy(b => b.Pos.y).ToList();
-    //     if (dir == Vector2.right || dir == Vector2.up) orderedBlocks.Reverse();
+        Vector2 possibleLocation = (Vector2)player.transform.position + dir;
 
-    //     foreach (var block in orderedBlocks) {
-    //         var next = block.Node;
-    //         do {
-    //             block.SetBlock(next);
 
-    //             var possibleNode = GetNodeAtPosition(next.Pos + dir);
-    //             if (possibleNode != null) {
-    //                 // We know a node is present
-    //                 // If it's possible to merge, set merge
-    //                 if (possibleNode.OccupiedBlock != null && possibleNode.OccupiedBlock.CanMerge(block.Value)) {
-    //                     block.MergeBlock(possibleNode.OccupiedBlock);
-    //                 }
-    //                 // Otherwise, can we move to this spot?
-    //                 else if (possibleNode.OccupiedBlock == null) next = possibleNode;
+        var possibleNode = GetNodeAtPosition(possibleLocation);
+        if (possibleNode != null) {
+            player.transform.position = possibleLocation;
+        }
 
-    //                 // None hit? End do while loop
-    //             }
-                
+    }
 
-    //         } while (next != block.Node);
-    //     }
-
-    // }
+    Node GetNodeAtPosition(Vector2 pos) {
+        return _nodes.FirstOrDefault(n => n.Pos == pos);
+    }
 }
 
 public enum GameState {
