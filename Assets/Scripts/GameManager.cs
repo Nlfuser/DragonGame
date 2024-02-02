@@ -7,7 +7,10 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private int _width = 4;
     [SerializeField] private int _height = 4;
+    [SerializeField] private Transform grid;
     [SerializeField] private Node _nodePrefab;
+    [SerializeField] private Player playerPrefab;
+    private Player _player;
 
 
     private List<Node> _nodes;
@@ -27,9 +30,10 @@ public class GameManager : MonoBehaviour
             case GameState.GenerateLevel:
                 GenerateGrid();
                 break;
-            // case GameState.SpawningBlocks:
-            //     SpawnBlocks(_round++ == 0 ? 2 : 1);
-                // break;
+            case GameState.SpawningBlocks:
+                // SpawnBlocks(_round++ == 0 ? 2 : 1);
+                ChangeState(GameState.WaitingInput);
+                break;
             case GameState.WaitingInput:
                 break;
             case GameState.Moving:
@@ -62,12 +66,14 @@ public class GameManager : MonoBehaviour
         // _blocks = new List<Block>();
         for (int x = 0; x < _width; x++) {
             for (int y = 0; y < _height; y++) {
-                var node = Instantiate(_nodePrefab, new Vector2(x, y), Quaternion.identity);
+                var node = Instantiate(_nodePrefab, new Vector2(x, y), Quaternion.identity, grid);
                 _nodes.Add(node);
             }
         }
 
         var center = new Vector2((float) _width /2 - 0.5f,(float) _height / 2 -0.5f);
+        print(_height%2 == 0 ? _height / 2 : _height / 2 -0.5f);
+        _player = Instantiate(playerPrefab, new Vector2(0, _height%2 == 0 ? _height / 2 : _height / 2 -0.5f), Quaternion.identity);
 
         // var board = Instantiate(_boardPrefab, center, Quaternion.identity);
         // board.size = new Vector2(_width,_height);
@@ -76,6 +82,36 @@ public class GameManager : MonoBehaviour
 
         ChangeState(GameState.SpawningBlocks);
     }
+
+    // void Shift(Vector2 dir) {
+    //     ChangeState(GameState.Moving);
+
+    //     var orderedBlocks = _blocks.OrderBy(b => b.Pos.x).ThenBy(b => b.Pos.y).ToList();
+    //     if (dir == Vector2.right || dir == Vector2.up) orderedBlocks.Reverse();
+
+    //     foreach (var block in orderedBlocks) {
+    //         var next = block.Node;
+    //         do {
+    //             block.SetBlock(next);
+
+    //             var possibleNode = GetNodeAtPosition(next.Pos + dir);
+    //             if (possibleNode != null) {
+    //                 // We know a node is present
+    //                 // If it's possible to merge, set merge
+    //                 if (possibleNode.OccupiedBlock != null && possibleNode.OccupiedBlock.CanMerge(block.Value)) {
+    //                     block.MergeBlock(possibleNode.OccupiedBlock);
+    //                 }
+    //                 // Otherwise, can we move to this spot?
+    //                 else if (possibleNode.OccupiedBlock == null) next = possibleNode;
+
+    //                 // None hit? End do while loop
+    //             }
+                
+
+    //         } while (next != block.Node);
+    //     }
+
+    // }
 }
 
 public enum GameState {
