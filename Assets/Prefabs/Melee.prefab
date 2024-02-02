@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1593478946779281363}
   - component: {fileID: 3468807464090096627}
-  - component: {fileID: 5267119572407054029}
+  - component: {fileID: 4438972627051609154}
   m_Layer: 0
   m_Name: Melee
   m_TagString: Untagged
@@ -85,7 +85,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &5267119572407054029
+--- !u!114 &4438972627051609154
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -94,6 +94,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 5833969387107437390}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f55319f48fe7e67499b71bfffe26cf4b, type: 3}
+  m_Script: {fileID: 11500000, guid: d39a4d21849af314e9b9409a22c4af87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
