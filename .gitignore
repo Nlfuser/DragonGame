@@ -25,6 +25,7 @@
 
 # Visual Studio cache directory
 .vs/
+.vsconfig
 
 # Gradle cache directory
 .gradle/
@@ -73,3 +74,4 @@ crashlytics-build.properties
 
 # Probably best to ignore plastic as well
 Ignore.conf
+.plastic/
