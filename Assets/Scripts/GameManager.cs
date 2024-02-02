@@ -22,7 +22,6 @@ public class GameManager : MonoBehaviour
     private Player player;
     [SerializeField] private Enemy enemyPrefab;
 
-
     public List<Enemy> _enemies;
     public float enemyrange = 3f;
     // private List<Block> _blocks;
@@ -82,12 +81,10 @@ public class GameManager : MonoBehaviour
         _turnTimer += Time.deltaTime;
         if (_turnTimer >= TurnLimit)
         {
-            ChangeState(GameState.EnemiesMoving);
             _turnTimer = 0;
+            ChangeState(GameState.EnemiesMoving);
         }
-
         // if(Input.GetKeyDown(KeyCode.Space)) 
-
     }
     void GenerateGrid()
     {
@@ -118,7 +115,6 @@ public class GameManager : MonoBehaviour
 
         Camera.main.transform.position = new Vector3(center.x, center.y, -10);
     }
-
     void InitEnemies()
     {
         var _enemy = Instantiate(enemyPrefab, new Vector2(_width - 2, Random.Range(0, _height)), Quaternion.identity, others);
@@ -126,7 +122,6 @@ public class GameManager : MonoBehaviour
         _enemies.Add(_enemy);
         _enemies.Add(_enemy1);
     }
-
     void MovePlayer(Vector2 dir)
     {
         Vector2 possibleLocation = (Vector2)player.transform.position + dir;
@@ -158,35 +153,59 @@ public class GameManager : MonoBehaviour
         }
         else ChangeState(GameState.WaitingInput);
     }
-
     void MoveEnemies()
     {
         foreach (Enemy e in _enemies.ToList())
         {
-            if (Vector2.Distance(player.transform.position, e.transform.position) < enemyrange) Debug.Log("in range");
+            if (Vector2.Distance(player.transform.position, e.transform.position) < enemyrange)
+            {
+                Vector2 possibleLocation = (Vector2)e.transform.position - Simplepursuit(player.transform.position, e.transform.position);
+                var possibleNode = GetNodeAtPosition(possibleLocation);
+                if (possibleNode != null)
+                {
+                    if (possibleLocation == (Vector2)player.transform.position)
+                    {
+                        Fight(e);
+                    }
+                    else
+                    {
+                        e.transform.position = possibleLocation;
+                    }
+                }
+            }
         }
         ChangeState(GameState.WaitingInput);
     }
-
+    Vector2 Simplepursuit(Vector2 player, Vector2 currentEnemy)
+    {
+        Vector2 pursuitShort = currentEnemy - player;
+        Vector2 xpursuit = new Vector2(pursuitShort.x, 0);
+        Vector2 ypursuit = new Vector2(0, pursuitShort.y);
+        Vector2 route = Vector2.zero;
+        if (Math.Abs(pursuitShort.x) == Math.Abs(pursuitShort.y))
+        {
+            if (Random.Range(0, 2) == 0) route = xpursuit;
+            else { route = ypursuit; }
+        }
+        else
+        {
+            route = Math.Abs(pursuitShort.x) > Math.Abs(pursuitShort.y) ? xpursuit : ypursuit;
+        }
+        return route.normalized;
+    }
     void Fight(Enemy fightingEnemy)
     {
         if (player._health - fightingEnemy._attack <= 0)
         {
             GameOver();
         }
-
         player.Takedmg(fightingEnemy._attack);
-
         if (fightingEnemy._health - player._attack <= 0)
         {
             _enemies.Remove(fightingEnemy);
         }
-
         fightingEnemy.Takedmg(player._attack);
     }
-
-
-
     void ExitLevel()
     {
         foreach (Transform child in grid)
@@ -198,13 +217,11 @@ public class GameManager : MonoBehaviour
         ChangeState(GameState.GenerateLevel);
 
     }
-
     void GameOver()
     {
         print("Game Over");
         ExitLevel();
     }
-
     Node GetNodeAtPosition(Vector2 pos)
     {
         return _nodes.FirstOrDefault(n => n.Pos == pos);
@@ -215,7 +232,6 @@ public class GameManager : MonoBehaviour
         return _enemies.FirstOrDefault(n => n.Pos == pos);
     }
 }
-
 public enum GameState
 {
     GenerateLevel,
