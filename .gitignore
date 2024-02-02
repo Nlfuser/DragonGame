@@ -72,4 +72,4 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
 # Probably best to ignore plastic as well
-/[Ii]gnore.conf/
+Ignore.conf
