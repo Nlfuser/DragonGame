@@ -1,13 +1,17 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private int _width = 4;
     [SerializeField] private int _height = 4;
+    [SerializeField] private int _width = 4;
+    [SerializeField] private Transform grid;
     [SerializeField] private Node _nodePrefab;
+    [SerializeField] private Player playerPrefab;
+    private Player player;
 
 
     private List<Node> _nodes;
@@ -27,9 +31,10 @@ public class GameManager : MonoBehaviour
             case GameState.GenerateLevel:
                 GenerateGrid();
                 break;
-            // case GameState.SpawningBlocks:
-            //     SpawnBlocks(_round++ == 0 ? 2 : 1);
-                // break;
+            case GameState.SpawningBlocks:
+                // SpawnBlocks(_round++ == 0 ? 2 : 1);
+                ChangeState(GameState.WaitingInput);
+                break;
             case GameState.WaitingInput:
                 break;
             case GameState.Moving:
@@ -50,10 +55,10 @@ public class GameManager : MonoBehaviour
     void Update() {
         if(_state != GameState.WaitingInput) return;
 
-        // if(Input.GetKeyDown(KeyCode.LeftArrow)) Shift(Vector2.left);
-        // if(Input.GetKeyDown(KeyCode.RightArrow)) Shift(Vector2.right);
-        // if(Input.GetKeyDown(KeyCode.UpArrow)) Shift(Vector2.up);
-        // if(Input.GetKeyDown(KeyCode.DownArrow)) Shift(Vector2.down);
+        if(Input.GetKeyDown(KeyCode.LeftArrow)) Shift(Vector2.left);
+        if(Input.GetKeyDown(KeyCode.RightArrow)) Shift(Vector2.right);
+        if(Input.GetKeyDown(KeyCode.UpArrow)) Shift(Vector2.up);
+        if(Input.GetKeyDown(KeyCode.DownArrow)) Shift(Vector2.down);
     }
 
     void GenerateGrid() {
@@ -62,12 +67,14 @@ public class GameManager : MonoBehaviour
         // _blocks = new List<Block>();
         for (int x = 0; x < _width; x++) {
             for (int y = 0; y < _height; y++) {
-                var node = Instantiate(_nodePrefab, new Vector2(x, y), Quaternion.identity);
+                var node = Instantiate(_nodePrefab, new Vector2(x, y), Quaternion.identity, grid);
                 _nodes.Add(node);
             }
         }
 
         var center = new Vector2((float) _width /2 - 0.5f,(float) _height / 2 -0.5f);
+        print(_height%2 == 0 ? _height / 2 : _height / 2 -0.5f);
+        player = Instantiate(playerPrefab, new Vector2(0, _height%2 == 0 ? _height / 2 : _height / 2 -0.5f), Quaternion.identity);
 
         // var board = Instantiate(_boardPrefab, center, Quaternion.identity);
         // board.size = new Vector2(_width,_height);
@@ -75,6 +82,23 @@ public class GameManager : MonoBehaviour
         Camera.main.transform.position = new Vector3(center.x,center.y,-10);
 
         ChangeState(GameState.SpawningBlocks);
+    }
+
+    void Shift(Vector2 dir) {
+        ChangeState(GameState.WaitingInput);
+
+        Vector2 possibleLocation = (Vector2)player.transform.position + dir;
+
+
+        var possibleNode = GetNodeAtPosition(possibleLocation);
+        if (possibleNode != null) {
+            player.transform.position = possibleLocation;
+        }
+
+    }
+
+    Node GetNodeAtPosition(Vector2 pos) {
+        return _nodes.FirstOrDefault(n => n.Pos == pos);
     }
 }
 
