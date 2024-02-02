@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
 {
@@ -12,7 +13,10 @@ public class GameManager : MonoBehaviour
     private float _turnTimer;
     private Vector2 _lastDir = Vector2.right;
     [SerializeField] private Transform grid;
-    [SerializeField] private Node _nodePrefab;
+    [SerializeField] private Node nodePrefab;
+    [SerializeField] private Exit exitPrefab;
+
+    private Exit exit;
     [SerializeField] private Player playerPrefab;
     private Player player;
 
@@ -57,6 +61,7 @@ public class GameManager : MonoBehaviour
     void Update() {
         if(_state != GameState.WaitingInput) return;
 
+        // if(Input.GetKeyDown(KeyCode.Space)) ExitLevel();
         if(Input.GetKeyDown(KeyCode.LeftArrow)) Shift(Vector2.left);
         if(Input.GetKeyDown(KeyCode.RightArrow)) Shift(Vector2.right);
         if(Input.GetKeyDown(KeyCode.UpArrow)) Shift(Vector2.up);
@@ -68,17 +73,21 @@ public class GameManager : MonoBehaviour
     }
     void GenerateGrid() {
         // _round = 0;
+        print("grid making");
         _nodes = new List<Node>();
         // _blocks = new List<Block>();
         for (int x = 0; x < _width; x++) {
             for (int y = 0; y < _height; y++) {
-                var node = Instantiate(_nodePrefab, new Vector2(x, y), Quaternion.identity, grid);
+                var node = Instantiate(nodePrefab, new Vector2(x, y), Quaternion.identity, grid);
                 _nodes.Add(node);
             }
         }
 
         var center = new Vector2((float) _width /2 - 0.5f,(float) _height / 2 -0.5f);
-        player = Instantiate(playerPrefab, new Vector2(0, _height%2 == 0 ? _height / 2 : _height / 2 -0.5f), Quaternion.identity);
+
+        exit = Instantiate(exitPrefab, new Vector2(_width-1, Random.Range(0, _height)), Quaternion.identity, grid);
+
+        player = Instantiate(playerPrefab, new Vector2(0, _height%2 == 0 ? _height / 2 : (float) _height / 2 -0.5f), Quaternion.identity);
 
         // var board = Instantiate(_boardPrefab, center, Quaternion.identity);
         // board.size = new Vector2(_width,_height);
@@ -87,7 +96,6 @@ public class GameManager : MonoBehaviour
     }
 
     void Shift(Vector2 dir) {
-        ChangeState(GameState.WaitingInput);
 
         _lastDir = dir;
         Vector2 possibleLocation = (Vector2)player.transform.position + dir;
@@ -99,6 +107,22 @@ public class GameManager : MonoBehaviour
         }
 
         _turnTimer = 0;
+
+        if(exit.transform.position == player.transform.position){
+            ExitLevel();
+        }
+        else ChangeState(GameState.WaitingInput);
+    }
+
+    void ExitLevel(){
+        foreach(Transform child in grid)
+        {
+            Destroy(child.gameObject);
+        }
+        Destroy(player.gameObject);
+        Destroy(exit.gameObject);
+        ChangeState(GameState.GenerateLevel);
+
     }
 
     Node GetNodeAtPosition(Vector2 pos) {

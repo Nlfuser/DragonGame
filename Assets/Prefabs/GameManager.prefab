@@ -76,11 +76,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ae19e3d7d9615a4f9d558f2cf4fcbf8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _height: 6
+  _height: 5
   _width: 10
   TurnLimit: 2
-  _turnTimer: 0
   grid: {fileID: 8718491293442723399}
-  _nodePrefab: {fileID: 3004045365235678799, guid: 143c193ff43fb0d489f663091ebb8dc8, type: 3}
+  nodePrefab: {fileID: 3004045365235678799, guid: 143c193ff43fb0d489f663091ebb8dc8, type: 3}
+  exitPrefab: {fileID: 2202467249295825078, guid: d0483e0fd12080f4ca0002fc361056b4, type: 3}
   playerPrefab: {fileID: 5267119572407054029, guid: 4ee2d495660c4fa4e8c6f63be6201997, type: 3}
-  _state: 0
