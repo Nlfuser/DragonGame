@@ -148,7 +148,7 @@ public class GameManager : MonoBehaviour
 
     void InitLavaRow(int x){
         print(x);
-        for (int y = 0; y < _height; x++)
+        for (int y = 0; y < _height; y++)
         {
             var lava = Instantiate(lavaPrefab, new Vector2(x, y), Quaternion.identity, grid);
             _lavas.Add(lava);       
@@ -253,6 +253,7 @@ public class GameManager : MonoBehaviour
         Destroy(player.gameObject);
         Destroy(exit.gameObject);
         ChangeState(GameState.GenerateLevel);
+        _lavaTimer=0;
 
     }
     void GameOver()
