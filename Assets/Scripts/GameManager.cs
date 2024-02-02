@@ -47,6 +47,9 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.Moving:
                 break;
+            case GameState.EnemiesMoving:
+                MoveEnemies();
+                break;
             // case GameState.Win:
             //     _winScreen.SetActive(true);
             //     Invoke(nameof(DelayedWinScreenText),1.5f);
@@ -68,7 +71,11 @@ public class GameManager : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.DownArrow)) Shift(Vector2.down);
 
         _turnTimer += Time.deltaTime;
-        if(_turnTimer >= TurnLimit) Shift(_lastDir);
+        if(_turnTimer >= TurnLimit){
+            ChangeState(GameState.EnemiesMoving);
+            _turnTimer = 0;
+        }
+        
 
     }
     void GenerateGrid() {
@@ -111,8 +118,16 @@ public class GameManager : MonoBehaviour
         if(exit.transform.position == player.transform.position){
             ExitLevel();
         }
-        else ChangeState(GameState.WaitingInput);
+        else ChangeState(GameState.EnemiesMoving);
     }
+
+    void MoveEnemies() {
+        print("Enemies move now");
+
+        ChangeState(GameState.WaitingInput);
+    }
+
+
 
     void ExitLevel(){
         foreach(Transform child in grid)
@@ -135,6 +150,7 @@ public enum GameState {
     SpawningBlocks,
     WaitingInput,
     Moving,
+    EnemiesMoving,
     Win,
     Lose
 }
