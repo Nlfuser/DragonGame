@@ -119,15 +119,19 @@ public class GameManager : MonoBehaviour
 
         exit = Instantiate(exitPrefab, new Vector2(_width-1, Random.Range(0, _height)), Quaternion.identity, others);
 
-        var _enemy = Instantiate(enemyPrefab, new Vector2(_width-2, Random.Range(0, _height)), Quaternion.identity, others);
-        var _enemy1 = Instantiate(enemyPrefab, new Vector2(_width-3, Random.Range(0, _height)), Quaternion.identity, others);
-        _enemies.Add(_enemy);
-        _enemies.Add(_enemy1);
-
+        InitEnemies();
+        
         player = Instantiate(playerPrefab, new Vector2(0, _height%2 == 0 ? _height / 2 : (float) _height / 2 -0.5f), Quaternion.identity, others);
 
         // var board = Instantiate(_boardPrefab, center, Quaternion.identity);
         // board.size = new Vector2(_width,_height);
+    }
+
+    void InitEnemies(){
+        var _enemy = Instantiate(enemyPrefab, new Vector2(_width-2, Random.Range(0, _height)), Quaternion.identity, others);
+        var _enemy1 = Instantiate(enemyPrefab, new Vector2(_width-3, Random.Range(0, _height)), Quaternion.identity, others);
+        _enemies.Add(_enemy);
+        _enemies.Add(_enemy1);
     }
 
     void MovePlayer(Vector2 dir) {
