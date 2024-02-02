@@ -77,14 +77,14 @@ public class GameManager : MonoBehaviour
             if (direction != Vector2.zero)
             {                
                 Shift(direction);
-                Debug.Log("EnemyBehaviour after move");
                 _turnTimer = 0;
+                ChangeState(GameState.EnemiesMoving);
             }
-            _turnTimer += Time.deltaTime;
+            _turnTimer += Time.deltaTime; //coroutine
             if (_turnTimer >= TurnLimit)
             {
                 _turnTimer = 0;
-                Debug.Log("EnemyBehaviour after inaction"); //EnemyBehaviour
+                ChangeState(GameState.EnemiesMoving); //EnemyBehaviour
             }
         }
         // if(Input.GetKeyDown(KeyCode.Space)) ExitLevel();        
@@ -121,22 +121,15 @@ public class GameManager : MonoBehaviour
         {
             player.transform.position = possibleLocation;
         }
-
-        _turnTimer = 0;
-
         if(exit.transform.position == player.transform.position){
             ExitLevel();
         }
-        else ChangeState(GameState.EnemiesMoving);
     }
 
     void MoveEnemies() {
         print("Enemies move now");
-
         ChangeState(GameState.WaitingInput);
     }
-
-
 
     void ExitLevel(){
         foreach(Transform child in grid)
