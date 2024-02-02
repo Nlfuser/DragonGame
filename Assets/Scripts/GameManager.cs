@@ -119,7 +119,6 @@ public class GameManager : MonoBehaviour
 
     void MovePlayer(Vector2 dir) {
 
-        _lastDir = dir;
         Vector2 possibleLocation = (Vector2)player.transform.position + dir;
 
 
