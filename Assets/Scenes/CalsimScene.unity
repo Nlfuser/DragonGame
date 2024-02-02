@@ -136,21 +136,17 @@ PrefabInstance:
       value: GameManager
       objectReference: {fileID: 0}
     - target: {fileID: 3643527895345360353, guid: f269a45db0b3e6f4b94a6f90b1877779, type: 3}
-      propertyPath: _width
-      value: 30
+      propertyPath: LavaLimit
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3643527895345360353, guid: f269a45db0b3e6f4b94a6f90b1877779, type: 3}
-      propertyPath: _height
-      value: 10
+      propertyPath: lavaDamage
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 3643527895345360353, guid: f269a45db0b3e6f4b94a6f90b1877779, type: 3}
-      propertyPath: xcamera
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3643527895345360353, guid: f269a45db0b3e6f4b94a6f90b1877779, type: 3}
-      propertyPath: ycamera
-      value: 0
-      objectReference: {fileID: 0}
+      propertyPath: lavaPrefab
+      value: 
+      objectReference: {fileID: 2346553143137239876, guid: c223fee816f6dfa44b6556253f3fb37b, type: 3}
     - target: {fileID: 3643527895345360353, guid: f269a45db0b3e6f4b94a6f90b1877779, type: 3}
       propertyPath: enemyPrefab
       value: 

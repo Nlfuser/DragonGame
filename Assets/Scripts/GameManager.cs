@@ -11,11 +11,15 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int _width;
     [SerializeField] private float TurnLimit;
     private float _turnTimer;
+    [SerializeField] private int LavaLimit;
+    private int _lavaTimer;
     private Vector2 _lastDir = Vector2.right;
     [SerializeField] private Transform grid;
     [SerializeField] private Transform others;
     [SerializeField] private Node nodePrefab;
     [SerializeField] private Exit exitPrefab;
+    [SerializeField] private Lava lavaPrefab;
+    [SerializeField] private int lavaDamage;
 
     private Exit exit;
     [SerializeField] private Player playerPrefab;
@@ -27,7 +31,7 @@ public class GameManager : MonoBehaviour
     // private List<Block> _blocks;
 
     private List<Node> _nodes;
-    // private List<Block> _blocks;
+    private List<Lava> _lavas;
     private GameState _state;
     // private int _round;
     // Start is called before the first frame update
@@ -61,6 +65,20 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.EnemiesMoving:
                 MoveEnemies();
+                break;
+            case GameState.LavaMoving:
+                _lavaTimer ++;
+                if(_lavaTimer % LavaLimit == 0){
+                    MoveLava();
+                }
+                if(GetLavaAtPosition(player.transform.position) != null){
+                    if (player._health - lavaDamage <= 0)
+                    {
+                    GameOver();
+                    }
+                    player.Takedmg(lavaDamage);
+                }
+                ChangeState(GameState.WaitingInput);
                 break;
             // case GameState.Win:
             //     _winScreen.SetActive(true);
@@ -112,6 +130,7 @@ public class GameManager : MonoBehaviour
         // print("grid making");
         _nodes = new List<Node>();
         _enemies = new List<Enemy>();
+        _lavas = new List<Lava>();
         // _blocks = new List<Block>();
         for (int x = 0; x < _width; x++)
         {
@@ -119,8 +138,13 @@ public class GameManager : MonoBehaviour
             {
                 var node = Instantiate(nodePrefab, new Vector2(x, y), Quaternion.identity, grid);
                 _nodes.Add(node);
+                // if(x==0) {
+                //     var lava = Instantiate(lavaPrefab, new Vector2(x, y), Quaternion.identity, grid);
+                //     _lavas.Add(lava);
+                // }
             }
         }
+        InitLavaRow(0);
 
         var center = new Vector2((float)_width / 2 - 0.5f, (float)_height / 2 - 0.5f);
 
@@ -128,7 +152,8 @@ public class GameManager : MonoBehaviour
 
         InitEnemies();
 
-        player = Instantiate(playerPrefab, new Vector2(0, _height % 2 == 0 ? _height / 2 : (float)_height / 2 - 0.5f), Quaternion.identity, others);
+        player = Instantiate(playerPrefab, new Vector2(1, _height % 2 == 0 ? _height / 2 : (float)_height / 2 - 0.5f), Quaternion.identity, others);
+
 
         // var board = Instantiate(_boardPrefab, center, Quaternion.identity);
         // board.size = new Vector2(_width,_height);
@@ -142,6 +167,16 @@ public class GameManager : MonoBehaviour
         _enemies.Add(_enemy);
         _enemies.Add(_enemy1);
     }
+
+    void InitLavaRow(int x){
+        print(x);
+        for (int y = 0; y < _height; y++)
+        {
+            var lava = Instantiate(lavaPrefab, new Vector2(x, y), Quaternion.identity, grid);
+            _lavas.Add(lava);       
+        }
+    }
+
     void MovePlayer(Vector2 dir)
     {
         Vector2 possibleLocation = (Vector2)player.transform.position + dir;
@@ -195,7 +230,7 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
-        ChangeState(GameState.WaitingInput);
+        ChangeState(GameState.LavaMoving);
     }
     Vector2 Simplepursuit(Vector2 player, Vector2 currentEnemy)
     {
@@ -227,6 +262,11 @@ public class GameManager : MonoBehaviour
         }
         fightingEnemy.Takedmg(player._attack);
     }
+
+    void MoveLava(){
+        InitLavaRow(_lavaTimer / LavaLimit);
+    }
+
     void ExitLevel()
     {
         foreach (Transform child in grid)
@@ -236,6 +276,7 @@ public class GameManager : MonoBehaviour
         Destroy(player.gameObject);
         Destroy(exit.gameObject);
         ChangeState(GameState.GenerateLevel);
+        _lavaTimer=0;
 
     }
     void GameOver()
@@ -252,14 +293,19 @@ public class GameManager : MonoBehaviour
     {
         return _enemies.FirstOrDefault(n => n.Pos == pos);
     }
+
+    Lava GetLavaAtPosition(Vector2 pos)
+    {
+        return _lavas.FirstOrDefault(n => n.Pos == pos);
+    }
 }
 public enum GameState
 {
     GenerateLevel,
     SpawningBlocks,
     WaitingInput,
-    Moving,
     EnemiesMoving,
+    LavaMoving,
     Win,
     Lose
 }
