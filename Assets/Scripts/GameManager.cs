@@ -6,8 +6,11 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private int _height = 4;
-    [SerializeField] private int _width = 4;
+    [SerializeField] private int _height;
+    [SerializeField] private int _width;
+    [SerializeField] private float TurnLimit;
+    private float _turnTimer;
+    private Vector2 _lastDir = Vector2.right;
     [SerializeField] private Transform grid;
     [SerializeField] private Node _nodePrefab;
     [SerializeField] private Player playerPrefab;
@@ -17,7 +20,7 @@ public class GameManager : MonoBehaviour
     private List<Node> _nodes;
     // private List<Block> _blocks;
     private GameState _state;
-    private int _round;
+    // private int _round;
     // Start is called before the first frame update
 
     void Start() {
@@ -59,10 +62,14 @@ public class GameManager : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.RightArrow)) Shift(Vector2.right);
         if(Input.GetKeyDown(KeyCode.UpArrow)) Shift(Vector2.up);
         if(Input.GetKeyDown(KeyCode.DownArrow)) Shift(Vector2.down);
+
+        _turnTimer += Time.deltaTime;
+        if(_turnTimer >= TurnLimit) Shift(_lastDir);
+
     }
 
     void GenerateGrid() {
-        _round = 0;
+        // _round = 0;
         _nodes = new List<Node>();
         // _blocks = new List<Block>();
         for (int x = 0; x < _width; x++) {
@@ -73,7 +80,6 @@ public class GameManager : MonoBehaviour
         }
 
         var center = new Vector2((float) _width /2 - 0.5f,(float) _height / 2 -0.5f);
-        print(_height%2 == 0 ? _height / 2 : _height / 2 -0.5f);
         player = Instantiate(playerPrefab, new Vector2(0, _height%2 == 0 ? _height / 2 : _height / 2 -0.5f), Quaternion.identity);
 
         // var board = Instantiate(_boardPrefab, center, Quaternion.identity);
@@ -87,6 +93,7 @@ public class GameManager : MonoBehaviour
     void Shift(Vector2 dir) {
         ChangeState(GameState.WaitingInput);
 
+        _lastDir = dir;
         Vector2 possibleLocation = (Vector2)player.transform.position + dir;
 
 
@@ -95,6 +102,7 @@ public class GameManager : MonoBehaviour
             player.transform.position = possibleLocation;
         }
 
+        _turnTimer = 0;
     }
 
     Node GetNodeAtPosition(Vector2 pos) {
