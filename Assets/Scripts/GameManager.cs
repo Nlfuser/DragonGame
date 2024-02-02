@@ -33,6 +33,7 @@ public class GameManager : MonoBehaviour
         switch (newState) {
             case GameState.GenerateLevel:
                 GenerateGrid();
+                ChangeState(GameState.SpawningBlocks);
                 break;
             case GameState.SpawningBlocks:
                 // SpawnBlocks(_round++ == 0 ? 2 : 1);
@@ -53,8 +54,6 @@ public class GameManager : MonoBehaviour
                 throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
         }
     }
-
-    
     void Update() {
         if(_state != GameState.WaitingInput) return;
 
@@ -67,7 +66,6 @@ public class GameManager : MonoBehaviour
         if(_turnTimer >= TurnLimit) Shift(_lastDir);
 
     }
-
     void GenerateGrid() {
         // _round = 0;
         _nodes = new List<Node>();
@@ -86,8 +84,6 @@ public class GameManager : MonoBehaviour
         // board.size = new Vector2(_width,_height);
 
         Camera.main.transform.position = new Vector3(center.x,center.y,-10);
-
-        ChangeState(GameState.SpawningBlocks);
     }
 
     void Shift(Vector2 dir) {
