@@ -304,6 +304,7 @@ public enum GameState
     GenerateLevel,
     SpawningBlocks,
     WaitingInput,
+    Moving,
     EnemiesMoving,
     LavaMoving,
     Win,
