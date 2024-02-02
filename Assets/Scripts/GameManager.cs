@@ -12,12 +12,18 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float TurnLimit;
     private float _turnTimer;
     [SerializeField] private Transform grid;
+    [SerializeField] private Transform others;
     [SerializeField] private Node nodePrefab;
     [SerializeField] private Exit exitPrefab;
 
     private Exit exit;
     [SerializeField] private Player playerPrefab;
     private Player player;
+    [SerializeField] private Enemy enemyPrefab;
+
+
+    private List<Enemy> _enemies;
+    // private List<Block> _blocks;
 
     private List<Node> _nodes;
     // private List<Block> _blocks;
@@ -96,8 +102,9 @@ public class GameManager : MonoBehaviour
     void GenerateGrid()
     {
         // _round = 0;
-        print("grid making");
+        // print("grid making");
         _nodes = new List<Node>();
+        _enemies = new List<Enemy>();
         // _blocks = new List<Block>();
         for (int x = 0; x < _width; x++)
         {
@@ -107,29 +114,72 @@ public class GameManager : MonoBehaviour
                 _nodes.Add(node);
             }
         }
-        exit = Instantiate(exitPrefab, new Vector2(_width - 1, Random.Range(0, _height)), Quaternion.identity, grid);
-        player = Instantiate(playerPrefab, new Vector2(0, _height % 2 == 0 ? _height / 2 : (float)_height / 2 - 0.5f), Quaternion.identity);
+
+        var center = new Vector2((float) _width /2 - 0.5f,(float) _height / 2 -0.5f);
+
+        exit = Instantiate(exitPrefab, new Vector2(_width-1, Random.Range(0, _height)), Quaternion.identity, others);
+
+        var _enemy = Instantiate(enemyPrefab, new Vector2(_width-2, Random.Range(0, _height)), Quaternion.identity, others);
+        var _enemy1 = Instantiate(enemyPrefab, new Vector2(_width-3, Random.Range(0, _height)), Quaternion.identity, others);
+        _enemies.Add(_enemy);
+        _enemies.Add(_enemy1);
+
+        player = Instantiate(playerPrefab, new Vector2(0, _height%2 == 0 ? _height / 2 : (float) _height / 2 -0.5f), Quaternion.identity, others);
+
         // var board = Instantiate(_boardPrefab, center, Quaternion.identity);
         // board.size = new Vector2(_width,_height);
     }
 
-    void Shift(Vector2 dir)
-    {
+    void MovePlayer(Vector2 dir) {
+
+        _lastDir = dir;
         Vector2 possibleLocation = (Vector2)player.transform.position + dir;
         var possibleNode = GetNodeAtPosition(possibleLocation);
-        if (possibleNode != null)
-        {
-            player.transform.position = possibleLocation;
+            if (possibleNode != null) {//if grid exists
+                _turnTimer = 0;
+                var Enemy = GetEnemyAtPosition(possibleLocation);
+                if(Enemy == null){//if there are no enemies at the location
+                    player.transform.position = possibleLocation;
+                }
+                else{
+                    print("enemies here");
+                    Fight(Enemy);
+                    Enemy = GetEnemyAtPosition(possibleLocation);
+                    if(Enemy == null){//if there are no enemies at the location
+                        player.transform.position = possibleLocation;
+                    }
+                }
+
+                if(exit.transform.position == player.transform.position){
+                    ExitLevel();
+            }
         }
-        if(exit.transform.position == player.transform.position){
-            ExitLevel();
-        }
+
+
+        else ChangeState(GameState.EnemiesMoving);
     }
 
     void MoveEnemies() {
-        print("Enemies move now");
+        // print("Enemies move now");
+
         ChangeState(GameState.WaitingInput);
     }
+
+    void Fight(Enemy fightingEnemy){
+        if(player._health - fightingEnemy._attack <= 0) {
+            GameOver();
+        }
+
+        player.Takedmg(fightingEnemy._attack);
+
+        if(fightingEnemy._health - player._attack <= 0) {
+            _enemies.Remove(fightingEnemy);
+        }
+
+        fightingEnemy.Takedmg(player._attack);  
+    }
+
+
 
     void ExitLevel(){
         foreach(Transform child in grid)
@@ -142,9 +192,18 @@ public class GameManager : MonoBehaviour
 
     }
 
+    void GameOver(){
+        print("Game Over");
+        ExitLevel();
+    }
+
     Node GetNodeAtPosition(Vector2 pos)
     {
         return _nodes.FirstOrDefault(n => n.Pos == pos);
+    }
+
+    Enemy GetEnemyAtPosition(Vector2 pos) {
+        return _enemies.FirstOrDefault(n => n.Pos == pos);
     }
 }
 
