@@ -88,12 +88,7 @@ public class GameManager : MonoBehaviour
         if (exit.transform.position == player.transform.position)
         {
             ExitLevel();
-        }
-        
-    }
-    void TickTack()
-    {
-
+        }        
     }
     void GenerateGrid()
     {
