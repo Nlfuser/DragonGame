@@ -1,3 +1,4 @@
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,7 @@ using System;
 using Random = UnityEngine.Random;
 using Unity.VisualScripting;
 using UnityEditor;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class Enemy : Character
 {
@@ -12,8 +14,9 @@ public class Enemy : Character
     private int vision;
     private int range;
     private bool attackCharge;
+    private float arrowDuration = 0.07f;
     public int coinCount;
-
+    GoldBag myGold;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,12 +26,12 @@ public class Enemy : Character
         range = myData.range;
         attackCharge = false;
     }
-
+    
     public void Behave(Player player)
     {
 #pragma warning disable CS0642
-        if (EvadeLava(player.transform.position)) ;
-        else if (Vector2.Distance(player.transform.position, transform.position) < vision)
+        //if (EvadeLava(player.transform.position)) ;
+        if (Vector2.Distance(player.transform.position, transform.position) < vision)
         {
             switch (myData.imEnemy)
             {
@@ -36,76 +39,97 @@ public class Enemy : Character
                     Simplepursuit(player.transform.position);
                     break;
                 case EnemyData.enemyClass.ranged:
-                    Vector2 pursuitShort = (Vector2)transform.position - (Vector2)player.transform.position;
-                    if (pursuitShort.magnitude < range)
-                    {
-                        if (!attackCharge)
-                        {
-                            attackCharge = true;
-                            Debug.Log("ChargeAttack");
-                        }
-                        else
-                        {
-                            //instanciateproyectile
-                            Debug.Log("Pew");
-                            attackCharge = false;
-                        }
-                    }
-                    else
-                    {
-                        Simplepursuit(player.transform.position);
-                    }
+                    RangedPursuit(player.transform.position);
                     break;
             }
         }
         else if (myData.imEnemy.Equals(EnemyData.enemyClass.melee))
         {
             float goldLev = 0;
-            GoldBag myGold = null;
-            foreach (GoldBag G in GameManager._Instance._goldBags)
+            if (myGold != null)
             {
-                float gDist = Vector2.Distance(G.transform.position, transform.position);
-                if (gDist > goldLev) 
-                { 
-                    myGold = G;
-                    goldLev = gDist;
+                Simplepursuit(myGold.transform.position);
+            }
+            else
+            {
+                foreach (GoldBag G in GameManager._Instance._goldBags)
+                {
+                    float gDist = Vector2.Distance(G.transform.position, transform.position);
+                    if (gDist > goldLev)
+                    {
+                        myGold = G;
+                        goldLev = gDist;
+                    }
                 }
             }
-            //money collection pick up closest
             //simplepursuit of said gold
             //if lost reference search again
             //gofothemonay
         }
     }
-
     bool EvadeLava(Vector2 playerPos)
     {
         foreach (Vector2 surround in GameManager._Instance.cardinals)
         {
             Vector2 target = (Vector2)transform.position - surround;
+            Vector2 escape = (Vector2)transform.position + surround;
             if (GameManager._Instance.GetLavaAtPosition(target) != null)
             {
                 var possibleNode = GameManager._Instance.GetNodeAtPosition((Vector2)transform.position + surround);
                 if (possibleNode != null)
                 {
-                    if (target == playerPos)
+                    if (escape == playerPos)
                     {
-                        GameManager._Instance.Fight(this);
+                        RangedPursuit(playerPos);
                     }
-                    if (GameManager._Instance.GetEnemyAtPosition(target) == null && GameManager._Instance.GetLavaAtPosition(target) == null)
+                    else if (GameManager._Instance.GetEnemyAtPosition(escape) == null)
                     {
-                        transform.position = target;
+                        transform.position = escape;
                     }
                 }
                 attackCharge = false;
                 return true;
             }
-            /*if(myData.imEnemy.Equals(EnemyData.enemyClass.ranged) & GameManager._Instance.GetLavaPoolAtPosition(target) != null)
-            {
-
-            }*/
         }
         return false;
+    }
+    // float duration = 0.07f;
+    IEnumerator Arrow(float duration, Vector2 targetPos)
+    {
+        float t = 0;
+        GameObject arrowClone = Instantiate(GameManager._Instance.ArrowPrefab, transform.position, transform.rotation);
+        while (t < 1f)
+        {
+            t += Time.deltaTime / duration;
+            arrowClone.transform.position = Vector3.Lerp(transform.position, targetPos, t);
+            yield return null;
+        }
+        Player player = GameManager._Instance.player;
+        if (arrowClone.transform.position == player.transform.position)
+        {
+            GameManager._Instance.PlayerHurt(_attack);
+            Destroy(arrowClone);
+        }
+    }
+    void RangedPursuit(Vector2 playerPos)
+    {
+        Vector2 pursuitShort = (Vector2)transform.position - playerPos;
+        if (pursuitShort.magnitude < range)
+        {
+            if (!attackCharge)
+            {
+                attackCharge = true;
+            }
+            else
+            {
+                StartCoroutine(Arrow(arrowDuration, playerPos));
+                attackCharge = false;
+            }
+        }
+        else
+        {
+            Simplepursuit(playerPos);
+        }
     }
     void Simplepursuit(Vector2 player)
     {
@@ -117,7 +141,7 @@ public class Enemy : Character
             {
                 GameManager._Instance.Fight(this);
             }
-            if (GameManager._Instance.GetEnemyAtPosition(possibleLocation) == null && GameManager._Instance.GetLavaAtPosition(possibleLocation) == null)
+            if (GameManager._Instance.GetEnemyAtPosition(possibleLocation) == null)
             {
                 transform.position = possibleLocation;
             }
@@ -152,9 +176,9 @@ public class Enemy : Character
         }
         return route;
     }
-
     public void GainGold(int amount)
     {
         coinCount += amount;
     }
 }
+
