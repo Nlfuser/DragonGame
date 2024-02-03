@@ -79,7 +79,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _height: 6
   _width: 12
-  TurnLimit: 2
+  turnLimit: 10
   LavaLimit: 3
   GoldLimit: 3
   grid: {fileID: 8718491293442723399}
@@ -87,14 +87,22 @@ MonoBehaviour:
   nodePrefab: {fileID: 3004045365235678799, guid: 143c193ff43fb0d489f663091ebb8dc8, type: 3}
   exitPrefab: {fileID: 2202467249295825078, guid: d0483e0fd12080f4ca0002fc361056b4, type: 3}
   lavaPrefab: {fileID: 2346553143137239876, guid: c223fee816f6dfa44b6556253f3fb37b, type: 3}
+  ArrowPrefab: {fileID: 7842181269100459635, guid: c77395809dfec9c4e9051b2c450d02ce, type: 3}
   lavaDamage: 15
   GoldBagPrefab: {fileID: 6498141640247115155, guid: 1e47b5fce971072448f7a90ae7555384, type: 3}
   playerPrefab: {fileID: 5267119572407054029, guid: 4ee2d495660c4fa4e8c6f63be6201997, type: 3}
+  player: {fileID: 0}
   enemyMeleePrefab: {fileID: 1386358686976457132, guid: cd638258de071cf40812732ac9509e94, type: 3}
   enemyRangedPrefab: {fileID: 1015953643704528897, guid: a347ba1a534393f4a974f17644a29c38, type: 3}
   _enemies: []
   cardinals: []
   enemyrange: 3
+  _goldBags: []
+  AttackText: {fileID: 0}
+  TurnText: {fileID: 0}
+  TurnTimerText: {fileID: 0}
+  HealthText: {fileID: 0}
+  CoinText: {fileID: 0}
   xcamera: 4
   ycamera: 4
 --- !u!1 &7013353924354913391

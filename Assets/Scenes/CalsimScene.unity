@@ -144,10 +144,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 970151740819319357}
     - target: {fileID: 3643527895345360353, guid: f269a45db0b3e6f4b94a6f90b1877779, type: 3}
-      propertyPath: turnLimit
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 3643527895345360353, guid: f269a45db0b3e6f4b94a6f90b1877779, type: 3}
       propertyPath: AttackText
       value: 
       objectReference: {fileID: 970151740819319358}
