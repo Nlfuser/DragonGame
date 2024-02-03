@@ -158,7 +158,7 @@ public class GameManager : MonoBehaviour
             Debug.DrawLine((Vector2)e.transform.position, possibleLocation);
         }
     }
-    private void HeuristicCamera()
+    private void HeuristicCamera() //Deprecated
     {
         Vector3 playertp = player.transform.position;
         Vector3 cameratp = myCamera.transform.position;
