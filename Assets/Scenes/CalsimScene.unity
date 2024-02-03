@@ -159,6 +159,14 @@ PrefabInstance:
       propertyPath: enemyPrefab
       value: 
       objectReference: {fileID: 1386358686976457132, guid: cd638258de071cf40812732ac9509e94, type: 3}
+    - target: {fileID: 3643527895345360353, guid: f269a45db0b3e6f4b94a6f90b1877779, type: 3}
+      propertyPath: enemyMeleePrefab
+      value: 
+      objectReference: {fileID: 1386358686976457132, guid: cd638258de071cf40812732ac9509e94, type: 3}
+    - target: {fileID: 3643527895345360353, guid: f269a45db0b3e6f4b94a6f90b1877779, type: 3}
+      propertyPath: enemyRangedPrefab
+      value: 
+      objectReference: {fileID: 1015953643704528897, guid: a347ba1a534393f4a974f17644a29c38, type: 3}
     - target: {fileID: 7519662547171598280, guid: f269a45db0b3e6f4b94a6f90b1877779, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

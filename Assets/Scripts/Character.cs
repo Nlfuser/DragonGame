@@ -7,8 +7,13 @@ public class Character : MonoBehaviour
     [SerializeField] public int _health;
     [SerializeField] public int _attack;
     public Vector2 Pos => transform.position;
-    public void Takedmg(int dmg){
+    public bool Takedmg(int dmg){
         _health -= dmg;
-        if(_health <= 0) Destroy(gameObject);
+        if (_health <= 0)
+        {
+            Destroy(gameObject);
+            return true;
+        }
+        else { return false; }
     }
 }

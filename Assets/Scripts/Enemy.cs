@@ -25,21 +25,28 @@ public class Enemy : Character
     {
         if (Vector2.Distance(player.transform.position, transform.position) < vision)
         {
-            Vector2 possibleLocation = (Vector2)transform.position - Simplepursuit(player.transform.position, transform.position);
-            var possibleNode = GameManager._Instance.GetNodeAtPosition(possibleLocation);
-            if (possibleNode != null)
+            switch (myData.imEnemy)
             {
-                if (possibleLocation == (Vector2)player.transform.position)
-                {
-                    GameManager._Instance.Fight(this);
-                }
-                if (GameManager._Instance.GetEnemyAtPosition(possibleLocation) == null && GameManager._Instance.GetLavaAtPosition(possibleLocation) == null)
-                {
-                    transform.position = possibleLocation;
-                }
+                case EnemyData.enemyClass.melee:
+                    Vector2 possibleLocation = (Vector2)transform.position - Simplepursuit(player.transform.position, transform.position);
+                    var possibleNode = GameManager._Instance.GetNodeAtPosition(possibleLocation);
+                    if (possibleNode != null)
+                    {
+                        if (possibleLocation == (Vector2)player.transform.position)
+                        {
+                            GameManager._Instance.Fight(this);
+                        }
+                        if (GameManager._Instance.GetEnemyAtPosition(possibleLocation) == null && GameManager._Instance.GetLavaAtPosition(possibleLocation) == null)
+                        {
+                            transform.position = possibleLocation;
+                        }
+                    }
+                    break;
+                case EnemyData.enemyClass.ranged:
+                    break;
             }
         }
-        else
+        else if (myData.imEnemy.Equals(EnemyData.enemyClass.melee))
         {
             //gofothemonay
         }

@@ -92,6 +92,13 @@ public class GameManager : MonoBehaviour
                     }
                     player.Takedmg(lavaDamage);
                 }
+                foreach (Enemy e in _enemies.ToList())
+                {
+                    if (GetLavaAtPosition(e.transform.position) != null)
+                    {
+                        if (e.Takedmg(lavaDamage)) _enemies.Remove(e);
+                    }
+                }
                 ChangeState(GameState.WaitingInput);
                 break;
             // case GameState.Win:
@@ -119,12 +126,12 @@ public class GameManager : MonoBehaviour
             _turnTimer = 0;
             ChangeState(GameState.EnemiesMoving);
         }
-        enemybehaviourtest();
+        try { enemybehaviourtest(); } catch { }
         // if(Input.GetKeyDown(KeyCode.Space)) 
     }
     void enemybehaviourtest()
     {
-        foreach(Enemy e in _enemies.ToList())
+        foreach (Enemy e in _enemies.ToList())
         {
             Vector2 possibleLocation = (Vector2)e.transform.position - Simplepursuit(player.transform.position, e.transform.position);
             Debug.DrawLine((Vector2)e.transform.position, possibleLocation);
