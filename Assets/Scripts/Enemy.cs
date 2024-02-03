@@ -30,7 +30,7 @@ public class Enemy : Character
     public void Behave(Player player)
     {
 #pragma warning disable CS0642
-        //if (EvadeLava(player.transform.position)) ;
+        if (EvadeLava(player.transform.position)) ;
         if (Vector2.Distance(player.transform.position, transform.position) < vision)
         {
             switch (myData.imEnemy)
