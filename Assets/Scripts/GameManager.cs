@@ -21,11 +21,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Node nodePrefab;
     [SerializeField] private Exit exitPrefab;
     [SerializeField] private Lava lavaPrefab;
+    [SerializeField] public GameObject ArrowPrefab;
     [SerializeField] private int lavaDamage;
 
     private Exit exit;
     [SerializeField] private Player playerPrefab;
-    private Player player;
+    public Player player;
     [SerializeField] private Enemy enemyMeleePrefab;
     [SerializeField] private Enemy enemyRangedPrefab;
 
@@ -270,18 +271,21 @@ public class GameManager : MonoBehaviour
     }
     public void Fight(Enemy fightingEnemy)
     {
-        if (player._health - fightingEnemy._attack <= 0)
-        {
-            GameOver();
-        }
-        player.Takedmg(fightingEnemy._attack);
+        PlayerHurt(fightingEnemy._attack);
         if (fightingEnemy._health - player._attack <= 0)
         {
             _enemies.Remove(fightingEnemy);
         }
         fightingEnemy.Takedmg(player._attack);
     }
-
+    public void PlayerHurt(int dmg)
+    {
+        if (player._health - dmg <= 0)
+        {
+            GameOver();
+        }
+        player.Takedmg(dmg);
+    }
     void MoveLava()
     {
         InitLavaRow(_lavaTimer / LavaLimit);
