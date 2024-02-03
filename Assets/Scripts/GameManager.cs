@@ -2,11 +2,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager _Instance;
     [SerializeField] private int _height;
     [SerializeField] private int _width;
     [SerializeField] private float TurnLimit;
@@ -24,7 +26,8 @@ public class GameManager : MonoBehaviour
     private Exit exit;
     [SerializeField] private Player playerPrefab;
     private Player player;
-    [SerializeField] private Enemy enemyPrefab;
+    [SerializeField] private Enemy enemyMeleePrefab;
+    [SerializeField] private Enemy enemyRangedPrefab;
 
     public List<Enemy> _enemies;
     public float enemyrange = 3f;
@@ -38,6 +41,15 @@ public class GameManager : MonoBehaviour
     private Camera myCamera;
     public int xcamera;
     public int ycamera;
+    private void Awake()
+    {
+        if (_Instance != null) Destroy(gameObject);
+        else
+        {
+            _Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+    }
     void Start()
     {
         ChangeState(GameState.GenerateLevel);
@@ -67,14 +79,16 @@ public class GameManager : MonoBehaviour
                 MoveEnemies();
                 break;
             case GameState.LavaMoving:
-                _lavaTimer ++;
-                if(_lavaTimer % LavaLimit == 0){
+                _lavaTimer++;
+                if (_lavaTimer % LavaLimit == 0)
+                {
                     MoveLava();
                 }
-                if(GetLavaAtPosition(player.transform.position) != null){
+                if (GetLavaAtPosition(player.transform.position) != null)
+                {
                     if (player._health - lavaDamage <= 0)
                     {
-                    GameOver();
+                        GameOver();
                     }
                     player.Takedmg(lavaDamage);
                 }
@@ -94,7 +108,6 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         if (_state != GameState.WaitingInput) return;
-
         if (Input.GetKeyDown(KeyCode.LeftArrow)) MovePlayer(Vector2.left);
         if (Input.GetKeyDown(KeyCode.RightArrow)) MovePlayer(Vector2.right);
         if (Input.GetKeyDown(KeyCode.UpArrow)) MovePlayer(Vector2.up);
@@ -106,10 +119,17 @@ public class GameManager : MonoBehaviour
             _turnTimer = 0;
             ChangeState(GameState.EnemiesMoving);
         }
-        
+        enemybehaviourtest();
         // if(Input.GetKeyDown(KeyCode.Space)) 
     }
-
+    void enemybehaviourtest()
+    {
+        foreach(Enemy e in _enemies.ToList())
+        {
+            Vector2 possibleLocation = (Vector2)e.transform.position - Simplepursuit(player.transform.position, e.transform.position);
+            Debug.DrawLine((Vector2)e.transform.position, possibleLocation);
+        }
+    }
     private void HeuristicCamera()
     {
         Vector3 playertp = player.transform.position;
@@ -121,7 +141,7 @@ public class GameManager : MonoBehaviour
         else if (playertp.x > cameratp.x + xcamera)
         {
             myCamera.transform.position = cameratp + Vector3.right + Vector3.back;
-        } 
+        }
     }
 
     void GenerateGrid()
@@ -162,18 +182,21 @@ public class GameManager : MonoBehaviour
     }
     void InitEnemies()
     {
-        var _enemy = Instantiate(enemyPrefab, new Vector2(_width - 2, Random.Range(0, _height)), Quaternion.identity, others);
-        var _enemy1 = Instantiate(enemyPrefab, new Vector2(_width - 3, Random.Range(0, _height)), Quaternion.identity, others);
+        var _enemy = Instantiate(enemyMeleePrefab, new Vector2(_width - 2, Random.Range(0, _height)), Quaternion.identity, others);
+        var _enemy1 = Instantiate(enemyMeleePrefab, new Vector2(_width - 3, Random.Range(0, _height)), Quaternion.identity, others);
+        var _enemy2 = Instantiate(enemyRangedPrefab, new Vector2(_width - 4, Random.Range(0, _height)), Quaternion.identity, others);
         _enemies.Add(_enemy);
         _enemies.Add(_enemy1);
+        _enemies.Add(_enemy2);
     }
 
-    void InitLavaRow(int x){
+    void InitLavaRow(int x)
+    {
         print(x);
         for (int y = 0; y < _height; y++)
         {
             var lava = Instantiate(lavaPrefab, new Vector2(x, y), Quaternion.identity, grid);
-            _lavas.Add(lava);       
+            _lavas.Add(lava);
         }
     }
 
@@ -213,22 +236,7 @@ public class GameManager : MonoBehaviour
     {
         foreach (Enemy e in _enemies.ToList())
         {
-            if (Vector2.Distance(player.transform.position, e.transform.position) < enemyrange)
-            {
-                Vector2 possibleLocation = (Vector2)e.transform.position - Simplepursuit(player.transform.position, e.transform.position);
-                var possibleNode = GetNodeAtPosition(possibleLocation);
-                if (possibleNode != null)
-                {
-                    if (possibleLocation == (Vector2)player.transform.position)
-                    {
-                        Fight(e);
-                    }
-                    else
-                    {
-                        e.transform.position = possibleLocation;
-                    }
-                }
-            }
+            e.Behave(player); //Mandatory coupling from GameManager singleton instance; 
         }
         ChangeState(GameState.LavaMoving);
     }
@@ -249,7 +257,7 @@ public class GameManager : MonoBehaviour
         }
         return route.normalized;
     }
-    void Fight(Enemy fightingEnemy)
+    public void Fight(Enemy fightingEnemy)
     {
         if (player._health - fightingEnemy._attack <= 0)
         {
@@ -263,7 +271,8 @@ public class GameManager : MonoBehaviour
         fightingEnemy.Takedmg(player._attack);
     }
 
-    void MoveLava(){
+    void MoveLava()
+    {
         InitLavaRow(_lavaTimer / LavaLimit);
     }
 
@@ -276,7 +285,7 @@ public class GameManager : MonoBehaviour
         Destroy(player.gameObject);
         Destroy(exit.gameObject);
         ChangeState(GameState.GenerateLevel);
-        _lavaTimer=0;
+        _lavaTimer = 0;
 
     }
     void GameOver()
@@ -284,17 +293,17 @@ public class GameManager : MonoBehaviour
         print("Game Over");
         ExitLevel();
     }
-    Node GetNodeAtPosition(Vector2 pos)
+    public Node GetNodeAtPosition(Vector2 pos)
     {
         return _nodes.FirstOrDefault(n => n.Pos == pos);
     }
 
-    Enemy GetEnemyAtPosition(Vector2 pos)
+    public Enemy GetEnemyAtPosition(Vector2 pos)
     {
         return _enemies.FirstOrDefault(n => n.Pos == pos);
     }
 
-    Lava GetLavaAtPosition(Vector2 pos)
+    public Lava GetLavaAtPosition(Vector2 pos)
     {
         return _lavas.FirstOrDefault(n => n.Pos == pos);
     }
