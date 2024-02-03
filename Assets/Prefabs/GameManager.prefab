@@ -77,15 +77,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ae19e3d7d9615a4f9d558f2cf4fcbf8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _height: 5
-  _width: 10
+  _height: 6
+  _width: 12
   TurnLimit: 2
+  LavaLimit: 3
+  GoldLimit: 3
   grid: {fileID: 8718491293442723399}
   others: {fileID: 4410739407190618110}
   nodePrefab: {fileID: 3004045365235678799, guid: 143c193ff43fb0d489f663091ebb8dc8, type: 3}
   exitPrefab: {fileID: 2202467249295825078, guid: d0483e0fd12080f4ca0002fc361056b4, type: 3}
+  lavaPrefab: {fileID: 2346553143137239876, guid: c223fee816f6dfa44b6556253f3fb37b, type: 3}
+  lavaDamage: 15
+  GoldBagPrefab: {fileID: 6498141640247115155, guid: 1e47b5fce971072448f7a90ae7555384, type: 3}
   playerPrefab: {fileID: 5267119572407054029, guid: 4ee2d495660c4fa4e8c6f63be6201997, type: 3}
-  enemyPrefab: {fileID: 7084748816684298171, guid: 8483c6410c8762a4eb8d64f3dbfe251d, type: 3}
+  enemyMeleePrefab: {fileID: 1386358686976457132, guid: cd638258de071cf40812732ac9509e94, type: 3}
+  enemyRangedPrefab: {fileID: 1015953643704528897, guid: a347ba1a534393f4a974f17644a29c38, type: 3}
+  _enemies: []
+  cardinals: []
+  enemyrange: 3
+  xcamera: 4
+  ycamera: 4
 --- !u!1 &7013353924354913391
 GameObject:
   m_ObjectHideFlags: 0
