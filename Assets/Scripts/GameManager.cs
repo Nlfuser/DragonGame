@@ -126,7 +126,6 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.RightArrow)) MovePlayer(Vector2.right);
         if (Input.GetKeyDown(KeyCode.UpArrow)) MovePlayer(Vector2.up);
         if (Input.GetKeyDown(KeyCode.DownArrow)) MovePlayer(Vector2.down);
-
         _turnTimer += Time.deltaTime;
         if (_turnTimer >= TurnLimit)
         {
@@ -157,7 +156,6 @@ public class GameManager : MonoBehaviour
             myCamera.transform.position = cameratp + Vector3.right + Vector3.back;
         }
     }
-
     void GenerateGrid()
     {
         // _round = 0;
@@ -203,7 +201,6 @@ public class GameManager : MonoBehaviour
         _enemies.Add(_enemy1);
         _enemies.Add(_enemy2);
     }
-
     void InitLavaRow(int x)
     {
         for (int y = 0; y < _height; y++)
@@ -212,7 +209,6 @@ public class GameManager : MonoBehaviour
             _lavas.Add(lava);
         }
     }
-
     void MovePlayer(Vector2 dir)
     {
         Vector2 possibleLocation = (Vector2)player.transform.position + dir;
@@ -290,7 +286,6 @@ public class GameManager : MonoBehaviour
     {
         InitLavaRow(_lavaTimer / LavaLimit);
     }
-
     void ExitLevel()
     {
         foreach (Transform child in grid)
@@ -312,12 +307,10 @@ public class GameManager : MonoBehaviour
     {
         return _nodes.FirstOrDefault(n => n.Pos == pos);
     }
-
     public Enemy GetEnemyAtPosition(Vector2 pos)
     {
         return _enemies.FirstOrDefault(n => n.Pos == pos);
     }
-
     public Lava GetLavaAtPosition(Vector2 pos)
     {
         return _lavas.FirstOrDefault(n => n.Pos == pos);
