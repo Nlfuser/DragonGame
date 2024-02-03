@@ -292,9 +292,12 @@ public class GameManager : MonoBehaviour
         {
             _enemies.Remove(fightingEnemy);
         }
-        var _gold = Instantiate(GoldBagPrefab, fightingEnemy.Pos, Quaternion.identity, others);
-        _gold.value = fightingEnemy.coinCount;
-        _goldBags.Add(_gold);
+        if (fightingEnemy.coinCount > 0)
+        {
+            var _gold = Instantiate(GoldBagPrefab, fightingEnemy.Pos, Quaternion.identity, others);
+            _gold.value = fightingEnemy.coinCount;
+            _goldBags.Add(_gold);
+        }        
         fightingEnemy.Takedmg(player._attack);
     }
     public void PlayerHurt(int dmg)

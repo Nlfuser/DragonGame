@@ -26,12 +26,12 @@ public class Enemy : Character
         range = myData.range;
         attackCharge = false;
     }
-    // Update is called once per frame
+    
     public void Behave(Player player)
     {
 #pragma warning disable CS0642
-        if (EvadeLava(player.transform.position)) ;
-        else if (Vector2.Distance(player.transform.position, transform.position) < vision)
+        //if (EvadeLava(player.transform.position)) ;
+        if (Vector2.Distance(player.transform.position, transform.position) < vision)
         {
             switch (myData.imEnemy)
             {
@@ -45,6 +45,25 @@ public class Enemy : Character
         }
         else if (myData.imEnemy.Equals(EnemyData.enemyClass.melee))
         {
+            float goldLev = 0;
+            if (myGold != null)
+            {
+                Simplepursuit(myGold.transform.position);
+            }
+            else
+            {
+                foreach (GoldBag G in GameManager._Instance._goldBags)
+                {
+                    float gDist = Vector2.Distance(G.transform.position, transform.position);
+                    if (gDist > goldLev)
+                    {
+                        myGold = G;
+                        goldLev = gDist;
+                    }
+                }
+            }
+            //simplepursuit of said gold
+            //if lost reference search again
             //gofothemonay
         }
     }
@@ -71,26 +90,6 @@ public class Enemy : Character
                 attackCharge = false;
                 return true;
             }
-            else if (myData.imEnemy.Equals(EnemyData.enemyClass.melee))
-            {
-                float goldLev = 0;
-                foreach (GoldBag G in GameManager._Instance._goldBags)
-                {
-                    float gDist = Vector2.Distance(G.transform.position, transform.position);
-                    if (gDist > goldLev)
-                    {
-                        myGold = G;
-                        goldLev = gDist;
-                    }
-                }
-                if (myGold != null)
-                {
-                    Simplepursuit(myGold.transform.position);
-                }
-                //simplepursuit of said gold
-                //if lost reference search again
-                //gofothemonay
-            }
         }
         return false;
     }
@@ -114,7 +113,7 @@ public class Enemy : Character
     }
     void RangedPursuit(Vector2 playerPos)
     {
-        Vector2 pursuitShort = (Vector2)transform.position - (Vector2)playerPos;
+        Vector2 pursuitShort = (Vector2)transform.position - playerPos;
         if (pursuitShort.magnitude < range)
         {
             if (!attackCharge)
@@ -142,7 +141,7 @@ public class Enemy : Character
             {
                 GameManager._Instance.Fight(this);
             }
-            if (GameManager._Instance.GetEnemyAtPosition(possibleLocation) == null && GameManager._Instance.GetLavaAtPosition(possibleLocation) == null)
+            if (GameManager._Instance.GetEnemyAtPosition(possibleLocation) == null)
             {
                 transform.position = possibleLocation;
             }
