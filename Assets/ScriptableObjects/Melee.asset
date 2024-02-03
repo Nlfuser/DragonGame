@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyhealth: 5
   enemyattack: 1
-  vision: 3
+  vision: 4
   imEnemy: 0

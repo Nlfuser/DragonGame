@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Enemy enemyRangedPrefab;
 
     public List<Enemy> _enemies;
+    public Vector2[] cardinals;
     public float enemyrange = 3f;
     // private List<Block> _blocks;
 
@@ -54,6 +55,11 @@ public class GameManager : MonoBehaviour
     {
         ChangeState(GameState.GenerateLevel);
         myCamera = Camera.main;
+        cardinals = new Vector2[4];
+        cardinals[0] = Vector2.right;
+        cardinals[1] = Vector2.up;
+        cardinals[2] = Vector2.left;
+        cardinals[3] = Vector2.down;
     }
 
     private void ChangeState(GameState newState)
@@ -222,7 +228,6 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                print("enemies here");
                 Fight(Enemy);
                 Enemy = GetEnemyAtPosition(possibleLocation);
                 if (Enemy == null)
@@ -241,7 +246,7 @@ public class GameManager : MonoBehaviour
     void MoveEnemies()
     {
         foreach (Enemy e in _enemies.ToList())
-        {
+        {            
             e.Behave(player); //Mandatory coupling from GameManager singleton instance; 
         }
         ChangeState(GameState.LavaMoving);

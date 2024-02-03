@@ -10,45 +10,48 @@ public class Enemy : Character
 {
     public EnemyData myData;
     private int vision;
+    private int range;
+    private bool attackCharge;
     // Start is called before the first frame update
     void Start()
     {
         _health = myData.enemyhealth;
         _attack = myData.enemyattack;
         vision = myData.vision;
+        range = myData.range;
+        attackCharge = false;
     }
-
     // Update is called once per frame
-    void Update()
-    {
-        
-    }
     public void Behave(Player player)
     {
-        if (Vector2.Distance(player.transform.position, transform.position) < vision)
+#pragma warning disable CS0642
+        if (EvadeLava(player.transform.position));
+        else if (Vector2.Distance(player.transform.position, transform.position) < vision)
         {
             switch (myData.imEnemy)
             {
                 case EnemyData.enemyClass.melee:
-                    Vector2 possibleLocation = (Vector2)transform.position - Simplepursuit(player.transform.position, transform.position);
-                    var possibleNode = GameManager._Instance.GetNodeAtPosition(possibleLocation);
-                    if (possibleNode != null)
-                    {
-                        if (possibleLocation == (Vector2)player.transform.position)
-                        {
-                            GameManager._Instance.Fight(this);
-                        }
-                        if (GameManager._Instance.GetEnemyAtPosition(possibleLocation) == null && GameManager._Instance.GetLavaAtPosition(possibleLocation) == null)
-                        {
-                            transform.position = possibleLocation;
-                        }
-                    }
+                    Simplepursuit(player.transform.position);
                     break;
                 case EnemyData.enemyClass.ranged:
                     Vector2 pursuitShort = (Vector2)transform.position - (Vector2)player.transform.position;
-                    if (pursuitShort.magnitude < vision)
+                    if (pursuitShort.magnitude < range)
                     {
-                        Debug.Log(transform.gameObject.name+": I see player");
+                        if (!attackCharge)
+                        {
+                            attackCharge = true;
+                            Debug.Log("ChargeAttack");
+                        }
+                        else
+                        {
+                            //instanciateproyectile
+                            Debug.Log("Pew");
+                            attackCharge = false;
+                        }
+                    }
+                    else
+                    {
+                        Simplepursuit(player.transform.position);
                     }
                     break;
             }
@@ -58,7 +61,52 @@ public class Enemy : Character
             //gofothemonay
         }
     }
-    Vector2 Simplepursuit(Vector2 playerPos, Vector2 currentEnemy)
+    bool EvadeLava(Vector2 playerPos)
+    {
+        foreach (Vector2 surround in GameManager._Instance.cardinals)
+        {
+            Vector2 target = (Vector2)transform.position - surround;
+            if (GameManager._Instance.GetLavaAtPosition(target) != null)
+            {
+                var possibleNode = GameManager._Instance.GetNodeAtPosition((Vector2)transform.position + surround);
+                if (possibleNode != null)
+                {
+                    if (target == playerPos)
+                    {
+                        GameManager._Instance.Fight(this);
+                    }
+                    if (GameManager._Instance.GetEnemyAtPosition(target) == null && GameManager._Instance.GetLavaAtPosition(target) == null)
+                    {
+                        transform.position = target;
+                    }
+                }
+                attackCharge = false;
+                return true;
+            }
+            /*if(myData.imEnemy.Equals(EnemyData.enemyClass.ranged) & GameManager._Instance.GetLavaPoolAtPosition(target) != null)
+            {
+
+            }*/
+        }
+        return false;
+    }
+    void Simplepursuit(Vector2 player)
+    {
+        Vector2 possibleLocation = (Vector2)transform.position - SimplePursuitPosition(player, transform.position);
+        var possibleNode = GameManager._Instance.GetNodeAtPosition(possibleLocation);
+        if (possibleNode != null)
+        {
+            if (possibleLocation == player)
+            {
+                GameManager._Instance.Fight(this);
+            }
+            if (GameManager._Instance.GetEnemyAtPosition(possibleLocation) == null && GameManager._Instance.GetLavaAtPosition(possibleLocation) == null)
+            {
+                transform.position = possibleLocation;
+            }
+        }
+    }
+    Vector2 SimplePursuitPosition(Vector2 playerPos, Vector2 currentEnemy)
     {
         Vector2 pursuitShort = currentEnemy - playerPos;
         Vector2 xpursuit = new Vector2(pursuitShort.x, 0).normalized;
@@ -73,20 +121,18 @@ public class Enemy : Character
         {
             route = Math.Abs(pursuitShort.x) > Math.Abs(pursuitShort.y) ? xpursuit : ypursuit;
         }
-        if(GameManager._Instance.GetEnemyAtPosition(route) != null)
+        if (GameManager._Instance.GetEnemyAtPosition(route) != null)
         {
             if (route.Equals(Vector2.zero))
             {
-                int aroundRand = Random.Range(0, 2) == 0? -1 : 1;                
-                route = route == xpursuit ? ypursuit + new Vector2(0,aroundRand) : xpursuit + new Vector2(aroundRand, 0);
+                int aroundRand = Random.Range(0, 2) == 0 ? -1 : 1;
+                route = route == xpursuit ? ypursuit + new Vector2(0, aroundRand) : xpursuit + new Vector2(aroundRand, 0);
             }
             else
             {
-                route = route == xpursuit? ypursuit: xpursuit;
+                route = route == xpursuit ? ypursuit : xpursuit;
             }
         }
         return route;
     }
-
-    
 }
