@@ -135,46 +135,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
-    - target: {fileID: 3643527895345360353, guid: f269a45db0b3e6f4b94a6f90b1877779, type: 3}
-      propertyPath: _width
-      value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 3643527895345360353, guid: f269a45db0b3e6f4b94a6f90b1877779, type: 3}
-      propertyPath: _height
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 3643527895345360353, guid: f269a45db0b3e6f4b94a6f90b1877779, type: 3}
-      propertyPath: xcamera
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 3643527895345360353, guid: f269a45db0b3e6f4b94a6f90b1877779, type: 3}
-      propertyPath: ycamera
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 3643527895345360353, guid: f269a45db0b3e6f4b94a6f90b1877779, type: 3}
-      propertyPath: LavaLimit
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3643527895345360353, guid: f269a45db0b3e6f4b94a6f90b1877779, type: 3}
-      propertyPath: lavaDamage
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 3643527895345360353, guid: f269a45db0b3e6f4b94a6f90b1877779, type: 3}
-      propertyPath: lavaPrefab
-      value: 
-      objectReference: {fileID: 2346553143137239876, guid: c223fee816f6dfa44b6556253f3fb37b, type: 3}
-    - target: {fileID: 3643527895345360353, guid: f269a45db0b3e6f4b94a6f90b1877779, type: 3}
-      propertyPath: enemyPrefab
-      value: 
-      objectReference: {fileID: 1386358686976457132, guid: cd638258de071cf40812732ac9509e94, type: 3}
-    - target: {fileID: 3643527895345360353, guid: f269a45db0b3e6f4b94a6f90b1877779, type: 3}
-      propertyPath: enemyMeleePrefab
-      value: 
-      objectReference: {fileID: 1386358686976457132, guid: cd638258de071cf40812732ac9509e94, type: 3}
-    - target: {fileID: 3643527895345360353, guid: f269a45db0b3e6f4b94a6f90b1877779, type: 3}
-      propertyPath: enemyRangedPrefab
-      value: 
-      objectReference: {fileID: 1015953643704528897, guid: a347ba1a534393f4a974f17644a29c38, type: 3}
     - target: {fileID: 7519662547171598280, guid: f269a45db0b3e6f4b94a6f90b1877779, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

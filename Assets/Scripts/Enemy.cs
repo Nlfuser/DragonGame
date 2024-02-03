@@ -12,6 +12,8 @@ public class Enemy : Character
     private int vision;
     private int range;
     private bool attackCharge;
+    public int coinCount;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -21,7 +23,7 @@ public class Enemy : Character
         range = myData.range;
         attackCharge = false;
     }
-    // Update is called once per frame
+
     public void Behave(Player player)
     {
 #pragma warning disable CS0642
@@ -134,5 +136,9 @@ public class Enemy : Character
             }
         }
         return route;
+    }
+
+    public void GainGold(int amount){
+        coinCount+=amount;
     }
 }
