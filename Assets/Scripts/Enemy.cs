@@ -13,7 +13,7 @@ public class Enemy : Character
     private int range;
     private bool attackCharge;
     public int coinCount;
-
+    GoldBag myGold = null;
     // Start is called before the first frame update
     void Start()
     {
@@ -60,8 +60,7 @@ public class Enemy : Character
         }
         else if (myData.imEnemy.Equals(EnemyData.enemyClass.melee))
         {
-            float goldLev = 0;
-            GoldBag myGold = null;
+            float goldLev = 0;            
             foreach (GoldBag G in GameManager._Instance._goldBags)
             {
                 float gDist = Vector2.Distance(G.transform.position, transform.position);
@@ -71,7 +70,10 @@ public class Enemy : Character
                     goldLev = gDist;
                 }
             }
-            //money collection pick up closest
+            if(myGold != null)
+            {
+                Simplepursuit(myGold.transform.position);
+            }
             //simplepursuit of said gold
             //if lost reference search again
             //gofothemonay
