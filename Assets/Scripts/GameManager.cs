@@ -199,7 +199,6 @@ public class GameManager : MonoBehaviour
 
     void InitLavaRow(int x)
     {
-        print(x);
         for (int y = 0; y < _height; y++)
         {
             var lava = Instantiate(lavaPrefab, new Vector2(x, y), Quaternion.identity, grid);
