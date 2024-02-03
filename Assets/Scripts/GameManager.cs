@@ -5,13 +5,14 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager _Instance;
     [SerializeField] private int _height;
     [SerializeField] private int _width;
-    [SerializeField] private float TurnLimit;
+    [SerializeField] private float turnLimit;
     private float _turnTimer;
     [SerializeField] private int LavaLimit;
     private int _lavaTimer;
@@ -43,8 +44,15 @@ public class GameManager : MonoBehaviour
     public List<GoldBag> _goldBags;
     
     private GameState _state;
-    // private int _round;
-    // Start is called before the first frame update
+
+    public TMP_Text AttackText;
+    public TMP_Text TurnText;
+    public TMP_Text TurnTimerText;
+    public TMP_Text HealthText;
+    public TMP_Text CoinText;
+
+
+
     private Camera myCamera;
     public int xcamera;
     public int ycamera;
@@ -66,6 +74,11 @@ public class GameManager : MonoBehaviour
         cardinals[1] = Vector2.up;
         cardinals[2] = Vector2.left;
         cardinals[3] = Vector2.down;
+
+
+        TurnText.SetText("Your turn");
+        CoinText.SetText("0");
+
     }
 
     private void ChangeState(GameState newState)
@@ -83,11 +96,14 @@ public class GameManager : MonoBehaviour
                 ChangeState(GameState.WaitingInput);
                 break;
             case GameState.WaitingInput:
+                TurnText.SetText("Your turn");
+                TurnTimerText.SetText(string.Format("{0:N2}", turnLimit));
                 break;
             case GameState.Moving:
                 // HeuristicCamera();
                 break;
             case GameState.EnemiesMoving:
+                TurnText.SetText("Enemies turn");
                 MoveEnemies();
                 break;
             case GameState.LavaMoving:
@@ -142,7 +158,8 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.DownArrow)) MovePlayer(Vector2.down);
 
         _turnTimer += Time.deltaTime;
-        if (_turnTimer >= TurnLimit)
+        TurnTimerText.SetText(string.Format("{0:N2}", _turnTimer));
+        if (_turnTimer >= turnLimit)
         {
             _turnTimer = 0;
             ChangeState(GameState.EnemiesMoving);
@@ -203,7 +220,8 @@ public class GameManager : MonoBehaviour
         InitEnemies();
 
         player = Instantiate(playerPrefab, new Vector2(1, _height % 2 == 0 ? _height / 2 : (float)_height / 2 - 0.5f), Quaternion.identity, others);
-
+        AttackText.SetText(string.Format("{0:N2}", player._attack));
+        HealthText.SetText(string.Format("{0:N2}", player._health));
 
         // var board = Instantiate(_boardPrefab, center, Quaternion.identity);
         // board.size = new Vector2(_width,_height);
@@ -295,6 +313,8 @@ public class GameManager : MonoBehaviour
             GameOver();
         }
         player.Takedmg(fightingEnemy._attack);
+        HealthText.SetText(string.Format("{0:N2}", player._health));
+
         if (fightingEnemy._health - player._attack <= 0)
         {
             _enemies.Remove(fightingEnemy);
@@ -315,6 +335,7 @@ public class GameManager : MonoBehaviour
         {
             if((Vector2)player.transform.position == g.Pos){// if player at gold position, remove gold and give gold to player
                 player.GainGold(g.value);
+                CoinText.SetText(string.Format("{0:N2}", player.coinCount));
                 _goldBags.Remove(g);
                 Destroy(g.gameObject);
                 print("Picked up gold");
