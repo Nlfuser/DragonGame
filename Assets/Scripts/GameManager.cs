@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour
     private float _turnTimer;
     [SerializeField] private int LavaLimit;
     private int _lavaTimer;
+    [SerializeField] private int GoldLimit;
+    private int _goldTimer;
     private Vector2 _lastDir = Vector2.right;
     [SerializeField] private Transform grid;
     [SerializeField] private Transform others;
@@ -22,6 +24,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Exit exitPrefab;
     [SerializeField] private Lava lavaPrefab;
     [SerializeField] private int lavaDamage;
+    [SerializeField] private GoldBag GoldBagPrefab;
 
     private Exit exit;
     [SerializeField] private Player playerPrefab;
@@ -35,7 +38,10 @@ public class GameManager : MonoBehaviour
     // private List<Block> _blocks;
 
     private List<Node> _nodes;
+    
     private List<Lava> _lavas;
+    private List<GoldBag> _goldBags;
+    
     private GameState _state;
     // private int _round;
     // Start is called before the first frame update
@@ -105,6 +111,14 @@ public class GameManager : MonoBehaviour
                         if (e.Takedmg(lavaDamage)) _enemies.Remove(e);
                     }
                 }
+                ChangeState(GameState.SpawningGold);
+                break;
+            case GameState.SpawningGold:
+                _goldTimer++;
+                if (_goldTimer % GoldLimit == 0)
+                {
+                    SpawnGold();
+                }
                 ChangeState(GameState.WaitingInput);
                 break;
             // case GameState.Win:
@@ -164,6 +178,8 @@ public class GameManager : MonoBehaviour
         _nodes = new List<Node>();
         _enemies = new List<Enemy>();
         _lavas = new List<Lava>();
+        _goldBags = new List<GoldBag>();
+
         // _blocks = new List<Block>();
         for (int x = 0; x < _width; x++)
         {
@@ -220,6 +236,7 @@ public class GameManager : MonoBehaviour
         {//if grid exists
             _turnTimer = 0;
             ChangeState(GameState.Moving);
+            
             var Enemy = GetEnemyAtPosition(possibleLocation);
             if (Enemy == null)
             {//if there are no enemies at the location
@@ -287,6 +304,49 @@ public class GameManager : MonoBehaviour
         InitLavaRow(_lavaTimer / LavaLimit);
     }
 
+    void SpawnGold(){
+
+        foreach (var g in _goldBags)
+        {
+            if((Vector2)player.transform.position == g.Pos){// if player at gold position, remove gold and give gold to player
+                player.GainGold(g.value);
+                _goldBags.Remove(g);
+                Destroy(g.gameObject);
+            }
+
+            var e = GetEnemyAtPosition(g.Pos);
+            if(e != null){// if enemy at gold position, remove gold and give gold to enemy
+                e.GainGold(g.value);
+                _goldBags.Remove(g);
+                Destroy(g.gameObject);
+            }
+        }
+        
+
+        var possibleLocations = new List<Vector2>();
+        for (int x = 0; x < _width; x++)
+        {
+            for (int y = 0; y < _height; y++)
+            {
+                var location = new Vector2(x, y);
+                if (//continue if any of condition x is true, continue if there is an object at the position. if getXatLoc() != null
+                    (GetEnemyAtPosition(location) == null) ||
+                    (GetLavaAtPosition(location) == null) ||
+                    (GetGoldAtPosition(location) == null) ||
+                    location != (Vector2)player.transform.position    ||
+                    location != (Vector2)exit.transform.position
+                    ){
+                       possibleLocations.Add(location); 
+                    }
+            }
+        }
+        if(possibleLocations.Count != 0){
+            var _gold = Instantiate(GoldBagPrefab, possibleLocations[Random.Range(0, possibleLocations.Count)], Quaternion.identity, others);
+            _goldBags.Add(_gold);
+        }
+        else print("No spots");
+    }
+
     void ExitLevel()
     {
         foreach (Transform child in grid)
@@ -297,6 +357,7 @@ public class GameManager : MonoBehaviour
         Destroy(exit.gameObject);
         ChangeState(GameState.GenerateLevel);
         _lavaTimer = 0;
+        _goldTimer = 0;
 
     }
     void GameOver()
@@ -318,6 +379,11 @@ public class GameManager : MonoBehaviour
     {
         return _lavas.FirstOrDefault(n => n.Pos == pos);
     }
+        
+    public GoldBag GetGoldAtPosition(Vector2 pos)
+    {
+        return _goldBags.FirstOrDefault(n => n.Pos == pos);
+    }
 }
 public enum GameState
 {
@@ -327,6 +393,7 @@ public enum GameState
     Moving,
     EnemiesMoving,
     LavaMoving,
+    SpawningGold,
     Win,
     Lose
 }

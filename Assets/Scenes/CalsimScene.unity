@@ -152,6 +152,10 @@ PrefabInstance:
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3643527895345360353, guid: f269a45db0b3e6f4b94a6f90b1877779, type: 3}
+      propertyPath: GoldLimit
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3643527895345360353, guid: f269a45db0b3e6f4b94a6f90b1877779, type: 3}
       propertyPath: LavaLimit
       value: 3
       objectReference: {fileID: 0}
@@ -167,6 +171,10 @@ PrefabInstance:
       propertyPath: enemyPrefab
       value: 
       objectReference: {fileID: 1386358686976457132, guid: cd638258de071cf40812732ac9509e94, type: 3}
+    - target: {fileID: 3643527895345360353, guid: f269a45db0b3e6f4b94a6f90b1877779, type: 3}
+      propertyPath: GoldBagPrefab
+      value: 
+      objectReference: {fileID: 6498141640247115155, guid: 1e47b5fce971072448f7a90ae7555384, type: 3}
     - target: {fileID: 3643527895345360353, guid: f269a45db0b3e6f4b94a6f90b1877779, type: 3}
       propertyPath: enemyMeleePrefab
       value: 

@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : Character
+public class GoldBag : MonoBehaviour
 {
-    public float coinCount;
-
+    public Vector2 Pos => transform.position;
+    public int value;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,9 +16,5 @@ public class Player : Character
     void Update()
     {
         
-    }
-
-    public void GainGold(int amount){
-        coinCount+=amount;
     }
 }
