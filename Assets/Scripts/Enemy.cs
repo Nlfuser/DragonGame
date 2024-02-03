@@ -5,6 +5,7 @@ using System;
 using Random = UnityEngine.Random;
 using Unity.VisualScripting;
 using UnityEditor;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class Enemy : Character
 {
@@ -14,6 +15,7 @@ public class Enemy : Character
     private bool attackCharge;
     public int coinCount;
     GoldBag myGold = null;
+    private float arrowDuration = 0.07f;
     // Start is called before the first frame update
     void Start()
     {
@@ -85,18 +87,19 @@ public class Enemy : Character
         foreach (Vector2 surround in GameManager._Instance.cardinals)
         {
             Vector2 target = (Vector2)transform.position - surround;
+            Vector2 escape = (Vector2)transform.position + surround;
             if (GameManager._Instance.GetLavaAtPosition(target) != null)
             {
                 var possibleNode = GameManager._Instance.GetNodeAtPosition((Vector2)transform.position + surround);
                 if (possibleNode != null)
                 {
-                    if (target == playerPos)
+                    if (escape == playerPos)
                     {
-                        GameManager._Instance.Fight(this);
+                        RangedPursuit(playerPos);
                     }
-                    if (GameManager._Instance.GetEnemyAtPosition(target) == null && GameManager._Instance.GetLavaAtPosition(target) == null)
+                    else if (GameManager._Instance.GetEnemyAtPosition(escape) == null)
                     {
-                        transform.position = target;
+                        transform.position = escape;
                     }
                 }
                 attackCharge = false;
@@ -108,6 +111,44 @@ public class Enemy : Character
             }*/
         }
         return false;
+    }
+    // float duration = 0.07f;
+    IEnumerator Arrow(float duration, Vector2 targetPos)
+    {
+        float t = 0;
+        GameObject arrowClone = Instantiate(GameManager._Instance.ArrowPrefab, transform.position, transform.rotation);
+        while (t < 1f)
+        {
+            t += Time.deltaTime / duration;
+            arrowClone.transform.position = Vector3.Lerp(transform.position, targetPos, t);
+            yield return null;
+        }
+        Player player = GameManager._Instance.player;
+        if (arrowClone.transform.position == player.transform.position)
+        {
+            GameManager._Instance.PlayerHurt(_attack);
+            Destroy(arrowClone);
+        }
+    }
+    void RangedPursuit(Vector2 playerPos)
+    {
+        Vector2 pursuitShort = (Vector2)transform.position - (Vector2)playerPos;
+        if (pursuitShort.magnitude < range)
+        {
+            if (!attackCharge)
+            {
+                attackCharge = true;
+            }
+            else
+            {
+                StartCoroutine(Arrow(arrowDuration, playerPos));
+                attackCharge = false;
+            }
+        }
+        else
+        {
+            Simplepursuit(playerPos);
+        }
     }
     void Simplepursuit(Vector2 player)
     {

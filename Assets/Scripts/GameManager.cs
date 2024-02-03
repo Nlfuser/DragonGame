@@ -23,12 +23,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Node nodePrefab;
     [SerializeField] private Exit exitPrefab;
     [SerializeField] private Lava lavaPrefab;
+    [SerializeField] public GameObject ArrowPrefab;
     [SerializeField] private int lavaDamage;
     [SerializeField] private GoldBag GoldBagPrefab;
 
     private Exit exit;
     [SerializeField] private Player playerPrefab;
-    private Player player;
+    public Player player;
     [SerializeField] private Enemy enemyMeleePrefab;
     [SerializeField] private Enemy enemyRangedPrefab;
 
@@ -140,7 +141,6 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.RightArrow)) MovePlayer(Vector2.right);
         if (Input.GetKeyDown(KeyCode.UpArrow)) MovePlayer(Vector2.up);
         if (Input.GetKeyDown(KeyCode.DownArrow)) MovePlayer(Vector2.down);
-
         _turnTimer += Time.deltaTime;
         if (_turnTimer >= TurnLimit)
         {
@@ -171,7 +171,6 @@ public class GameManager : MonoBehaviour
             myCamera.transform.position = cameratp + Vector3.right + Vector3.back;
         }
     }
-
     void GenerateGrid()
     {
         // _round = 0;
@@ -219,7 +218,6 @@ public class GameManager : MonoBehaviour
         _enemies.Add(_enemy1);
         _enemies.Add(_enemy2);
     }
-
     void InitLavaRow(int x)
     {
         for (int y = 0; y < _height; y++)
@@ -228,7 +226,6 @@ public class GameManager : MonoBehaviour
             _lavas.Add(lava);
         }
     }
-
     void MovePlayer(Vector2 dir)
     {
         Vector2 possibleLocation = (Vector2)player.transform.position + dir;
@@ -288,11 +285,7 @@ public class GameManager : MonoBehaviour
     }
     public void Fight(Enemy fightingEnemy)
     {
-        if (player._health - fightingEnemy._attack <= 0)
-        {
-            GameOver();
-        }
-        player.Takedmg(fightingEnemy._attack);
+        PlayerHurt(fightingEnemy._attack);
         if (fightingEnemy._health - player._attack <= 0)
         {
             _enemies.Remove(fightingEnemy);
@@ -302,7 +295,14 @@ public class GameManager : MonoBehaviour
         _goldBags.Add(_gold);
         fightingEnemy.Takedmg(player._attack);
     }
-
+    public void PlayerHurt(int dmg)
+    {
+        if (player._health - dmg <= 0)
+        {
+            GameOver();
+        }
+        player.Takedmg(dmg);
+    }
     void MoveLava()
     {
         InitLavaRow(_lavaTimer / LavaLimit);
@@ -376,12 +376,10 @@ public class GameManager : MonoBehaviour
     {
         return _nodes.FirstOrDefault(n => n.Pos == pos);
     }
-
     public Enemy GetEnemyAtPosition(Vector2 pos)
     {
         return _enemies.FirstOrDefault(n => n.Pos == pos);
     }
-
     public Lava GetLavaAtPosition(Vector2 pos)
     {
         return _lavas.FirstOrDefault(n => n.Pos == pos);
