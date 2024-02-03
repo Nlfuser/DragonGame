@@ -86,7 +86,7 @@ public class GameManager : MonoBehaviour
             case GameState.WaitingInput:
                 break;
             case GameState.Moving:
-                HeuristicCamera();
+                // HeuristicCamera();
                 break;
             case GameState.EnemiesMoving:
                 MoveEnemies();
@@ -207,7 +207,9 @@ public class GameManager : MonoBehaviour
         // var board = Instantiate(_boardPrefab, center, Quaternion.identity);
         // board.size = new Vector2(_width,_height);
 
-        Camera.main.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, -10);
+        // Camera.main.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, -10);
+        Camera.main.transform.position = new Vector3(center.x,center.y,-10);
+
     }
     void InitEnemies()
     {
