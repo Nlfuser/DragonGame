@@ -27,7 +27,7 @@ public class Enemy : Character
     public void Behave(Player player)
     {
 #pragma warning disable CS0642
-        if (EvadeLava(player.transform.position));
+        if (EvadeLava(player.transform.position)) ;
         else if (Vector2.Distance(player.transform.position, transform.position) < vision)
         {
             switch (myData.imEnemy)
@@ -60,9 +60,24 @@ public class Enemy : Character
         }
         else if (myData.imEnemy.Equals(EnemyData.enemyClass.melee))
         {
+            float goldLev = 0;
+            GoldBag myGold = null;
+            foreach (GoldBag G in GameManager._Instance._goldBags)
+            {
+                float gDist = Vector2.Distance(G.transform.position, transform.position);
+                if (gDist > goldLev) 
+                { 
+                    myGold = G;
+                    goldLev = gDist;
+                }
+            }
+            //money collection pick up closest
+            //simplepursuit of said gold
+            //if lost reference search again
             //gofothemonay
         }
     }
+
     bool EvadeLava(Vector2 playerPos)
     {
         foreach (Vector2 surround in GameManager._Instance.cardinals)
@@ -138,7 +153,8 @@ public class Enemy : Character
         return route;
     }
 
-    public void GainGold(int amount){
-        coinCount+=amount;
+    public void GainGold(int amount)
+    {
+        coinCount += amount;
     }
 }
