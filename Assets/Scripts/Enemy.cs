@@ -15,6 +15,8 @@ public class Enemy : Character
     private int range;
     private bool attackCharge;
     private float arrowDuration = 0.07f;
+    public int coinCount;
+    GoldBag myGold;
     // Start is called before the first frame update
     void Start()
     {
@@ -69,10 +71,26 @@ public class Enemy : Character
                 attackCharge = false;
                 return true;
             }
-            /*if(myData.imEnemy.Equals(EnemyData.enemyClass.ranged) & GameManager._Instance.GetLavaPoolAtPosition(target) != null)
+            else if (myData.imEnemy.Equals(EnemyData.enemyClass.melee))
             {
-
-            }*/
+                float goldLev = 0;
+                foreach (GoldBag G in GameManager._Instance._goldBags)
+                {
+                    float gDist = Vector2.Distance(G.transform.position, transform.position);
+                    if (gDist > goldLev)
+                    {
+                        myGold = G;
+                        goldLev = gDist;
+                    }
+                }
+                if (myGold != null)
+                {
+                    Simplepursuit(myGold.transform.position);
+                }
+                //simplepursuit of said gold
+                //if lost reference search again
+                //gofothemonay
+            }
         }
         return false;
     }
