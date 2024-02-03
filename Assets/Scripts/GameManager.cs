@@ -40,7 +40,7 @@ public class GameManager : MonoBehaviour
     private List<Node> _nodes;
     
     private List<Lava> _lavas;
-    private List<GoldBag> _goldBags;
+    public List<GoldBag> _goldBags;
     
     private GameState _state;
     // private int _round;
