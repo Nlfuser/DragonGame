@@ -1,3 +1,4 @@
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,8 +14,6 @@ public class Enemy : Character
     private int vision;
     private int range;
     private bool attackCharge;
-    public int coinCount;
-    GoldBag myGold = null;
     private float arrowDuration = 0.07f;
     // Start is called before the first frame update
     void Start()
@@ -25,7 +24,7 @@ public class Enemy : Character
         range = myData.range;
         attackCharge = false;
     }
-
+    // Update is called once per frame
     public void Behave(Player player)
     {
 #pragma warning disable CS0642
@@ -38,50 +37,15 @@ public class Enemy : Character
                     Simplepursuit(player.transform.position);
                     break;
                 case EnemyData.enemyClass.ranged:
-                    Vector2 pursuitShort = (Vector2)transform.position - (Vector2)player.transform.position;
-                    if (pursuitShort.magnitude < range)
-                    {
-                        if (!attackCharge)
-                        {
-                            attackCharge = true;
-                            Debug.Log("ChargeAttack");
-                        }
-                        else
-                        {
-                            //instanciateproyectile
-                            Debug.Log("Pew");
-                            attackCharge = false;
-                        }
-                    }
-                    else
-                    {
-                        Simplepursuit(player.transform.position);
-                    }
+                    RangedPursuit(player.transform.position);
                     break;
             }
         }
         else if (myData.imEnemy.Equals(EnemyData.enemyClass.melee))
         {
-            float goldLev = 0;            
-            foreach (GoldBag G in GameManager._Instance._goldBags)
-            {
-                float gDist = Vector2.Distance(G.transform.position, transform.position);
-                if (gDist > goldLev) 
-                { 
-                    myGold = G;
-                    goldLev = gDist;
-                }
-            }
-            if(myGold != null)
-            {
-                Simplepursuit(myGold.transform.position);
-            }
-            //simplepursuit of said gold
-            //if lost reference search again
             //gofothemonay
         }
     }
-
     bool EvadeLava(Vector2 playerPos)
     {
         foreach (Vector2 surround in GameManager._Instance.cardinals)
@@ -195,9 +159,5 @@ public class Enemy : Character
         }
         return route;
     }
-
-    public void GainGold(int amount)
-    {
-        coinCount += amount;
-    }
 }
+
