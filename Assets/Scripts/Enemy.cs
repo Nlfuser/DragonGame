@@ -177,5 +177,9 @@ public class Enemy : Character
         }
         return route;
     }
+    public void GainGold(int amount)
+    {
+        coinCount += amount;
+    }
 }
 
