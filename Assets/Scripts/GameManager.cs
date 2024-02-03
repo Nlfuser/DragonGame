@@ -111,10 +111,11 @@ public class GameManager : MonoBehaviour
                         if (e.Takedmg(lavaDamage)) _enemies.Remove(e);
                     }
                 }
-                ChangeState(GameState.SpawningGold);
+                ChangeState(GameState.GoldManagement);
                 break;
-            case GameState.SpawningGold:
-                _goldTimer++;
+            case GameState.GoldManagement:
+                PickupGoldCheck();
+                 _goldTimer++;
                 if (_goldTimer % GoldLimit == 0)
                 {
                     SpawnGold();
@@ -296,6 +297,9 @@ public class GameManager : MonoBehaviour
         {
             _enemies.Remove(fightingEnemy);
         }
+        var _gold = Instantiate(GoldBagPrefab, fightingEnemy.Pos, Quaternion.identity, others);
+        _gold.value = fightingEnemy.coinCount;
+        _goldBags.Add(_gold);
         fightingEnemy.Takedmg(player._attack);
     }
 
@@ -304,14 +308,14 @@ public class GameManager : MonoBehaviour
         InitLavaRow(_lavaTimer / LavaLimit);
     }
 
-    void SpawnGold(){
-
-        foreach (var g in _goldBags)
+    void PickupGoldCheck(){
+        foreach (GoldBag g in _goldBags.ToList())
         {
             if((Vector2)player.transform.position == g.Pos){// if player at gold position, remove gold and give gold to player
                 player.GainGold(g.value);
                 _goldBags.Remove(g);
                 Destroy(g.gameObject);
+                print("Picked up gold");
             }
 
             var e = GetEnemyAtPosition(g.Pos);
@@ -319,9 +323,12 @@ public class GameManager : MonoBehaviour
                 e.GainGold(g.value);
                 _goldBags.Remove(g);
                 Destroy(g.gameObject);
+                print("Picked up gold");
             }
         }
-        
+    }
+
+    void SpawnGold(){
 
         var possibleLocations = new List<Vector2>();
         for (int x = 0; x < _width; x++)
@@ -393,7 +400,7 @@ public enum GameState
     Moving,
     EnemiesMoving,
     LavaMoving,
-    SpawningGold,
+    GoldManagement,
     Win,
     Lose
 }

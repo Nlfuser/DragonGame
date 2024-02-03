@@ -12,7 +12,7 @@ public class Enemy : Character
     private int vision;
     private int range;
     private bool attackCharge;
-    public float coinCount;
+    public int coinCount;
 
     // Start is called before the first frame update
     void Start()
