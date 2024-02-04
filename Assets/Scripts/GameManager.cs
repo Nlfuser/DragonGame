@@ -72,6 +72,10 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
+        ChangeState(GameState.Stop);
+    }
+
+    public void InitGameManager(){
         myCamera = Camera.main;
         cardinals = new Vector2[4];
         cardinals[0] = Vector2.right;
@@ -86,7 +90,6 @@ public class GameManager : MonoBehaviour
         TurnText.SetText("Your turn");
         CoinText.SetText("0");
         ChangeState(GameState.GenerateLevel);
-
     }
 
     private void ChangeState(GameState newState)
@@ -95,6 +98,8 @@ public class GameManager : MonoBehaviour
 
         switch (newState)
         {
+            case GameState.Stop:
+                break;
             case GameState.GenerateLevel:
                 GenerateGrid();
                 ChangeState(GameState.SpawningBlocks);
@@ -448,6 +453,7 @@ public class GameManager : MonoBehaviour
 }
 public enum GameState
 {
+    Stop,
     GenerateLevel,
     SpawningBlocks,
     WaitingInput,
