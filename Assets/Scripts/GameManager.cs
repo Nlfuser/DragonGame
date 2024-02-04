@@ -43,11 +43,11 @@ public class GameManager : MonoBehaviour
     int enemylev = 0;
     // private List<Block> _blocks;
 
-    private List<Node> _nodes;
-    
+    public List<Node> _nodes;
+
     private List<Lava> _lavas;
     public List<GoldBag> _goldBags;
-    
+
     private GameState _state;
 
     public TMP_Text AttackText;
@@ -75,7 +75,8 @@ public class GameManager : MonoBehaviour
         ChangeState(GameState.Stop);
     }
 
-    public void InitGameManager(){
+    public void InitGameManager()
+    {
         myCamera = Camera.main;
         cardinals = new Vector2[4];
         cardinals[0] = Vector2.right;
@@ -137,7 +138,7 @@ public class GameManager : MonoBehaviour
                 {
                     if (GetLavaAtPosition(e.transform.position) != null)
                     {
-                        if (e.Takedmg(lavaDamage)) _enemies.RemoveAll(i=>i.Equals(e));
+                        if (e.Takedmg(lavaDamage)) _enemies.RemoveAll(i => i.Equals(e));
                     }
                 }
                 foreach (GoldBag G in _goldBags.ToList())
@@ -151,7 +152,7 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.GoldManagement:
                 PickupGoldCheck();
-                 _goldTimer++;
+                _goldTimer++;
                 if (_goldTimer % GoldLimit == 0)
                 {
                     SpawnGold();
@@ -217,12 +218,21 @@ public class GameManager : MonoBehaviour
         _goldBags = new List<GoldBag>();
         _width = currentLevel.xtiles;
         _height = currentLevel.ytiles;
+        List<Vector2> pathNodes = new List<Vector2>();
+        GeneratePath(ref pathNodes);
         for (int x = 0; x < _width; x++)
         {
             for (int y = 0; y < _height; y++)
             {
-                var node = Instantiate(nodePrefab, new Vector2(x, y + GridOffset), Quaternion.identity, grid);
-                _nodes.Add(node);
+                if (pathNodes.Exists(v => v.x == x && v.y == y))
+                {
+                    var node = Instantiate(nodePrefab, new Vector2(x, y + GridOffset), Quaternion.identity, grid);
+                    _nodes.Add(node);
+                }
+                else
+                {
+
+                }
             }
         }
         InitLavaRow(0);
@@ -237,8 +247,61 @@ public class GameManager : MonoBehaviour
         // board.size = new Vector2(_width,_height);
 
         // Camera.main.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, -10);
-        Camera.main.transform.position = new Vector3(center.x,center.y,-10);
+        Camera.main.transform.position = new Vector3(center.x, center.y, -10);
 
+    }
+    private void GeneratePath(ref List<Vector2> nodeDenyList)
+    {
+        bool endReach = false;
+        int levdimens = _width;
+        int initpivot = UnityEngine.Random.Range(0, _height);
+        while (!endReach)
+        {
+            Vector3[] Trace = TraceMaker(ref levdimens, initpivot);
+            levdimens -= Trace.Length;
+            if (!(levdimens > 0)) endReach = true;
+            foreach (Vector3 t in Trace)
+            {
+                nodeDenyList.Add(t);
+            }
+
+            if (!endReach)
+            {
+                int levpivot = initpivot;
+                initpivot = UnityEngine.Random.Range(0, _height);
+                
+                Vector3[] Patch = TracePatcher(levpivot, initpivot, levdimens);
+                foreach (Vector3 t in Patch)                                            //Debug here
+                {
+                    nodeDenyList.Add(t);
+                }
+            }
+        }
+    }
+    private Vector3[] TracePatcher(int start, int end, int pendinglength)
+    {
+        int difference = end - start;
+        int direction = difference > 0 ? 1 : -1;
+        Vector3[] tracebuilder = new Vector3[Mathf.Abs(difference)];
+        int levx = start + direction;
+        for (int i = 0; i < tracebuilder.Length; ++i)
+        {
+            tracebuilder[i] = new Vector3(_width - pendinglength - 1, levx);
+            levx += direction;
+        }
+        return tracebuilder;
+    }
+    private Vector3[] TraceMaker(ref int pendinglength, int tracepivot)
+    {
+        int tracelength = pendinglength == 1 ? 1 : UnityEngine.Random.Range(2, pendinglength);
+        Vector3[] tracebuilder = new Vector3[tracelength];
+        int levy = _width - pendinglength;
+        for (int i = 0; i < tracelength; ++i)
+        {
+            tracebuilder[i] = new Vector3(levy, tracepivot);
+            ++levy;
+        }
+        return tracebuilder;
     }
     void InitEnemies(int enemiesMelee, int enemiesRanged)
     {
@@ -249,7 +312,7 @@ public class GameManager : MonoBehaviour
             _enemies.Add(_enemy);
             ++enemylev;
         }
-        for(int i = 0; i < enemiesRanged; ++i)
+        for (int i = 0; i < enemiesRanged; ++i)
         {
             var _enemy = Instantiate(enemyRangedPrefab, new Vector2(_width - 2, Random.Range(0, _height) + GridOffset), Quaternion.identity, others);
             _enemy.name = "enemy" + enemylev;
@@ -272,7 +335,7 @@ public class GameManager : MonoBehaviour
         if (possibleNode != null)
         {//if grid exists
             _turnTimer = 0;
-            ChangeState(GameState.Moving);            
+            ChangeState(GameState.Moving);
             var Enemy = GetEnemyAtPosition(possibleLocation);
             if (Enemy == null)
             {//if there are no enemies at the location
@@ -299,7 +362,7 @@ public class GameManager : MonoBehaviour
     void MoveEnemies()
     {
         foreach (Enemy e in _enemies.ToList())
-        {            
+        {
             e.Behave(player); //Mandatory coupling from GameManager singleton instance;
         }
         ChangeState(GameState.LavaMoving);
@@ -334,7 +397,7 @@ public class GameManager : MonoBehaviour
             var _gold = Instantiate(GoldBagPrefab, fightingEnemy.Pos, Quaternion.identity, others);
             _gold.value = fightingEnemy.coinCount;
             _goldBags.Add(_gold);
-        }        
+        }
         fightingEnemy.Takedmg(player._attack);
     }
     public void PlayerHurt(int dmg)
@@ -351,10 +414,12 @@ public class GameManager : MonoBehaviour
         InitLavaRow(_lavaTimer / LavaLimit);
     }
 
-    void PickupGoldCheck(){
+    void PickupGoldCheck()
+    {
         foreach (GoldBag g in _goldBags.ToList())
         {
-            if((Vector2)player.transform.position == g.Pos){// if player at gold position, remove gold and give gold to player
+            if ((Vector2)player.transform.position == g.Pos)
+            {// if player at gold position, remove gold and give gold to player
                 player.GainGold(g.value);
                 CoinText.SetText(string.Format("{0}", player.coinCount));
                 _goldBags.Remove(g);
@@ -363,7 +428,8 @@ public class GameManager : MonoBehaviour
             }
 
             var e = GetEnemyAtPosition(g.Pos);
-            if(e != null){// if enemy at gold position, remove gold and give gold to enemy
+            if (e != null)
+            {// if enemy at gold position, remove gold and give gold to enemy
                 e.GainGold(g.value);
                 _goldBags.Remove(g);
                 Destroy(g.gameObject);
@@ -372,7 +438,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void SpawnGold(){
+    void SpawnGold()
+    {
 
         var possibleLocations = new List<Vector2>();
         for (int x = 0; x < _width; x++)
@@ -384,14 +451,16 @@ public class GameManager : MonoBehaviour
                     (GetEnemyAtPosition(location) == null) ||
                     (GetLavaAtPosition(location) == null) ||
                     (GetGoldAtPosition(location) == null) ||
-                    location != (Vector2)player.transform.position    ||
+                    location != (Vector2)player.transform.position ||
                     location != (Vector2)exit.transform.position
-                    ){
-                       possibleLocations.Add(location); 
-                    }
+                    )
+                {
+                    possibleLocations.Add(location);
+                }
             }
         }
-        if(possibleLocations.Count != 0){
+        if (possibleLocations.Count != 0)
+        {
             var _gold = Instantiate(GoldBagPrefab, possibleLocations[Random.Range(0, possibleLocations.Count)], Quaternion.identity, others);
             _goldBags.Add(_gold);
         }
@@ -412,12 +481,12 @@ public class GameManager : MonoBehaviour
             _nodes.Remove(child.GetComponent<Node>());
             Destroy(child.gameObject);
         }
-        foreach(Enemy child in _enemies.ToList())
+        foreach (Enemy child in _enemies.ToList())
         {
             _enemies.Remove(child);
             Destroy(child.gameObject);
         }
-        foreach(GoldBag child in _goldBags.ToList())
+        foreach (GoldBag child in _goldBags.ToList())
         {
             _goldBags.Remove(child);
             Destroy(child.gameObject);
@@ -445,7 +514,7 @@ public class GameManager : MonoBehaviour
     {
         return _lavas.FirstOrDefault(n => n.Pos == pos);
     }
-        
+
     public GoldBag GetGoldAtPosition(Vector2 pos)
     {
         return _goldBags.FirstOrDefault(n => n.Pos == pos);
