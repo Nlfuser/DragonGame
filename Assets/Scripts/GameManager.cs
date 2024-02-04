@@ -219,8 +219,8 @@ public class GameManager : MonoBehaviour
         InitEnemies();
 
         player = Instantiate(playerPrefab, new Vector2(1, _height % 2 == 0 ? _height / 2 : (float)_height / 2 - 0.5f), Quaternion.identity, others);
-        AttackText.SetText(string.Format("{0:N2}", player._attack));
-        HealthText.SetText(string.Format("{0:N2}", player._health));
+        AttackText.SetText(string.Format("{0}", player._attack));
+        HealthText.SetText(string.Format("{0}", player._health));
 
         // var board = Instantiate(_boardPrefab, center, Quaternion.identity);
         // board.size = new Vector2(_width,_height);
@@ -326,7 +326,7 @@ public class GameManager : MonoBehaviour
             GameOver();
         }
         player.Takedmg(dmg);
-        HealthText.SetText(string.Format("{0:N2}", player._health));
+        HealthText.SetText(string.Format("{0}", player._health));
     }
     void MoveLava()
     {
@@ -338,7 +338,7 @@ public class GameManager : MonoBehaviour
         {
             if((Vector2)player.transform.position == g.Pos){// if player at gold position, remove gold and give gold to player
                 player.GainGold(g.value);
-                CoinText.SetText(string.Format("{0:N2}", player.coinCount));
+                CoinText.SetText(string.Format("{0}", player.coinCount));
                 _goldBags.Remove(g);
                 Destroy(g.gameObject);
                 print("Picked up gold");
