@@ -240,11 +240,10 @@ public class GameManager : MonoBehaviour
         InitLavaRow(0);
         var center = new Vector2((float)_width / 2 - 0.5f, (float)_height / 2 - 0.5f);
         exit = Instantiate(exitPrefab, pathNodes.Last() + new Vector2(0,GridOffset), Quaternion.identity, others);
+        player = Instantiate(playerPrefab, pathNodes.ElementAt(1) + new Vector2(0, GridOffset), Quaternion.identity, others);
         InitEnemies(currentLevel.enemiesMelee, currentLevel.enemiesRanged);
-        player = Instantiate(playerPrefab, new Vector2(1, _height % 2 == 0 ? _height / 2 : (float)_height / 2 - 0.5f), Quaternion.identity, others);
         AttackText.SetText(string.Format("{0}", player._attack));
         HealthText.SetText(string.Format("{0}", player._health));
-
         // var board = Instantiate(_boardPrefab, center, Quaternion.identity);
         // board.size = new Vector2(_width,_height);
 
@@ -314,14 +313,26 @@ public class GameManager : MonoBehaviour
     {
         for (int i = 0; i < enemiesMelee; ++i)
         {
-            var _enemy = Instantiate(enemyMeleePrefab, new Vector2(_width - 2, Random.Range(0, _height) + GridOffset), Quaternion.identity, others);
+            Vector2 randpos;
+            do
+            {
+                randpos = new Vector2(_width - 2, Random.Range(0, _height) + GridOffset);
+
+            } while (GetNodeAtPosition(randpos) == null);
+            var _enemy = Instantiate(enemyMeleePrefab, randpos, Quaternion.identity, others);
             _enemy.name = "enemy" + enemylev;
             _enemies.Add(_enemy);
             ++enemylev;
         }
         for (int i = 0; i < enemiesRanged; ++i)
         {
-            var _enemy = Instantiate(enemyRangedPrefab, new Vector2(_width - 2, Random.Range(0, _height) + GridOffset), Quaternion.identity, others);
+            Vector2 randpos;
+            do
+            {
+                randpos = new Vector2(_width - 2, Random.Range(0, _height) + GridOffset);
+
+            } while (GetNodeAtPosition(randpos) == null);
+            var _enemy = Instantiate(enemyRangedPrefab, randpos, Quaternion.identity, others);
             _enemy.name = "enemy" + enemylev;
             _enemies.Add(_enemy);
             ++enemylev;
