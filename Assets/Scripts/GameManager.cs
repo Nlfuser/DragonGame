@@ -6,10 +6,13 @@ using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using TMPro;
+using System.Xml.Linq;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager _Instance;
+    public List<GameObject> Objects;
+    GameObject querylev = null;
     public List<Level> gameLevels;
     private Level currentLevel;
     public int currentLevelIndex;
@@ -77,6 +80,31 @@ public class GameManager : MonoBehaviour
             _Instance = this;
             DontDestroyOnLoad(gameObject);
         }
+        RecursiveChildrenWrapper(Objects, transform);
+    }
+    private void RecursiveChildrenWrapper(List<GameObject> objects, Transform node)
+    {
+        foreach (Transform child in node)
+        {
+            objects.Add(child.gameObject);
+            if (child.transform.childCount > 0)
+            {
+                RecursiveChildrenWrapper(objects, child);
+            }
+        }
+    }
+    public GameObject GetObject(string query)
+    {
+        try
+        {
+            if (querylev?.name != query) querylev = Objects.Where(obj => obj.name == query).SingleOrDefault();
+            return querylev;
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e + " getObjecterror");
+            return null;
+        }
     }
     void Start()
     {
@@ -99,6 +127,7 @@ public class GameManager : MonoBehaviour
         _lavaspool = new List<Lava>();
         TurnText.SetText("Your turn");
         CoinText.SetText("0");
+        GameOverMenuUI = GetObject("GameOverMenuUI");
         ChangeState(GameState.GenerateLevel);
     }
 
@@ -137,17 +166,15 @@ public class GameManager : MonoBehaviour
                 }
                 if (GetLavaAtPosition(player.transform.position) != null)
                 {
-                    if (player._health - lavaDamage <= 0)
-                    {
-                        GameOver();
-                    }
-                    player.Takedmg(lavaDamage);
-                    HealthText.SetText(string.Format("{0}", player._health) + " / " + string.Format("{0}", player._maxhealth));
-
+                    PlayerHurt(lavaDamage);
                 }
                 foreach (Enemy e in _enemies.ToList())
                 {
                     if (GetLavaAtPosition(e.transform.position) != null)
+                    {
+                        if (e.Takedmg(lavaDamage)) _enemies.RemoveAll(i => i.Equals(e));
+                    }
+                    if (GetLavaPoolAtPosition(e.transform.position) != null)
                     {
                         if (e.Takedmg(lavaDamage)) _enemies.RemoveAll(i => i.Equals(e));
                     }
@@ -174,7 +201,7 @@ public class GameManager : MonoBehaviour
                 ShopMenuUI.SetActive(true);
                 break;
             case GameState.Lose:
-                GameOverMenuUI.SetActive(true);   
+                GameOverMenuUI.SetActive(true);
                 break;
             // case GameState.Win:
             //     _winScreen.SetActive(true);
@@ -187,18 +214,20 @@ public class GameManager : MonoBehaviour
     }
     void Update()
     {
-        if (_state != GameState.WaitingInput) return;
-        if (Input.GetKeyDown(KeyCode.LeftArrow)) MovePlayer(Vector2.left);
-        if (Input.GetKeyDown(KeyCode.RightArrow)) MovePlayer(Vector2.right);
-        if (Input.GetKeyDown(KeyCode.UpArrow)) MovePlayer(Vector2.up);
-        if (Input.GetKeyDown(KeyCode.DownArrow)) MovePlayer(Vector2.down);
-        _turnTimer += Time.deltaTime;
-        TurnTimerText.SetText(string.Format("{0:N2}", _turnTimer));
-        if (_turnTimer >= turnLimit)
+        if (_state == GameState.WaitingInput)
         {
-            _turnTimer = 0;
-            ChangeState(GameState.EnemiesMoving);
-        }
+            if (Input.GetKeyDown(KeyCode.LeftArrow)) MovePlayer(Vector2.left);
+            if (Input.GetKeyDown(KeyCode.RightArrow)) MovePlayer(Vector2.right);
+            if (Input.GetKeyDown(KeyCode.UpArrow)) MovePlayer(Vector2.up);
+            if (Input.GetKeyDown(KeyCode.DownArrow)) MovePlayer(Vector2.down);
+            _turnTimer += Time.deltaTime;
+            TurnTimerText.SetText(string.Format("{0:N2}", _turnTimer));
+            if (_turnTimer >= turnLimit)
+            {
+                _turnTimer = 0;
+                ChangeState(GameState.EnemiesMoving);
+            }
+        }        
         //try { enemybehaviourtest(); } catch { }
         // if(Input.GetKeyDown(KeyCode.Space)) 
     }
@@ -296,10 +325,10 @@ public class GameManager : MonoBehaviour
             _lavas.Remove(child);
             Destroy(child.gameObject);
         }
+        InitLavaRow(0);
         player = Instantiate(playerPrefab, pathNodes.ElementAt(1) + new Vector2(0, GridOffset), Quaternion.identity, others);
         _lavaTimer = 0;
         _goldTimer = 0;
-        player = Instantiate(playerPrefab, pathNodes.ElementAt(1) + new Vector2(0, GridOffset), Quaternion.identity, others);
         InitEnemies(currentLevel.enemiesMelee, currentLevel.enemiesRanged);
     }
     void RockTile(int x, int y)
@@ -309,6 +338,7 @@ public class GameManager : MonoBehaviour
     }
     void LavaPoolTile(int x, int y)
     {
+        RockTile(x, y);
         var lava = Instantiate(lavaPoolPrefab, new Vector2(x, y + GridOffset), Quaternion.identity, grid);
         _lavaspool.Add(lava);
     }
@@ -604,14 +634,9 @@ public class GameManager : MonoBehaviour
         _lavaTimer = 0;
         _goldTimer = 0;
     }
-
-
-
-
     void GameOver()
     {
         ChangeState(GameState.Lose);
-
     }
     public Node GetNodeAtPosition(Vector2 pos)
     {
@@ -625,7 +650,10 @@ public class GameManager : MonoBehaviour
     {
         return _lavas.FirstOrDefault(n => n.Pos == pos);
     }
-
+    public Lava GetLavaPoolAtPosition(Vector2 pos)
+    {
+        return _lavaspool.FirstOrDefault(n => n.Pos == pos);
+    }
     public GoldBag GetGoldAtPosition(Vector2 pos)
     {
         return _goldBags.FirstOrDefault(n => n.Pos == pos);
