@@ -442,7 +442,6 @@ public class GameManager : MonoBehaviour
                 CoinText.SetText(string.Format("{0}", player.coinCount));
                 _goldBags.Remove(g);
                 Destroy(g.gameObject);
-                print("Picked up gold");
             }
 
             var e = GetEnemyAtPosition(g.Pos);
@@ -451,7 +450,6 @@ public class GameManager : MonoBehaviour
                 e.GainGold(g.value);
                 _goldBags.Remove(g);
                 Destroy(g.gameObject);
-                print("Picked up gold");
             }
         }
     }
