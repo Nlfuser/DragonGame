@@ -226,18 +226,20 @@ public class GameManager : MonoBehaviour
             {
                 if (pathNodes.Exists(v => v.x == x && v.y == y))
                 {
-                    var node = Instantiate(nodePrefab, new Vector2(x, y + GridOffset), Quaternion.identity, grid);
-                    _nodes.Add(node);
+                    rocktile(x, y);
                 }
                 else
                 {
-
+                    if(Random.Range(0,3) != 2)
+                    {
+                        rocktile(x, y);
+                    }
                 }
             }
         }
         InitLavaRow(0);
         var center = new Vector2((float)_width / 2 - 0.5f, (float)_height / 2 - 0.5f);
-        exit = Instantiate(exitPrefab, new Vector2(_width - 1, Random.Range(0, _height + GridOffset)), Quaternion.identity, others);
+        exit = Instantiate(exitPrefab, pathNodes.Last() + new Vector2(0,GridOffset), Quaternion.identity, others);
         InitEnemies(currentLevel.enemiesMelee, currentLevel.enemiesRanged);
         player = Instantiate(playerPrefab, new Vector2(1, _height % 2 == 0 ? _height / 2 : (float)_height / 2 - 0.5f), Quaternion.identity, others);
         AttackText.SetText(string.Format("{0}", player._attack));
@@ -249,6 +251,11 @@ public class GameManager : MonoBehaviour
         // Camera.main.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, -10);
         Camera.main.transform.position = new Vector3(center.x, center.y, -10);
 
+    }
+    void rocktile(int x, int y)
+    {
+        var node = Instantiate(nodePrefab, new Vector2(x, y + GridOffset), Quaternion.identity, grid);
+        _nodes.Add(node);
     }
     private void GeneratePath(ref List<Vector2> nodeDenyList)
     {
@@ -468,6 +475,10 @@ public class GameManager : MonoBehaviour
         foreach (GoldBag G in _goldBags.ToList())
         {
             if (GetLavaAtPosition(G.transform.position) != null)
+            {
+                Destroy(G.gameObject);
+            }
+            if(GetNodeAtPosition(G.transform.position) == null)
             {
                 Destroy(G.gameObject);
             }
