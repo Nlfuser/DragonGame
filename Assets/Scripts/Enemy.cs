@@ -107,7 +107,7 @@ public class Enemy : Character
             }
             else
             {
-                StartCoroutine(GameManager._Instance.Arrow(arrowDuration, playerPos,_attack, transform));
+                GameManager._Instance.arrowcall(arrowDuration, playerPos, _attack, transform);
                 attackCharge = false;
             }
         }

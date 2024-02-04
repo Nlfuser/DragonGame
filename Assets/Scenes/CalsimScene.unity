@@ -385,148 +385,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1280295715
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2ae19e3d7d9615a4f9d558f2cf4fcbf8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AttackCost: 0
-  HealthCost: 0
-  RefillCost: 0
-  FlyCost: 0
-  Objects: []
-  gameLevels: []
-  currentLevelIndex: 0
-  _height: 0
-  _width: 0
-  GridOffset: 0
-  turnLimit: 0
-  LavaLimit: 0
-  GoldLimit: 0
-  grid: {fileID: 0}
-  others: {fileID: 0}
-  nodePrefab: {fileID: 0}
-  exitPrefab: {fileID: 0}
-  lavaPrefab: {fileID: 0}
-  lavaPoolPrefab: {fileID: 0}
-  ArrowPrefab: {fileID: 0}
-  lavaDamage: 0
-  GoldBagPrefab: {fileID: 0}
-  playerPrefab: {fileID: 0}
-  player: {fileID: 0}
-  enemyMeleePrefab: {fileID: 0}
-  enemyRangedPrefab: {fileID: 0}
-  _enemies: []
-  cardinals: []
-  _nodes: []
-  _goldBags: []
-  AttackText: {fileID: 0}
-  TurnText: {fileID: 0}
-  TurnTimerText: {fileID: 0}
-  HealthText: {fileID: 0}
-  CoinText: {fileID: 0}
-  WinMenuUI: {fileID: 0}
-  GameOverMenuUI: {fileID: 0}
-  MainMenuUICanvas: {fileID: 0}
-  ShopMenuUI: {fileID: 0}
-  MainSceneUI: {fileID: 0}
-  lavaholefloor: 0
-  rockceiling: 0
-  xcamera: 0
-  ycamera: 0
---- !u!1 &1524945475
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1524945476}
-  - component: {fileID: 1524945477}
-  - component: {fileID: 1524945478}
-  - component: {fileID: 1524945479}
-  m_Layer: 5
-  m_Name: UIManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1524945476
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1524945475}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1524945477
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1524945475}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc160198cd2527d4ab89295a97baa0d7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MainMenuUI: {fileID: 0}
-  MainSceneUI: {fileID: 0}
-  GameManager: {fileID: 1280295715}
---- !u!114 &1524945478
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1524945475}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79f4fed06f57fbe418d022a1ec22385d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GameOverMenuUI: {fileID: 0}
-  MainSceneUI: {fileID: 0}
-  GameManager: {fileID: 1280295715}
---- !u!114 &1524945479
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1524945475}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6906a33dfacae58428c3f94e486bdba6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GameManager: {fileID: 1280295715}
-  ShopMenuUI: {fileID: 0}
-  AttackCost: 0
-  HealthCost: 0
-  RefillCost: 0
-  FlyCost: 0
 --- !u!1 &1622937722
 GameObject:
   m_ObjectHideFlags: 0
@@ -1525,21 +1383,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
---- !u!114 &375795606640363379
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3062356092486479771}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc160198cd2527d4ab89295a97baa0d7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MainMenuUI: {fileID: 5340962267130850963}
-  MainSceneUI: {fileID: 3875075014553940847}
-  GameManager: {fileID: 3643527895413786865}
 --- !u!1 &410511436415646561
 GameObject:
   m_ObjectHideFlags: 0
@@ -2742,8 +2585,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6339335644030853483}
-  - component: {fileID: 375795606640363379}
-  - component: {fileID: 7261752417401508342}
   m_Layer: 5
   m_Name: UIManager
   m_TagString: Untagged
@@ -3039,9 +2880,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f401465692f595f449ece5e9f75e4e2b, type: 2}
   - {fileID: 11400000, guid: 2915a2ab0e9b16d488fe388ad2a4c41f, type: 2}
   currentLevelIndex: 0
-  _height: 7
-  _width: 15
-  GridOffset: -1
   turnLimit: 10
   LavaLimit: 3
   GoldLimit: 2
@@ -3062,16 +2900,12 @@ MonoBehaviour:
   cardinals: []
   _nodes: []
   _goldBags: []
+  _state: 0
   AttackText: {fileID: 213055993149646115}
   TurnText: {fileID: 4535049999184848169}
   TurnTimerText: {fileID: 877584353032271986}
   HealthText: {fileID: 8750840132432187438}
   CoinText: {fileID: 6239601510573640802}
-  WinMenuUI: {fileID: 0}
-  GameOverMenuUI: {fileID: 410511436415646561}
-  MainMenuUICanvas: {fileID: 0}
-  ShopMenuUI: {fileID: 8819188507953295003}
-  MainSceneUI: {fileID: 0}
   lavaholefloor: 8
   rockceiling: 50
   xcamera: 4
@@ -5038,24 +4872,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &6869105715709314978
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3062356092486479771}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6906a33dfacae58428c3f94e486bdba6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GameManager: {fileID: 3643527895413786865}
-  ShopMenuUI: {fileID: 0}
-  AttackCost: 1
-  HealthCost: 1
-  RefillCost: 5
-  FlyCost: 9
 --- !u!222 &6908219643821512556
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5349,21 +5165,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 359048275458387420}
   m_CullTransparentMesh: 1
---- !u!114 &7261752417401508342
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3062356092486479771}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79f4fed06f57fbe418d022a1ec22385d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GameOverMenuUI: {fileID: 410511436415646561}
-  MainSceneUI: {fileID: 3875075014553940847}
-  GameManager: {fileID: 3643527895413786865}
 --- !u!222 &7292244027494766602
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6285,4 +6086,3 @@ SceneRoots:
   - {fileID: 519420032}
   - {fileID: 7519662547237878488}
   - {fileID: 1716621261}
-  - {fileID: 1524945476}

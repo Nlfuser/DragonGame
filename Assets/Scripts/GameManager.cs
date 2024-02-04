@@ -21,9 +21,9 @@ public class GameManager : MonoBehaviour
     public List<Level> gameLevels;
     private Level currentLevel;
     public int currentLevelIndex;
-    [SerializeField] private int _height;
-    [SerializeField] private int _width;
-    [SerializeField] private int GridOffset;
+    private int _height;
+    private int _width;
+    private int GridOffset;
     [SerializeField] private float turnLimit;
     private float _turnTimer;
     [SerializeField] private int LavaLimit;
@@ -44,6 +44,7 @@ public class GameManager : MonoBehaviour
     private Exit exit;
     [SerializeField] private Player playerPrefab;
     public Player player;
+    public Player playerLevelSnapshot;
     [SerializeField] private Enemy enemyMeleePrefab;
     [SerializeField] private Enemy enemyRangedPrefab;
 
@@ -60,7 +61,7 @@ public class GameManager : MonoBehaviour
     private List<Lava> _lavaspool;
     public List<GoldBag> _goldBags;
 
-    private GameState _state;
+    public GameState _state;
 
     public TMP_Text AttackText;
     public TMP_Text TurnText;
@@ -68,11 +69,11 @@ public class GameManager : MonoBehaviour
     public TMP_Text HealthText;
     public TMP_Text CoinText;
 
-    [SerializeField] private GameObject WinMenuUI;
-    [SerializeField] private GameObject GameOverMenuUI;
-    [SerializeField] private GameObject MainMenuUICanvas;
-    [SerializeField] private GameObject ShopMenuUI;
-    [SerializeField] private GameObject MainSceneUI;
+    private GameObject WinMenuUI;
+    private GameObject GameOverMenuUI;
+    private GameObject MainMenuUICanvas;
+    private GameObject ShopMenuUI;
+    private GameObject MainSceneUI;
 
 
     public int lavaholefloor;
@@ -142,9 +143,10 @@ public class GameManager : MonoBehaviour
         _lavaspool = new List<Lava>();
         TurnText.SetText("Your turn");
         CoinText.SetText("0");
+        WinMenuUI = GetObject("WinMenuUI");
         GameOverMenuUI = GetObject("GameOverMenuUI");
         MainMenuUICanvas = GetObject("MainMenuUICanvas");
-        WinMenuUI = GetObject("WinMenuUI");
+        ShopMenuUI = GetObject("ShopMenuUI");
         MainSceneUI = GetObject("MainSceneUI");
     }
 
@@ -160,7 +162,7 @@ public class GameManager : MonoBehaviour
             case GameState.GenerateLevel:
                 GenerateGrid();
                 AttackText.SetText(string.Format("{0}", player._attack));
-                HealthText.SetText(string.Format("{0}", player._health) + " / " + string.Format("{0}", player._maxhealth));
+                UIHealthUpdate();
                 ChangeState(GameState.WaitingInput);
                 break;
             case GameState.WaitingInput:
@@ -233,7 +235,7 @@ public class GameManager : MonoBehaviour
     }
     void Update()
     {
-        if (canmovelock)
+        if (canmovelock && player != null)
         {
             if (Input.GetKeyDown(KeyCode.LeftArrow)) MovePlayer(Vector2.left);
             if (Input.GetKeyDown(KeyCode.RightArrow)) MovePlayer(Vector2.right);
@@ -250,30 +252,9 @@ public class GameManager : MonoBehaviour
         //try { enemybehaviourtest(); } catch { }
         // if(Input.GetKeyDown(KeyCode.Space)) 
     }
-    void enemybehaviourtest() //Deprecated
-    {
-        foreach (Enemy e in _enemies.ToList())
-        {
-            Vector2 possibleLocation = (Vector2)e.transform.position - Simplepursuit(player.transform.position, e.transform.position);
-            Debug.DrawLine((Vector2)e.transform.position, possibleLocation);
-        }
-    }
-    private void HeuristicCamera() //Deprecated
-    {
-        Vector3 playertp = player.transform.position;
-        Vector3 cameratp = myCamera.transform.position;
-        if (playertp.x < cameratp.x - xcamera)
-        {
-            myCamera.transform.position = cameratp + Vector3.left + Vector3.back;
-        }
-        else if (playertp.x > cameratp.x + xcamera)
-        {
-            myCamera.transform.position = cameratp + Vector3.right + Vector3.back;
-        }
-    }
     void GenerateGrid()
     {
-        print("start new level");
+        playerLevelSnapshot = player;
         currentLevel = gameLevels.ElementAt(currentLevelIndex);
         ++currentLevelIndex;
         _nodes = new List<Node>();
@@ -326,7 +307,6 @@ public class GameManager : MonoBehaviour
         RegenerateLevel();
         ChangeState(GameState.WaitingInput);
     }
-
     public void RegenerateLevel() //call from button
     {
         foreach (Enemy child in _enemies.ToList())
@@ -346,10 +326,13 @@ public class GameManager : MonoBehaviour
         }
         InitLavaRow(0);
         player = Instantiate(playerPrefab, pathNodes.ElementAt(1) + new Vector2(0, GridOffset), Quaternion.identity, others);
+        player = playerLevelSnapshot;
+        UIHealthUpdate();
         _lavaTimer = 0;
         _goldTimer = 0;
         InitEnemies(currentLevel.enemiesMelee, currentLevel.enemiesRanged);
-    }
+    }    
+
     void RockTile(int x, int y)
     {
         var node = Instantiate(nodePrefab, new Vector2(x, y + GridOffset), Quaternion.identity, grid);
@@ -478,7 +461,6 @@ public class GameManager : MonoBehaviour
             if (exit.transform.position == player.transform.position)
             {
                 ExitLevel();
-                ChangeState(GameState.Shop);
             }
         }
         else ChangeState(GameState.WaitingInput);
@@ -490,23 +472,6 @@ public class GameManager : MonoBehaviour
             e.Behave(player); //Mandatory coupling from GameManager singleton instance;
         }
         ChangeState(GameState.LavaMoving);
-    }
-    Vector2 Simplepursuit(Vector2 player, Vector2 currentEnemy)
-    {
-        Vector2 pursuitShort = currentEnemy - player;
-        Vector2 xpursuit = new Vector2(pursuitShort.x, 0);
-        Vector2 ypursuit = new Vector2(0, pursuitShort.y);
-        Vector2 route = Vector2.zero;
-        if (Math.Abs(pursuitShort.x) == Math.Abs(pursuitShort.y))
-        {
-            if (Random.Range(0, 2) == 0) route = xpursuit;
-            else { route = ypursuit; }
-        }
-        else
-        {
-            route = Math.Abs(pursuitShort.x) > Math.Abs(pursuitShort.y) ? xpursuit : ypursuit;
-        }
-        return route.normalized;
     }
     public void Fight(Enemy fightingEnemy)
     {
@@ -531,13 +496,12 @@ public class GameManager : MonoBehaviour
             GameOver();
         }
         player.Takedmg(dmg);
-        HealthText.SetText(string.Format("{0}", player._health) + " / " + string.Format("{0}", player._maxhealth));
+        UIHealthUpdate();
     }
     void MoveLava()
     {
         InitLavaRow(_lavaTimer / LavaLimit);
     }
-
     void PickupGoldCheck()
     {
         foreach (GoldBag g in _goldBags.ToList())
@@ -559,13 +523,11 @@ public class GameManager : MonoBehaviour
             }
         }
     }
-
     public void PlayerCoinGain(int amount)
     {
         player.GainGold(amount);
         CoinText.SetText(string.Format("{0}", player.coinCount));
     }
-
     void SpawnGold()
     {
         var possibleLocations = new List<Vector2>();
@@ -604,7 +566,6 @@ public class GameManager : MonoBehaviour
             }
         }
     }
-
     public void ExitLevel()
     {
         foreach (Transform child in grid)
@@ -656,8 +617,8 @@ public class GameManager : MonoBehaviour
         }
         _lavaTimer = 0;
         _goldTimer = 0;
-        Destroy(exit.gameObject);
-        Destroy(player.gameObject);
+        if(exit != null) Destroy(exit.gameObject);
+        if (player != null) Destroy(player.gameObject);
     }
     void GameOver()
     {
@@ -683,6 +644,13 @@ public class GameManager : MonoBehaviour
     {
         return _goldBags.FirstOrDefault(n => n.Pos == pos);
     }
+
+    void UIHealthUpdate()
+    {
+        HealthText.SetText(string.Format("{0}", player._health) + " / " + string.Format("{0}", player._maxhealth));
+    }
+
+    //shopui
     public void BoughtAttack()
     {
         if (player.coinCount >= AttackCost)
@@ -704,8 +672,7 @@ public class GameManager : MonoBehaviour
             PlayerCoinGain(-HealthCost);
             player._maxhealth += 5;
             player._health += 5;
-            HealthText.SetText(string.Format("{0}", player._health) + " / " + string.Format("{0}", player._maxhealth));
-
+            UIHealthUpdate();
             CloseShop();
         }
     }
@@ -717,7 +684,7 @@ public class GameManager : MonoBehaviour
             print("BoughtRefill");
             PlayerCoinGain(-RefillCost);
             player._health = player._maxhealth;
-            HealthText.SetText(string.Format("{0}", player._health) + " / " + string.Format("{0}", player._maxhealth));
+            UIHealthUpdate();
             CloseShop();
         }
     }
@@ -732,16 +699,16 @@ public class GameManager : MonoBehaviour
             CloseShop();
         }
     }
+    public void CloseShop()
+    {
+        ShopMenuUI.SetActive(false);
+        ChangeState(GameState.GenerateLevel);
+    }
+    //mainmenui
     public void PlayGame()
     {
         MainMenuUICanvas.SetActive(false);
         MainSceneUI.SetActive(true);
-        ChangeState(GameState.GenerateLevel);
-    }
-
-    public void CloseShop()
-    {
-        ShopMenuUI.SetActive(false);
         ChangeState(GameState.GenerateLevel);
     }
     public void BackToTheMenu()
@@ -752,6 +719,10 @@ public class GameManager : MonoBehaviour
         MainMenuUICanvas.SetActive(true);
         DestroyLevel();
         ChangeState(GameState.Stop);
+    }
+    public void arrowcall(float arrowDuration, Vector2 playerPos, int _attack, Transform transform)
+    {
+        StartCoroutine(Arrow(arrowDuration, playerPos, _attack, transform));
     }
     public IEnumerator Arrow(float duration, Vector2 targetPos, int attack, Transform enemy)
     {

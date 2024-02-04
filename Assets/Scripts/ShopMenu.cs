@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class ShopMenu : MonoBehaviour
 {
-
     [SerializeField] private GameManager GameManager;
     [SerializeField] private GameObject ShopMenuUI;
     [SerializeField] private int AttackCost;
