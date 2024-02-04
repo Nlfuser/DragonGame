@@ -220,6 +220,7 @@ public class GameManager : MonoBehaviour
                 GameOverMenuUI.SetActive(true);
                 break;
             case GameState.Win:
+                ShopMenuUI.SetActive(false);
                 WinMenuUI.SetActive(true);
                 //     _winScreen.SetActive(true);
                 //     Invoke(nameof(DelayedWinScreenText),1.5f);
@@ -624,7 +625,7 @@ public class GameManager : MonoBehaviour
         Destroy(exit.gameObject);
         _lavaTimer = 0;
         _goldTimer = 0;
-        if (currentLevelIndex > gameLevels.Count)
+        if (currentLevelIndex == gameLevels.Count)
         {
             ChangeState(GameState.Win);
         }
@@ -741,6 +742,7 @@ public class GameManager : MonoBehaviour
     }
     public void BackToTheMenu()
     {
+        GameOverMenuUI.SetActive(false);
         WinMenuUI.SetActive(false);
         MainMenuUICanvas.SetActive(true);
         ChangeState(GameState.Stop);
