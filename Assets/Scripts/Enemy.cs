@@ -63,9 +63,6 @@ public class Enemy : Character
                     }
                 }
             }
-            //simplepursuit of said gold
-            //if lost reference search again
-            //gofothemonay
         }
     }
     bool EvadeLava(Vector2 playerPos)

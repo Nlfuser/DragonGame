@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour
     public int currentLevelIndex;
     private int _height;
     private int _width;
-    private int GridOffset;
+    public int GridOffset;
     [SerializeField] private float turnLimit;
     private float _turnTimer;
     [SerializeField] private int LavaLimit;
@@ -150,6 +150,7 @@ public class GameManager : MonoBehaviour
         MainMenuUICanvas = GetObject("MainMenuUICanvas");
         ShopMenuUI = GetObject("ShopMenuUI");
         MainSceneUI = GetObject("MainSceneUI");
+        Camera.main.orthographicSize = 4;
     }
 
     public void ChangeState(GameState newState)
@@ -261,6 +262,7 @@ public class GameManager : MonoBehaviour
     {
         playerLevelSnapshot = player;
         currentLevel = gameLevels.ElementAt(currentLevelIndex);
+        if (currentLevelIndex > 0) Camera.main.orthographicSize = 5;
         ++currentLevelIndex;
         _nodes = new List<Node>();
         _enemies = new List<Enemy>();
@@ -740,7 +742,7 @@ public class GameManager : MonoBehaviour
     {
         float t = 0;
         GameObject arrowClone = Instantiate(ArrowPrefab, enemy.position, enemy.rotation);
-        while (t < 1f)
+        while (t < 1f && _state != GameState.Win && _state != GameState.Lose && _state != GameState.Shop && _state != GameState.Stop)
         {
             t += Time.deltaTime / duration;
             arrowClone.transform.position = Vector3.Lerp(enemy.position, targetPos, t);
