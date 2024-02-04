@@ -16,3 +16,5 @@ MonoBehaviour:
   enemiesMelee: 3
   xtiles: 20
   ytiles: 7
+  lavapoolpercent: 20
+  rockpercent: 40
