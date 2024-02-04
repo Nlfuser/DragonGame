@@ -300,6 +300,7 @@ MonoBehaviour:
   GameOverMenuUI: {fileID: 0}
   WinMenuUI: {fileID: 0}
   ShopMenuUI: {fileID: 0}
+  AM: {fileID: 0}
   lavaholefloor: 0
   rockceiling: 0
   xcamera: 0
@@ -453,6 +454,75 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2036215188
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2036215190}
+  - component: {fileID: 2036215189}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2036215189
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2036215188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99647be7c63a3cc428a37f8c079bdf4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: LavaMoving
+    clip: {fileID: 8300000, guid: 50e361da669b0ff4ea25e9ca612844cd, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: CollectGem
+    clip: {fileID: 8300000, guid: 11ef4edc5b8993241bc7f542557b4f72, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: MoveFromTile
+    clip: {fileID: 8300000, guid: 940d80a2de182234580cd3babcf96ca1, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: ReachNextLevel
+    clip: {fileID: 8300000, guid: 2a3754dabad5791439f0df02ab637147, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+--- !u!4 &2036215190
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2036215188}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 821.71576, y: 449.85147, z: 3.7259932}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2534,6 +2604,7 @@ MonoBehaviour:
   GameOverMenuUI: {fileID: 410511436415646561}
   WinMenuUI: {fileID: 0}
   ShopMenuUI: {fileID: 8819188507953295003}
+  AM: {fileID: 2036215189}
   lavaholefloor: 8
   rockceiling: 50
   xcamera: 4
@@ -5744,6 +5815,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 519420032}
+  - {fileID: 2036215190}
   - {fileID: 7519662547237878488}
   - {fileID: 1716621261}
   - {fileID: 1524945476}
