@@ -55,6 +55,8 @@ public class GameManager : MonoBehaviour
     public TMP_Text TurnTimerText;
     public TMP_Text HealthText;
     public TMP_Text CoinText;
+    [SerializeField] private GameObject GameOverMenuUI;
+
 
 
 
@@ -102,14 +104,17 @@ public class GameManager : MonoBehaviour
             case GameState.Stop:
                 break;
             case GameState.GenerateLevel:
+                print("generating level");
+
                 GenerateGrid();
-                ChangeState(GameState.SpawningBlocks);
+                ChangeState(GameState.WaitingInput);
                 break;
             case GameState.SpawningBlocks:
                 // SpawnBlocks(_round++ == 0 ? 2 : 1);
                 ChangeState(GameState.WaitingInput);
                 break;
             case GameState.WaitingInput:
+            print("waiting input");
                 TurnText.SetText("Your turn");
                 TurnTimerText.SetText(string.Format("{0:N2}", turnLimit));
                 break;
@@ -133,6 +138,8 @@ public class GameManager : MonoBehaviour
                         GameOver();
                     }
                     player.Takedmg(lavaDamage);
+                    HealthText.SetText(string.Format("{0}", player._health));
+
                 }
                 foreach (Enemy e in _enemies.ToList())
                 {
@@ -373,6 +380,7 @@ public class GameManager : MonoBehaviour
             if (exit.transform.position == player.transform.position)
             {
                 ExitLevel();
+                ChangeState(GameState.GenerateLevel);
             }
         }
         else ChangeState(GameState.WaitingInput);
@@ -494,8 +502,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void ExitLevel()
+    public void ExitLevel()
     {
+        print("exiting level");
         foreach (Transform child in grid)
         {
             _nodes.Remove(child.GetComponent<Node>());
@@ -513,14 +522,42 @@ public class GameManager : MonoBehaviour
         }
         Destroy(player.gameObject);
         Destroy(exit.gameObject);
-        ChangeState(GameState.GenerateLevel);
         _lavaTimer = 0;
         _goldTimer = 0;
     }
+
+
+    public void DestroyLevel()
+    {
+        print("Destroy level");
+        foreach (Transform child in grid)
+        {
+            _nodes.Remove(child.GetComponent<Node>());
+            Destroy(child.gameObject);
+        }
+        foreach(Enemy child in _enemies.ToList())
+        {
+            _enemies.Remove(child);
+            Destroy(child.gameObject);
+        }
+        foreach(GoldBag child in _goldBags.ToList())
+        {
+            _goldBags.Remove(child);
+            Destroy(child.gameObject);
+        }
+        Destroy(player.gameObject);
+        Destroy(exit.gameObject);
+        _lavaTimer = 0;
+        _goldTimer = 0;
+    }
+
+
+
+
     void GameOver()
     {
-        print("Game Over");
-        ExitLevel();
+        ChangeState(GameState.Stop);
+        GameOverMenuUI.SetActive(true);
     }
     public Node GetNodeAtPosition(Vector2 pos)
     {
