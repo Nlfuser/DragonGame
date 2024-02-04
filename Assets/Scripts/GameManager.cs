@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Node nodePrefab;
     [SerializeField] private Exit exitPrefab;
     [SerializeField] private Lava lavaPrefab;
+    [SerializeField] private Lava lavaPoolPrefab;
     [SerializeField] public GameObject ArrowPrefab;
     [SerializeField] private int lavaDamage;
     [SerializeField] private GoldBag GoldBagPrefab;
@@ -46,6 +47,7 @@ public class GameManager : MonoBehaviour
     public List<Node> _nodes;
 
     private List<Lava> _lavas;
+    private List<Lava> _lavaspool;
     public List<GoldBag> _goldBags;
 
     private GameState _state;
@@ -56,7 +58,8 @@ public class GameManager : MonoBehaviour
     public TMP_Text HealthText;
     public TMP_Text CoinText;
 
-
+    public int lavaholefloor;
+    public int rockceiling;
 
     private Camera myCamera;
     public int xcamera;
@@ -88,6 +91,7 @@ public class GameManager : MonoBehaviour
         _enemies = new List<Enemy>();
         _lavas = new List<Lava>();
         _goldBags = new List<GoldBag>();
+        _lavaspool = new List<Lava>();
         TurnText.SetText("Your turn");
         CoinText.SetText("0");
         ChangeState(GameState.GenerateLevel);
@@ -216,6 +220,7 @@ public class GameManager : MonoBehaviour
         _enemies = new List<Enemy>();
         _lavas = new List<Lava>();
         _goldBags = new List<GoldBag>();
+        _lavaspool = new List<Lava>();
         _width = currentLevel.xtiles;
         _height = currentLevel.ytiles;
         List<Vector2> pathNodes = new List<Vector2>();
@@ -226,20 +231,25 @@ public class GameManager : MonoBehaviour
             {
                 if (pathNodes.Exists(v => v.x == x && v.y == y))
                 {
-                    rocktile(x, y);
+                    RockTile(x, y);
                 }
                 else
                 {
-                    if(Random.Range(0,3) != 2)
+                    int randtile = Random.Range(0, 100);
+                    if (randtile > rockceiling)
                     {
-                        rocktile(x, y);
+                        RockTile(x, y);
+                    }
+                    else if (randtile < lavaholefloor)
+                    {
+                        LavaPoolTile(x, y);
                     }
                 }
             }
         }
         InitLavaRow(0);
         var center = new Vector2((float)_width / 2 - 0.5f, (float)_height / 2 - 0.5f);
-        exit = Instantiate(exitPrefab, pathNodes.Last() + new Vector2(0,GridOffset), Quaternion.identity, others);
+        exit = Instantiate(exitPrefab, pathNodes.Last() + new Vector2(0, GridOffset), Quaternion.identity, others);
         player = Instantiate(playerPrefab, pathNodes.ElementAt(1) + new Vector2(0, GridOffset), Quaternion.identity, others);
         InitEnemies(currentLevel.enemiesMelee, currentLevel.enemiesRanged);
         AttackText.SetText(string.Format("{0}", player._attack));
@@ -251,10 +261,15 @@ public class GameManager : MonoBehaviour
         Camera.main.transform.position = new Vector3(center.x, center.y, -10);
 
     }
-    void rocktile(int x, int y)
+    void RockTile(int x, int y)
     {
         var node = Instantiate(nodePrefab, new Vector2(x, y + GridOffset), Quaternion.identity, grid);
         _nodes.Add(node);
+    }
+    void LavaPoolTile(int x, int y)
+    {
+        var lava = Instantiate(lavaPoolPrefab, new Vector2(x, y + GridOffset), Quaternion.identity, grid);
+        _lavaspool.Add(lava);
     }
     private void GeneratePath(ref List<Vector2> nodeDenyList)
     {
@@ -275,7 +290,7 @@ public class GameManager : MonoBehaviour
             {
                 int levpivot = initpivot;
                 initpivot = UnityEngine.Random.Range(0, _height);
-                
+
                 Vector3[] Patch = TracePatcher(levpivot, initpivot, levdimens);
                 foreach (Vector3 t in Patch)                                            //Debug here
                 {
@@ -456,7 +471,6 @@ public class GameManager : MonoBehaviour
 
     void SpawnGold()
     {
-
         var possibleLocations = new List<Vector2>();
         for (int x = 0; x < _width; x++)
         {
@@ -487,7 +501,7 @@ public class GameManager : MonoBehaviour
             {
                 Destroy(G.gameObject);
             }
-            if(GetNodeAtPosition(G.transform.position) == null)
+            if (GetNodeAtPosition(G.transform.position) == null)
             {
                 Destroy(G.gameObject);
             }

@@ -153,6 +153,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 970151740819319357}
     - target: {fileID: 3643527895345360353, guid: f269a45db0b3e6f4b94a6f90b1877779, type: 3}
+      propertyPath: GoldLimit
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3643527895345360353, guid: f269a45db0b3e6f4b94a6f90b1877779, type: 3}
       propertyPath: AttackText
       value: 
       objectReference: {fileID: 970151740819319358}
@@ -161,9 +165,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 970151740819319355}
     - target: {fileID: 3643527895345360353, guid: f269a45db0b3e6f4b94a6f90b1877779, type: 3}
+      propertyPath: rockceiling
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 3643527895345360353, guid: f269a45db0b3e6f4b94a6f90b1877779, type: 3}
       propertyPath: TurnTimerText
       value: 
       objectReference: {fileID: 970151740819319356}
+    - target: {fileID: 3643527895345360353, guid: f269a45db0b3e6f4b94a6f90b1877779, type: 3}
+      propertyPath: lavaholefloor
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3643527895345360353, guid: f269a45db0b3e6f4b94a6f90b1877779, type: 3}
+      propertyPath: lavaPoolPrefab
+      value: 
+      objectReference: {fileID: 2346553143137239876, guid: 8a4c50366d57a3941bdb05038c9d5ab0, type: 3}
     - target: {fileID: 7519662547171598280, guid: f269a45db0b3e6f4b94a6f90b1877779, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

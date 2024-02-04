@@ -74,8 +74,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.9811321, g: 0.55998576, b: 0.8223393, a: 1}
+  m_Sprite: {fileID: -683617099, guid: 49dad0a77b02dd24c9016e3098dacab5, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -100,3 +100,4 @@ MonoBehaviour:
   _health: 0
   _attack: 0
   myData: {fileID: 11400000, guid: ef21c1e11ac1578489b208239e54c013, type: 2}
+  coinCount: 0
