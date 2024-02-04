@@ -72,6 +72,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject GameOverMenuUI;
     [SerializeField] private GameObject MainMenuUICanvas;
     [SerializeField] private GameObject ShopMenuUI;
+    [SerializeField] private GameObject MainSceneUI;
 
 
     public int lavaholefloor;
@@ -124,6 +125,8 @@ public class GameManager : MonoBehaviour
 
     public void InitGameManager()
     {
+        _lavaTimer = 0;
+        _goldTimer = 0;
         canmovelock = false;
         myCamera = Camera.main;
         cardinals = new Vector2[4];
@@ -141,8 +144,8 @@ public class GameManager : MonoBehaviour
         CoinText.SetText("0");
         GameOverMenuUI = GetObject("GameOverMenuUI");
         MainMenuUICanvas = GetObject("MainMenuUICanvas");
-        WinMenuUI = GetObject("WinMenuUI");        
-        ChangeState(GameState.GenerateLevel);
+        WinMenuUI = GetObject("WinMenuUI");
+        MainSceneUI = GetObject("MainSceneUI");
     }
 
     public void ChangeState(GameState newState)
@@ -152,9 +155,9 @@ public class GameManager : MonoBehaviour
         switch (newState)
         {
             case GameState.Stop:
+                InitGameManager();
                 break;
             case GameState.GenerateLevel:
-                print("generating level");
                 GenerateGrid();
                 AttackText.SetText(string.Format("{0}", player._attack));
                 HealthText.SetText(string.Format("{0}", player._health) + " / " + string.Format("{0}", player._maxhealth));
@@ -162,8 +165,6 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.WaitingInput:
                 canmovelock = true;
-                print("waiting input");
-                TurnText.SetText("Your turn");
                 TurnTimerText.SetText(string.Format("{0:N2}", turnLimit));
                 break;
             case GameState.Moving:
@@ -171,7 +172,6 @@ public class GameManager : MonoBehaviour
                 canmovelock = false;
                 break;
             case GameState.EnemiesMoving:
-                TurnText.SetText("Enemies turn");
                 MoveEnemies();
                 break;
             case GameState.LavaMoving:
@@ -638,7 +638,6 @@ public class GameManager : MonoBehaviour
 
     public void DestroyLevel()
     {
-        print("Destroy level");
         foreach (Transform child in grid)
         {
             _nodes.Remove(child.GetComponent<Node>());
@@ -691,7 +690,6 @@ public class GameManager : MonoBehaviour
             PlayerCoinGain(-AttackCost);
             player._attack += 1;
             AttackText.SetText(string.Format("{0}", player._attack));
-
             CloseShop();
         }
 
@@ -733,28 +731,35 @@ public class GameManager : MonoBehaviour
             CloseShop();
         }
     }
+    public void PlayGame()
+    {
+        MainMenuUICanvas.SetActive(false);
+        MainSceneUI.SetActive(true);
+        ChangeState(GameState.GenerateLevel);
+    }
 
     public void CloseShop()
     {
-        ChangeState(GameState.GenerateLevel);
         ShopMenuUI.SetActive(false);
-        print("CloseShop");
+        ChangeState(GameState.GenerateLevel);
     }
     public void BackToTheMenu()
     {
+        MainSceneUI.SetActive(false);
         GameOverMenuUI.SetActive(false);
         WinMenuUI.SetActive(false);
         MainMenuUICanvas.SetActive(true);
+        DestroyLevel();
         ChangeState(GameState.Stop);
     }
-    public IEnumerator Arrow(float duration, Vector2 targetPos, int attack)
+    public IEnumerator Arrow(float duration, Vector2 targetPos, int attack, Transform enemy)
     {
         float t = 0;
-        GameObject arrowClone = Instantiate(ArrowPrefab, transform.position, transform.rotation);
+        GameObject arrowClone = Instantiate(ArrowPrefab, enemy.position, enemy.rotation);
         while (t < 1f)
         {
             t += Time.deltaTime / duration;
-            arrowClone.transform.position = Vector3.Lerp(transform.position, targetPos, t);
+            arrowClone.transform.position = Vector3.Lerp(enemy.position, targetPos, t);
             yield return null;
         }
         if (arrowClone.transform.position == player.transform.position)

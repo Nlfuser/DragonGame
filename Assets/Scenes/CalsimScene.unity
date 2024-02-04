@@ -436,6 +436,7 @@ MonoBehaviour:
   GameOverMenuUI: {fileID: 0}
   MainMenuUICanvas: {fileID: 0}
   ShopMenuUI: {fileID: 0}
+  MainSceneUI: {fileID: 0}
   lavaholefloor: 0
   rockceiling: 0
   xcamera: 0
@@ -1396,8 +1397,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 375795606640363379}
-        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+      - m_Target: {fileID: 3643527895413786865}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
         m_MethodName: PlayGame
         m_Mode: 1
         m_Arguments:
@@ -3071,6 +3072,7 @@ MonoBehaviour:
   GameOverMenuUI: {fileID: 410511436415646561}
   MainMenuUICanvas: {fileID: 0}
   ShopMenuUI: {fileID: 8819188507953295003}
+  MainSceneUI: {fileID: 0}
   lavaholefloor: 8
   rockceiling: 50
   xcamera: 4
