@@ -5469,13 +5469,13 @@ MonoBehaviour:
     pitch: 1
     loop: 0
     source: {fileID: 0}
-  - name: Arrow
+  - name: MoveFromTile
     clip: {fileID: 8300000, guid: 940d80a2de182234580cd3babcf96ca1, type: 3}
     volume: 1
     pitch: 1
     loop: 0
     source: {fileID: 0}
-  - name: Move
+  - name: ReachNextLevel
     clip: {fileID: 8300000, guid: 2a3754dabad5791439f0df02ab637147, type: 3}
     volume: 1
     pitch: 1
@@ -5975,9 +5975,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '50/50
-
-'
+  m_text: HP
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2a0940f6cd69148ca8af0e9f7d9dd60d, type: 2}
   m_sharedMaterial: {fileID: 581293990401416478, guid: 2a0940f6cd69148ca8af0e9f7d9dd60d, type: 2}
@@ -6004,8 +6002,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 60
-  m_fontSizeBase: 60
+  m_fontSize: 56
+  m_fontSizeBase: 56
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
