@@ -89,12 +89,13 @@ MonoBehaviour:
   GridOffset: -1
   turnLimit: 10
   LavaLimit: 3
-  GoldLimit: 3
+  GoldLimit: 2
   grid: {fileID: 8718491293442723399}
   others: {fileID: 4410739407190618110}
   nodePrefab: {fileID: 3004045365235678799, guid: 143c193ff43fb0d489f663091ebb8dc8, type: 3}
   exitPrefab: {fileID: 2202467249295825078, guid: d0483e0fd12080f4ca0002fc361056b4, type: 3}
   lavaPrefab: {fileID: 2346553143137239876, guid: c223fee816f6dfa44b6556253f3fb37b, type: 3}
+  lavaPoolPrefab: {fileID: 2346553143137239876, guid: 8a4c50366d57a3941bdb05038c9d5ab0, type: 3}
   ArrowPrefab: {fileID: 7842181269100459635, guid: c77395809dfec9c4e9051b2c450d02ce, type: 3}
   lavaDamage: 15
   GoldBagPrefab: {fileID: 6498141640247115155, guid: 1e47b5fce971072448f7a90ae7555384, type: 3}
@@ -112,6 +113,8 @@ MonoBehaviour:
   HealthText: {fileID: 0}
   CoinText: {fileID: 0}
   GameOverMenuUI: {fileID: 0}
+  lavaholefloor: 8
+  rockceiling: 50
   xcamera: 4
   ycamera: 4
 --- !u!1 &7013353924354913391
