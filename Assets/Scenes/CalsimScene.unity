@@ -2785,6 +2785,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7519662547237878488}
   - component: {fileID: 3643527895413786865}
+  - component: {fileID: 7519662547237878489}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -2907,7 +2908,7 @@ MonoBehaviour:
   TurnTimerText: {fileID: 877584353032271986}
   HealthText: {fileID: 8750840132432187438}
   CoinText: {fileID: 6239601510573640802}
-  AM: {fileID: 0}
+  AM: {fileID: 7519662547237878489}
   lavaholefloor: 8
   rockceiling: 50
   xcamera: 4
@@ -5213,6 +5214,49 @@ Transform:
   - {fileID: 4410739407258979054}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7519662547237878489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3399922902360131344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99647be7c63a3cc428a37f8c079bdf4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: SearingEscape
+    clip: {fileID: 8300000, guid: 05ecb2b36deb0944897b3cbe36682565, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: CollectGem
+    clip: {fileID: 8300000, guid: 11ef4edc5b8993241bc7f542557b4f72, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: LavaMoving
+    clip: {fileID: 8300000, guid: 50e361da669b0ff4ea25e9ca612844cd, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: MoveFromTile
+    clip: {fileID: 8300000, guid: 940d80a2de182234580cd3babcf96ca1, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: ReachNextLevel
+    clip: {fileID: 8300000, guid: 2a3754dabad5791439f0df02ab637147, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
 --- !u!224 &7635862152400534927
 RectTransform:
   m_ObjectHideFlags: 0
