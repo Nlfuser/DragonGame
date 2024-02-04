@@ -451,7 +451,7 @@ public class GameManager : MonoBehaviour
             if (Enemy == null)
             {//if there are no enemies at the location
                 player.transform.position = possibleLocation;
-                AM.Play("MoveFromTile");
+                AM.Play("Move");
                 ChangeState(GameState.EnemiesMoving);
             }
             else
@@ -461,7 +461,7 @@ public class GameManager : MonoBehaviour
                 if (Enemy == null)
                 {//if there are no enemies at the location
                     player.transform.position = possibleLocation;
-                    AM.Play("MoveFromTile");
+                    AM.Play("Move");
 
                 }
                 ChangeState(GameState.EnemiesMoving);
@@ -579,7 +579,7 @@ public class GameManager : MonoBehaviour
     public void ExitLevel()
     {
         print("exiting level");
-        AM.Play("ReachNextLevel");
+        AM.Play("Move");
         foreach (Transform child in grid)
         {
             _nodes.Remove(child.GetComponent<Node>());
@@ -734,6 +734,7 @@ public class GameManager : MonoBehaviour
     }
     public void arrowcall(float arrowDuration, Vector2 playerPos, int _attack, Transform transform)
     {
+        AM.Play("Arrow");
         StartCoroutine(Arrow(arrowDuration, playerPos, _attack, transform));
     }
     public IEnumerator Arrow(float duration, Vector2 targetPos, int attack, Transform enemy)
