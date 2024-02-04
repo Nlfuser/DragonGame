@@ -244,6 +244,13 @@ public class GameManager : MonoBehaviour
             _enemies.Add(_enemy);
             ++enemylev;
         }
+        for(int i = 0; i < enemiesRanged; ++i)
+        {
+            var _enemy = Instantiate(enemyRangedPrefab, new Vector2(_width - 2, Random.Range(0, _height) + GridOffset), Quaternion.identity, others);
+            _enemy.name = "enemy" + enemylev;
+            _enemies.Add(_enemy);
+            ++enemylev;
+        }
     }
     void InitLavaRow(int x)
     {
