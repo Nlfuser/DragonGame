@@ -8,7 +8,6 @@ public class AudioManager : MonoBehaviour
 
     public static AudioManager instance;
 
-    // Start is called before the first frame update
     void Awake()
     {
         if (instance == null) instance = this;
@@ -27,7 +26,6 @@ public class AudioManager : MonoBehaviour
             s.source.volume = s.volume;
             s.source.pitch = s.pitch;
             s.source.loop = s.loop;
- 
         }
     }
 
@@ -40,6 +38,42 @@ public class AudioManager : MonoBehaviour
             return;
         }
         s.source.Play();
+    }
 
+    public void Pause(string name)
+    {
+        Sound s = Array.Find(sounds, sound => sound.name == name);
+        if(s == null)
+        {
+            Debug.LogWarning("Sound: " + name + " not found!");
+            return;
+        }
+        s.source.Pause();
+    }
+
+    public void UnPause(string name)
+    {
+        Sound s = Array.Find(sounds, sound => sound.name == name);
+        if(s == null)
+        {
+            Debug.LogWarning("Sound: " + name + " not found!");
+            return;
+        }
+        s.source.UnPause();
+    }
+
+    public void Stop(string name)
+    {
+        Sound s = Array.Find(sounds, sound => sound.name == name);
+        if(s == null)
+        {
+            Debug.LogWarning("Sound: " + name + " not found!");
+            return;
+        }
+        s.source.Stop();
+    }
+
+    public void ResetSounds(){
+        foreach(Sound s in sounds) s.source.Stop();
     }
 }

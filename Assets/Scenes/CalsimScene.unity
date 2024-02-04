@@ -489,6 +489,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sounds:
+  - name: SearingEscape
+    clip: {fileID: 8300000, guid: 05ecb2b36deb0944897b3cbe36682565, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
   - name: LavaMoving
     clip: {fileID: 8300000, guid: 50e361da669b0ff4ea25e9ca612844cd, type: 3}
     volume: 1

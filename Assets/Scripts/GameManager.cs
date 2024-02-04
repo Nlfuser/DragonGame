@@ -30,7 +30,6 @@ public class GameManager : MonoBehaviour
     private int _lavaTimer;
     [SerializeField] private int GoldLimit;
     private int _goldTimer;
-    private Vector2 _lastDir = Vector2.right;
     [SerializeField] private Transform grid;
     [SerializeField] private Transform others;
     [SerializeField] private Node nodePrefab;
@@ -119,6 +118,7 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
+        AM.Play("SearingEscape");
         ChangeState(GameState.Stop);
     }
 
@@ -219,6 +219,8 @@ public class GameManager : MonoBehaviour
                 GameOverMenuUI.SetActive(true);
                 break;
             case GameState.Win:
+                    AM.Stop("SearingEscape");
+
 
                 //     _winScreen.SetActive(true);
                 //     Invoke(nameof(DelayedWinScreenText),1.5f);
