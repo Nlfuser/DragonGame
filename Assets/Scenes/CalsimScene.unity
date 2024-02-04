@@ -470,6 +470,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 569442428}
     m_Modifications:
+    - target: {fileID: 1513103380375075301, guid: 1bd2820c81c26b24d95e414f148c4432, type: 3}
+      propertyPath: m_fontSize
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1513103380375075301, guid: 1bd2820c81c26b24d95e414f148c4432, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 2588006365222004390, guid: 1bd2820c81c26b24d95e414f148c4432, type: 3}
+      propertyPath: m_fontSize
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 2588006365222004390, guid: 1bd2820c81c26b24d95e414f148c4432, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 60
+      objectReference: {fileID: 0}
     - target: {fileID: 3848855856622050429, guid: 1bd2820c81c26b24d95e414f148c4432, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -550,9 +566,33 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4220331963577707395, guid: 1bd2820c81c26b24d95e414f148c4432, type: 3}
+      propertyPath: m_fontSize
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 4220331963577707395, guid: 1bd2820c81c26b24d95e414f148c4432, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 60
+      objectReference: {fileID: 0}
     - target: {fileID: 5907615069335293992, guid: 1bd2820c81c26b24d95e414f148c4432, type: 3}
       propertyPath: m_Name
       value: MainUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 7690425252322475592, guid: 1bd2820c81c26b24d95e414f148c4432, type: 3}
+      propertyPath: m_fontSize
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 7690425252322475592, guid: 1bd2820c81c26b24d95e414f148c4432, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 8724226842641002706, guid: 1bd2820c81c26b24d95e414f148c4432, type: 3}
+      propertyPath: m_fontSize
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 8724226842641002706, guid: 1bd2820c81c26b24d95e414f148c4432, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 60
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
