@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager _Instance;
     public List<Level> gameLevels;
+    private Level currentLevel;
     public int currentLevelIndex;
     [SerializeField] private int _height;
     [SerializeField] private int _width;
@@ -45,6 +46,7 @@ public class GameManager : MonoBehaviour
     // private List<Block> _blocks;
 
     public List<Node> _nodes;
+    private List<Vector2> pathNodes;
 
     private List<Lava> _lavas;
     private List<Lava> _lavaspool;
@@ -111,11 +113,7 @@ public class GameManager : MonoBehaviour
                 AttackText.SetText(string.Format("{0}", player._attack));
                 HealthText.SetText(string.Format("{0}", player._health));
                 ChangeState(GameState.WaitingInput);
-                break;
-            case GameState.SpawningBlocks:
-                // SpawnBlocks(_round++ == 0 ? 2 : 1);
-                ChangeState(GameState.WaitingInput);
-                break;
+                break;           
             case GameState.WaitingInput:
                 print("waiting input");
                 TurnText.SetText("Your turn");
@@ -169,14 +167,14 @@ public class GameManager : MonoBehaviour
                 }
                 ChangeState(GameState.WaitingInput);
                 break;
+            case GameState.Lose:
+                GameOverMenuUI.SetActive(true);
+                break;
             // case GameState.Win:
             //     _winScreen.SetActive(true);
             //     Invoke(nameof(DelayedWinScreenText),1.5f);
             //     break;
-            case GameState.Lose:
-                GameOverMenuUI.SetActive(true);
-                //_loseScreen.SetActive(true);
-                break;
+
             default:
                 throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
         }
@@ -221,7 +219,7 @@ public class GameManager : MonoBehaviour
     }
     void GenerateGrid()
     {
-        Level currentLevel = gameLevels.ElementAt(currentLevelIndex);
+        currentLevel = gameLevels.ElementAt(currentLevelIndex);
         ++currentLevelIndex;
         _nodes = new List<Node>();
         _enemies = new List<Enemy>();
@@ -230,8 +228,10 @@ public class GameManager : MonoBehaviour
         _lavaspool = new List<Lava>();
         _width = currentLevel.xtiles;
         _height = currentLevel.ytiles;
-        List<Vector2> pathNodes = new List<Vector2>();
+        pathNodes = new List<Vector2>();
         GeneratePath(ref pathNodes);
+        rockceiling = 100 - currentLevel.rockpercent;
+        lavaholefloor = currentLevel.lavapoolpercent;
         for (int x = 0; x < _width; x++)
         {
             for (int y = 0; y < _height; y++)
@@ -264,6 +264,24 @@ public class GameManager : MonoBehaviour
         // Camera.main.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, -10);
         Camera.main.transform.position = new Vector3(center.x, center.y, -10);
 
+    }
+    void RegenerateLevel() //call from button
+    {
+        foreach (Enemy child in _enemies.ToList())
+        {
+            _enemies.Remove(child);
+            Destroy(child.gameObject);
+        }
+        foreach (GoldBag child in _goldBags.ToList())
+        {
+            _goldBags.Remove(child);
+            Destroy(child.gameObject);
+        }
+        Destroy(player.gameObject);
+        _lavaTimer = 0;
+        _goldTimer = 0;
+        player = Instantiate(playerPrefab, pathNodes.ElementAt(1) + new Vector2(0, GridOffset), Quaternion.identity, others);
+        InitEnemies(currentLevel.enemiesMelee, currentLevel.enemiesRanged);
     }
     void RockTile(int x, int y)
     {

@@ -104,12 +104,14 @@ MonoBehaviour:
   enemyRangedPrefab: {fileID: 1015953643704528897, guid: a347ba1a534393f4a974f17644a29c38, type: 3}
   _enemies: []
   cardinals: []
+  _nodes: []
   _goldBags: []
   AttackText: {fileID: 0}
   TurnText: {fileID: 0}
   TurnTimerText: {fileID: 0}
   HealthText: {fileID: 0}
   CoinText: {fileID: 0}
+  GameOverMenuUI: {fileID: 0}
   xcamera: 4
   ycamera: 4
 --- !u!1 &7013353924354913391

@@ -9,4 +9,6 @@ public class Level : ScriptableObject
     public int enemiesMelee;
     public int xtiles;
     public int ytiles;
+    public int lavapoolpercent;
+    public int rockpercent;
 }
