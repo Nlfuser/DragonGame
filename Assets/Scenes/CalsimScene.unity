@@ -498,7 +498,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GameManager: {fileID: 1280295715}
-  ShopMenuUI: {fileID: 0}
+  ShopMenuUI: {fileID: 7196550455931472204}
   AttackCost: 0
   HealthCost: 0
   RefillCost: 0
