@@ -637,10 +637,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: MainSceneUI
       objectReference: {fileID: 0}
-    - target: {fileID: 5907615069335293992, guid: 1bd2820c81c26b24d95e414f148c4432, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -715,33 +711,9 @@ PrefabInstance:
     m_TransformParent: {fileID: 1524945476}
     m_Modifications:
     - target: {fileID: 1558666546058872436, guid: b44c9a661f1f8c345a8b00bdaa6ca3b2, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1558666546058872436, guid: b44c9a661f1f8c345a8b00bdaa6ca3b2, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1558666546058872436, guid: b44c9a661f1f8c345a8b00bdaa6ca3b2, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1524945477}
-    - target: {fileID: 1558666546058872436, guid: b44c9a661f1f8c345a8b00bdaa6ca3b2, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1558666546058872436, guid: b44c9a661f1f8c345a8b00bdaa6ca3b2, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: PlayGame
-      objectReference: {fileID: 0}
-    - target: {fileID: 1558666546058872436, guid: b44c9a661f1f8c345a8b00bdaa6ca3b2, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: MainMenu, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 1558666546058872436, guid: b44c9a661f1f8c345a8b00bdaa6ca3b2, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     - target: {fileID: 3195764154732950223, guid: b44c9a661f1f8c345a8b00bdaa6ca3b2, type: 3}
       propertyPath: m_Name
       value: MainMenuUICanvas
