@@ -113,6 +113,7 @@ MonoBehaviour:
   HealthText: {fileID: 0}
   CoinText: {fileID: 0}
   GameOverMenuUI: {fileID: 0}
+  ShopMenuUI: {fileID: 0}
   lavaholefloor: 8
   rockceiling: 50
   xcamera: 4
