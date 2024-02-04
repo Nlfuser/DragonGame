@@ -8,18 +8,11 @@ public class Player : Character
 
     public float coinCount;
 
-    // Start is called before the first frame update
-    void Start()
+    public void rogerUIUpdate()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+        GameManager._Instance.UIHealthUpdate();
+        GameManager._Instance.UICoinUpdate();
+    }   
     public void GainGold(int amount){
         coinCount+=amount;
     }

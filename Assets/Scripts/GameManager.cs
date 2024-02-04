@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int RefillCost;
     [SerializeField] private int FlyCost;
 
+
     public static GameManager _Instance;
     public List<GameObject> Objects;
     GameObject querylev = null;
@@ -74,8 +75,12 @@ public class GameManager : MonoBehaviour
     private GameObject ShopMenuUI;
     private GameObject MainSceneUI;
     [SerializeField] private AudioManager AM;
-    
 
+    float coinCountMemory;
+    int maxhealthMemory;
+    int healthMemory;
+    bool canFlyMemory;
+    int attackMemory;
 
     public int lavaholefloor;
     public int rockceiling;
@@ -166,6 +171,11 @@ public class GameManager : MonoBehaviour
                 GenerateGrid();
                 AttackText.SetText(string.Format("{0}", player._attack));
                 UIHealthUpdate();
+                coinCountMemory = player.coinCount;
+                maxhealthMemory = player._maxhealth;
+                healthMemory = player._health;
+                canFlyMemory = player.canFly;
+                attackMemory = player._attack;
                 ChangeState(GameState.WaitingInput);
                 break;
             case GameState.WaitingInput:
@@ -260,7 +270,6 @@ public class GameManager : MonoBehaviour
     }
     void GenerateGrid()
     {
-        playerLevelSnapshot = player;
         currentLevel = gameLevels.ElementAt(currentLevelIndex);
         if (currentLevelIndex > 0) Camera.main.orthographicSize = 5;
         ++currentLevelIndex;
@@ -333,8 +342,12 @@ public class GameManager : MonoBehaviour
         }
         InitLavaRow(0);
         player = Instantiate(playerPrefab, pathNodes.ElementAt(1) + new Vector2(0, GridOffset), Quaternion.identity, others);
-        player = playerLevelSnapshot;
-        UIHealthUpdate();
+        player._attack = attackMemory;
+        player._health = healthMemory;
+        player._maxhealth = maxhealthMemory;
+        player.canFly = canFlyMemory;
+        player.coinCount = coinCountMemory;
+        player.rogerUIUpdate();
         _lavaTimer = 0;
         _goldTimer = 0;
         InitEnemies(currentLevel.enemiesMelee, currentLevel.enemiesRanged);
@@ -520,7 +533,7 @@ public class GameManager : MonoBehaviour
             if ((Vector2)player.transform.position == g.Pos)
             {// if player at gold position, remove gold and give gold to player
                 PlayerCoinGain(g.value);
-                CoinText.SetText(string.Format("{0}", player.coinCount));
+                UICoinUpdate();
                 _goldBags.Remove(g);
                 Destroy(g.gameObject);
                 AM.Play("CollectGem");
@@ -538,7 +551,7 @@ public class GameManager : MonoBehaviour
     public void PlayerCoinGain(int amount)
     {
         player.GainGold(amount);
-        CoinText.SetText(string.Format("{0}", player.coinCount));
+        UICoinUpdate();
     }
     void SpawnGold()
     {
@@ -658,12 +671,14 @@ public class GameManager : MonoBehaviour
     {
         return _goldBags.FirstOrDefault(n => n.Pos == pos);
     }
-
-    void UIHealthUpdate()
+    public void UICoinUpdate()
+    {
+        CoinText.SetText(string.Format("{0}", player.coinCount));
+    }
+    public void UIHealthUpdate()
     {
         HealthText.SetText(string.Format("{0}", player._health) + " / " + string.Format("{0}", player._maxhealth));
     }
-
     //shopui
     public void BoughtAttack()
     {
