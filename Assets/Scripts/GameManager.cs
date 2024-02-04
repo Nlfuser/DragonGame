@@ -67,8 +67,10 @@ public class GameManager : MonoBehaviour
     public TMP_Text TurnTimerText;
     public TMP_Text HealthText;
     public TMP_Text CoinText;
-    [SerializeField] private GameObject GameOverMenuUI;
+
     [SerializeField] private GameObject WinMenuUI;
+    [SerializeField] private GameObject GameOverMenuUI;
+    [SerializeField] private GameObject MainMenuUICanvas;
     [SerializeField] private GameObject ShopMenuUI;
 
 
@@ -138,7 +140,8 @@ public class GameManager : MonoBehaviour
         TurnText.SetText("Your turn");
         CoinText.SetText("0");
         GameOverMenuUI = GetObject("GameOverMenuUI");
-        WinMenuUI = GetObject("");
+        MainMenuUICanvas = GetObject("MainMenuUICanvas");
+        WinMenuUI = GetObject("WinMenuUI");        
         ChangeState(GameState.GenerateLevel);
     }
 
@@ -217,7 +220,7 @@ public class GameManager : MonoBehaviour
                 GameOverMenuUI.SetActive(true);
                 break;
             case GameState.Win:
-
+                WinMenuUI.SetActive(true);
                 //     _winScreen.SetActive(true);
                 //     Invoke(nameof(DelayedWinScreenText),1.5f);
                 break;
@@ -602,7 +605,6 @@ public class GameManager : MonoBehaviour
 
     public void ExitLevel()
     {
-        print("exiting level");
         foreach (Transform child in grid)
         {
             _nodes.Remove(child.GetComponent<Node>());
@@ -737,6 +739,12 @@ public class GameManager : MonoBehaviour
         ShopMenuUI.SetActive(false);
         print("CloseShop");
     }
+    public void BackToTheMenu()
+    {
+        WinMenuUI.SetActive(false);
+        MainMenuUICanvas.SetActive(true);
+        ChangeState(GameState.Stop);
+    }
     public IEnumerator Arrow(float duration, Vector2 targetPos, int attack)
     {
         float t = 0;
@@ -750,8 +758,8 @@ public class GameManager : MonoBehaviour
         if (arrowClone.transform.position == player.transform.position)
         {
             PlayerHurt(attack);
-            Destroy(arrowClone);
         }
+        Destroy(arrowClone);
     }
 }
 public enum GameState
