@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour
     public int currentLevelIndex;
     private int _height;
     private int _width;
-    private int GridOffset;
+    public int GridOffset;
     [SerializeField] private float turnLimit;
     private float _turnTimer;
     [SerializeField] private int LavaLimit;
@@ -150,6 +150,7 @@ public class GameManager : MonoBehaviour
         MainMenuUICanvas = GetObject("MainMenuUICanvas");
         ShopMenuUI = GetObject("ShopMenuUI");
         MainSceneUI = GetObject("MainSceneUI");
+        Camera.main.orthographicSize = 4;
     }
 
     public void ChangeState(GameState newState)
@@ -261,6 +262,7 @@ public class GameManager : MonoBehaviour
     {
         playerLevelSnapshot = player;
         currentLevel = gameLevels.ElementAt(currentLevelIndex);
+        if (currentLevelIndex > 0) Camera.main.orthographicSize = 5;
         ++currentLevelIndex;
         _nodes = new List<Node>();
         _enemies = new List<Enemy>();
@@ -451,7 +453,7 @@ public class GameManager : MonoBehaviour
             if (Enemy == null)
             {//if there are no enemies at the location
                 player.transform.position = possibleLocation;
-                AM.Play("MoveFromTile");
+                AM.Play("Move");
                 ChangeState(GameState.EnemiesMoving);
             }
             else
@@ -461,7 +463,7 @@ public class GameManager : MonoBehaviour
                 if (Enemy == null)
                 {//if there are no enemies at the location
                     player.transform.position = possibleLocation;
-                    AM.Play("MoveFromTile");
+                    AM.Play("Move");
 
                 }
                 ChangeState(GameState.EnemiesMoving);
@@ -579,7 +581,7 @@ public class GameManager : MonoBehaviour
     public void ExitLevel()
     {
         print("exiting level");
-        AM.Play("ReachNextLevel");
+        AM.Play("Move");
         foreach (Transform child in grid)
         {
             _nodes.Remove(child.GetComponent<Node>());
@@ -734,13 +736,14 @@ public class GameManager : MonoBehaviour
     }
     public void arrowcall(float arrowDuration, Vector2 playerPos, int _attack, Transform transform)
     {
+        AM.Play("Arrow");
         StartCoroutine(Arrow(arrowDuration, playerPos, _attack, transform));
     }
     public IEnumerator Arrow(float duration, Vector2 targetPos, int attack, Transform enemy)
     {
         float t = 0;
         GameObject arrowClone = Instantiate(ArrowPrefab, enemy.position, enemy.rotation);
-        while (t < 1f)
+        while (t < 1f && _state != GameState.Win && _state != GameState.Lose && _state != GameState.Shop && _state != GameState.Stop)
         {
             t += Time.deltaTime / duration;
             arrowClone.transform.position = Vector3.Lerp(enemy.position, targetPos, t);

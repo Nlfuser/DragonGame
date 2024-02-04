@@ -263,7 +263,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 6
+  orthographic size: 4
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -2863,8 +2863,13 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
+<<<<<<< HEAD
   m_AnchoredPosition: {x: 425.7627, y: 356.6192}
   m_SizeDelta: {x: 139.611, y: 106.7213}
+=======
+  m_AnchoredPosition: {x: 430, y: 360}
+  m_SizeDelta: {x: 225, y: 200}
+>>>>>>> 86f48af9b1b5ea8a1b1b15487592efd51ea7133b
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2908017013273914845
 MonoBehaviour:
@@ -3305,6 +3310,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f401465692f595f449ece5e9f75e4e2b, type: 2}
   - {fileID: 11400000, guid: 2915a2ab0e9b16d488fe388ad2a4c41f, type: 2}
   currentLevelIndex: 0
+  GridOffset: -1
   turnLimit: 10
   LavaLimit: 3
   GoldLimit: 2
@@ -5463,13 +5469,13 @@ MonoBehaviour:
     pitch: 1
     loop: 0
     source: {fileID: 0}
-  - name: MoveFromTile
+  - name: Arrow
     clip: {fileID: 8300000, guid: 940d80a2de182234580cd3babcf96ca1, type: 3}
     volume: 1
     pitch: 1
     loop: 0
     source: {fileID: 0}
-  - name: ReachNextLevel
+  - name: Move
     clip: {fileID: 8300000, guid: 2a3754dabad5791439f0df02ab637147, type: 3}
     volume: 1
     pitch: 1
@@ -5641,10 +5647,17 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 2895329673554244629}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+<<<<<<< HEAD
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -10}
   m_SizeDelta: {x: 79.8814, y: 61.6782}
+=======
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 80}
+>>>>>>> 86f48af9b1b5ea8a1b1b15487592efd51ea7133b
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &8283501668220789085
 RectTransform:
@@ -5962,7 +5975,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: HP
+  m_text: '50/50
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2a0940f6cd69148ca8af0e9f7d9dd60d, type: 2}
   m_sharedMaterial: {fileID: 581293990401416478, guid: 2a0940f6cd69148ca8af0e9f7d9dd60d, type: 2}
@@ -5989,8 +6004,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 56
-  m_fontSizeBase: 56
+  m_fontSize: 60
+  m_fontSizeBase: 60
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
