@@ -79,7 +79,7 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
-        ChangeState(GameState.Stop);
+        //ChangeState(GameState.Stop);
     }
 
     public void InitGameManager()
@@ -113,7 +113,7 @@ public class GameManager : MonoBehaviour
                 AttackText.SetText(string.Format("{0}", player._attack));
                 HealthText.SetText(string.Format("{0}", player._health));
                 ChangeState(GameState.WaitingInput);
-                break;           
+                break;
             case GameState.WaitingInput:
                 print("waiting input");
                 TurnText.SetText("Your turn");
@@ -265,7 +265,7 @@ public class GameManager : MonoBehaviour
         Camera.main.transform.position = new Vector3(center.x, center.y, -10);
 
     }
-    void RegenerateLevel() //call from button
+    public void RegenerateLevel() //call from button
     {
         foreach (Enemy child in _enemies.ToList())
         {
@@ -277,10 +277,14 @@ public class GameManager : MonoBehaviour
             _goldBags.Remove(child);
             Destroy(child.gameObject);
         }
-        Destroy(player.gameObject);
+        player.transform.position = pathNodes.ElementAt(1) + new Vector2(0, GridOffset);
         _lavaTimer = 0;
         _goldTimer = 0;
-        player = Instantiate(playerPrefab, pathNodes.ElementAt(1) + new Vector2(0, GridOffset), Quaternion.identity, others);
+        _enemies = new List<Enemy>();
+        _lavas = new List<Lava>();
+        _goldBags = new List<GoldBag>();
+        _lavaspool = new List<Lava>();
+        InitLavaRow(0);
         InitEnemies(currentLevel.enemiesMelee, currentLevel.enemiesRanged);
     }
     void RockTile(int x, int y)
@@ -579,14 +583,9 @@ public class GameManager : MonoBehaviour
         _lavaTimer = 0;
         _goldTimer = 0;
     }
-
-
-
-
     void GameOver()
     {
         ChangeState(GameState.Lose);
-
     }
     public Node GetNodeAtPosition(Vector2 pos)
     {
