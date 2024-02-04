@@ -73,9 +73,6 @@ public class GameManager : MonoBehaviour
     private GameObject MainMenuUICanvas;
     private GameObject ShopMenuUI;
     private GameObject MainSceneUI;
-    [SerializeField] private GameObject GameOverMenuUI;
-    [SerializeField] private GameObject WinMenuUI;
-    [SerializeField] private GameObject ShopMenuUI;
     [SerializeField] private AudioManager AM;
     
 
