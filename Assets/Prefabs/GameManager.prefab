@@ -77,8 +77,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ae19e3d7d9615a4f9d558f2cf4fcbf8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _height: 6
-  _width: 12
+  gameLevels:
+  - {fileID: 11400000, guid: 4837526d7b8e76e478ad9ec176bd47e0, type: 2}
+  - {fileID: 11400000, guid: 6cbedb67ec47b424f9e7a14cdb9d0cda, type: 2}
+  - {fileID: 11400000, guid: 3f0c7f1ba8f9d0e44a4afd7619760c99, type: 2}
+  - {fileID: 11400000, guid: f401465692f595f449ece5e9f75e4e2b, type: 2}
+  - {fileID: 11400000, guid: 2915a2ab0e9b16d488fe388ad2a4c41f, type: 2}
+  currentLevelIndex: 0
+  _height: 7
+  _width: 15
+  GridOffset: -1
   turnLimit: 10
   LavaLimit: 3
   GoldLimit: 3
@@ -96,7 +104,6 @@ MonoBehaviour:
   enemyRangedPrefab: {fileID: 1015953643704528897, guid: a347ba1a534393f4a974f17644a29c38, type: 3}
   _enemies: []
   cardinals: []
-  enemyrange: 3
   _goldBags: []
   AttackText: {fileID: 0}
   TurnText: {fileID: 0}
