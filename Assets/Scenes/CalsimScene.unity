@@ -2491,10 +2491,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ae19e3d7d9615a4f9d558f2cf4fcbf8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AttackCost: 0
-  HealthCost: 0
-  RefillCost: 0
-  FlyCost: 0
+  AttackCost: 1
+  HealthCost: 1
+  RefillCost: 5
+  FlyCost: 9
   Objects: []
   gameLevels:
   - {fileID: 11400000, guid: 4837526d7b8e76e478ad9ec176bd47e0, type: 2}
@@ -4514,10 +4514,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GameManager: {fileID: 3643527895413786865}
   ShopMenuUI: {fileID: 0}
-  AttackCost: 0
-  HealthCost: 0
-  RefillCost: 0
-  FlyCost: 0
+  AttackCost: 1
+  HealthCost: 1
+  RefillCost: 5
+  FlyCost: 9
 --- !u!222 &6908219643821512556
 CanvasRenderer:
   m_ObjectHideFlags: 0
