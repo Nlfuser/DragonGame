@@ -282,7 +282,7 @@ public class GameManager : MonoBehaviour
     {
         foreach (Enemy e in _enemies.ToList())
         {            
-            e.Behave(player); //Mandatory coupling from GameManager singleton instance; 
+            e.Behave(player); //Mandatory coupling from GameManager singleton instance;
         }
         ChangeState(GameState.LavaMoving);
     }
@@ -383,6 +383,14 @@ public class GameManager : MonoBehaviour
     void ExitLevel()
     {
         foreach (Transform child in grid)
+        {
+            Destroy(child.gameObject);
+        }
+        foreach(Enemy child in _enemies)
+        {
+            Destroy(child.gameObject);
+        }
+        foreach(GoldBag child in _goldBags)
         {
             Destroy(child.gameObject);
         }
