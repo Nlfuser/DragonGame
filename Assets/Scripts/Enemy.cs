@@ -95,23 +95,7 @@ public class Enemy : Character
         return false;
     }
     // float duration = 0.07f;
-    IEnumerator Arrow(float duration, Vector2 targetPos)
-    {
-        float t = 0;
-        GameObject arrowClone = Instantiate(GameManager._Instance.ArrowPrefab, transform.position, transform.rotation);
-        while (t < 1f)
-        {
-            t += Time.deltaTime / duration;
-            arrowClone.transform.position = Vector3.Lerp(transform.position, targetPos, t);
-            yield return null;
-        }
-        Player player = GameManager._Instance.player;
-        if (arrowClone.transform.position == player.transform.position)
-        {
-            GameManager._Instance.PlayerHurt(_attack);
-            Destroy(arrowClone);
-        }
-    }
+    
     void RangedPursuit(Vector2 playerPos)
     {
         Vector2 pursuitShort = (Vector2)transform.position - playerPos;
@@ -123,7 +107,7 @@ public class Enemy : Character
             }
             else
             {
-                StartCoroutine(Arrow(arrowDuration, playerPos));
+                StartCoroutine(GameManager._Instance.Arrow(arrowDuration, playerPos,_attack));
                 attackCharge = false;
             }
         }

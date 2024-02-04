@@ -10,6 +10,11 @@ using System.Xml.Linq;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField] private int AttackCost;
+    [SerializeField] private int HealthCost;
+    [SerializeField] private int RefillCost;
+    [SerializeField] private int FlyCost;
+
     public static GameManager _Instance;
     public List<GameObject> Objects;
     GameObject querylev = null;
@@ -63,6 +68,7 @@ public class GameManager : MonoBehaviour
     public TMP_Text HealthText;
     public TMP_Text CoinText;
     [SerializeField] private GameObject GameOverMenuUI;
+    [SerializeField] private GameObject WinMenuUI;
     [SerializeField] private GameObject ShopMenuUI;
 
 
@@ -72,6 +78,8 @@ public class GameManager : MonoBehaviour
     private Camera myCamera;
     public int xcamera;
     public int ycamera;
+
+    bool canmovelock;
     private void Awake()
     {
         if (_Instance != null) Destroy(gameObject);
@@ -81,6 +89,7 @@ public class GameManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
         RecursiveChildrenWrapper(Objects, transform);
+        querylev = null;
     }
     private void RecursiveChildrenWrapper(List<GameObject> objects, Transform node)
     {
@@ -113,6 +122,7 @@ public class GameManager : MonoBehaviour
 
     public void InitGameManager()
     {
+        canmovelock = false;
         myCamera = Camera.main;
         cardinals = new Vector2[4];
         cardinals[0] = Vector2.right;
@@ -128,6 +138,7 @@ public class GameManager : MonoBehaviour
         TurnText.SetText("Your turn");
         CoinText.SetText("0");
         GameOverMenuUI = GetObject("GameOverMenuUI");
+        WinMenuUI = GetObject("");
         ChangeState(GameState.GenerateLevel);
     }
 
@@ -145,14 +156,16 @@ public class GameManager : MonoBehaviour
                 AttackText.SetText(string.Format("{0}", player._attack));
                 HealthText.SetText(string.Format("{0}", player._health) + " / " + string.Format("{0}", player._maxhealth));
                 ChangeState(GameState.WaitingInput);
-                break;           
+                break;
             case GameState.WaitingInput:
+                canmovelock = true;
                 print("waiting input");
                 TurnText.SetText("Your turn");
                 TurnTimerText.SetText(string.Format("{0:N2}", turnLimit));
                 break;
             case GameState.Moving:
                 // HeuristicCamera();
+                canmovelock = false;
                 break;
             case GameState.EnemiesMoving:
                 TurnText.SetText("Enemies turn");
@@ -203,10 +216,11 @@ public class GameManager : MonoBehaviour
             case GameState.Lose:
                 GameOverMenuUI.SetActive(true);
                 break;
-            // case GameState.Win:
-            //     _winScreen.SetActive(true);
-            //     Invoke(nameof(DelayedWinScreenText),1.5f);
-            //     break;
+            case GameState.Win:
+
+                //     _winScreen.SetActive(true);
+                //     Invoke(nameof(DelayedWinScreenText),1.5f);
+                break;
 
             default:
                 throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
@@ -214,7 +228,7 @@ public class GameManager : MonoBehaviour
     }
     void Update()
     {
-        if (_state == GameState.WaitingInput)
+        if (canmovelock)
         {
             if (Input.GetKeyDown(KeyCode.LeftArrow)) MovePlayer(Vector2.left);
             if (Input.GetKeyDown(KeyCode.RightArrow)) MovePlayer(Vector2.right);
@@ -227,7 +241,7 @@ public class GameManager : MonoBehaviour
                 _turnTimer = 0;
                 ChangeState(GameState.EnemiesMoving);
             }
-        }        
+        }
         //try { enemybehaviourtest(); } catch { }
         // if(Input.GetKeyDown(KeyCode.Space)) 
     }
@@ -320,7 +334,7 @@ public class GameManager : MonoBehaviour
             _goldBags.Remove(child);
             Destroy(child.gameObject);
         }
-        foreach(Lava child in _lavas.ToList())
+        foreach (Lava child in _lavas.ToList())
         {
             _lavas.Remove(child);
             Destroy(child.gameObject);
@@ -541,7 +555,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void PlayerCoinGain(int amount){
+    public void PlayerCoinGain(int amount)
+    {
         player.GainGold(amount);
         CoinText.SetText(string.Format("{0}", player.coinCount));
     }
@@ -607,7 +622,14 @@ public class GameManager : MonoBehaviour
         Destroy(exit.gameObject);
         _lavaTimer = 0;
         _goldTimer = 0;
-        ChangeState(GameState.Shop);
+        if (currentLevelIndex > gameLevels.Count)
+        {
+            ChangeState(GameState.Win);
+        }
+        else
+        {
+            ChangeState(GameState.Shop);
+        }
     }
 
 
@@ -657,6 +679,79 @@ public class GameManager : MonoBehaviour
     public GoldBag GetGoldAtPosition(Vector2 pos)
     {
         return _goldBags.FirstOrDefault(n => n.Pos == pos);
+    }
+    public void BoughtAttack()
+    {
+        if (player.coinCount >= AttackCost)
+        {
+            print("BoughtAttack");
+            PlayerCoinGain(-AttackCost);
+            player._attack += 1;
+            AttackText.SetText(string.Format("{0}", player._attack));
+
+            CloseShop();
+        }
+
+    }
+
+    public void BoughtMaxHealth()
+    {
+        if (player.coinCount >= HealthCost)
+        {
+            print("BoughtMaxHealth");
+            PlayerCoinGain(-HealthCost);
+            player._maxhealth += 5;
+            player._health += 5;
+            HealthText.SetText(string.Format("{0}", player._health) + " / " + string.Format("{0}", player._maxhealth));
+
+            CloseShop();
+        }
+    }
+
+    public void BoughtHealthRefill()
+    {
+        if (player.coinCount >= RefillCost)
+        {
+            print("BoughtRefill");
+            PlayerCoinGain(-RefillCost);
+            player._health = player._maxhealth;
+            HealthText.SetText(string.Format("{0}", player._health) + " / " + string.Format("{0}", player._maxhealth));
+            CloseShop();
+        }
+    }
+
+    public void BoughtFlight()
+    {
+        if (player.coinCount >= FlyCost)
+        {
+            print("BoughtFlight");
+            PlayerCoinGain(-FlyCost);
+            player.canFly = true;
+            CloseShop();
+        }
+    }
+
+    public void CloseShop()
+    {
+        ChangeState(GameState.GenerateLevel);
+        ShopMenuUI.SetActive(false);
+        print("CloseShop");
+    }
+    public IEnumerator Arrow(float duration, Vector2 targetPos, int attack)
+    {
+        float t = 0;
+        GameObject arrowClone = Instantiate(ArrowPrefab, transform.position, transform.rotation);
+        while (t < 1f)
+        {
+            t += Time.deltaTime / duration;
+            arrowClone.transform.position = Vector3.Lerp(transform.position, targetPos, t);
+            yield return null;
+        }
+        if (arrowClone.transform.position == player.transform.position)
+        {
+            PlayerHurt(attack);
+            Destroy(arrowClone);
+        }
     }
 }
 public enum GameState
