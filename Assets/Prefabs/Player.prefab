@@ -97,8 +97,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f55319f48fe7e67499b71bfffe26cf4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxhealth: 50
-  _health: 50
-  _attack: 15
+  _maxhealth: 10
+  _health: 10
+  _attack: 1
   canFly: 0
   coinCount: 0
