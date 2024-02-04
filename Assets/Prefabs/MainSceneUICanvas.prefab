@@ -923,7 +923,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3848855856622050429}
   m_Layer: 5
-  m_Name: MainUI
+  m_Name: MainSceneUICanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
