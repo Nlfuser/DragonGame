@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 9f2f2c140f9d60e49be8b19d424c8a39
+guid: f264c0c0092984bb692fefd756d4a6ad
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -81,6 +81,19 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
     buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -106,24 +119,11 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: range_idle_0
+      name: ranged_idle_0
       rect:
         serializedVersion: 2
         x: 8
@@ -137,19 +137,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cd86e723f31ef4a87a738b427ef15fe9
-      internalID: -1225844873
+      spriteID: 7732c5f82e1d6454ba5267f0965ad6a7
+      internalID: -477243121
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: range_idle_1
+      name: ranged_idle_1
       rect:
         serializedVersion: 2
-        x: 475
+        x: 483
         y: 1
-        width: 475
+        width: 467
         height: 569
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -158,19 +158,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cce1bf6389a834e1fbed32b5074048da
-      internalID: 1373924671
+      spriteID: ee12a6309cef34952958db965a9eb9a8
+      internalID: 1328421224
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: range_idle_2
+      name: ranged_idle_2
       rect:
         serializedVersion: 2
-        x: 950
+        x: 959
         y: 9
-        width: 475
+        width: 466
         height: 569
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -179,8 +179,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e6aefd4e504af40d0a15f6d19f23955d
-      internalID: -964834798
+      spriteID: e85d0a4d5a07a4ba6ab53fee5ae41d22
+      internalID: -2012817864
       vertices: []
       indices: 
       edges: []
@@ -196,9 +196,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      range_idle_0: -1225844873
-      range_idle_1: 1373924671
-      range_idle_2: -964834798
+      ranged_idle_0: -477243121
+      ranged_idle_1: 1328421224
+      ranged_idle_2: -2012817864
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
