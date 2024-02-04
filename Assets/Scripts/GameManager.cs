@@ -220,6 +220,7 @@ public class GameManager : MonoBehaviour
                 GameOverMenuUI.SetActive(true);
                 break;
             case GameState.Win:
+                MainSceneUI.SetActive(false);
                 ShopMenuUI.SetActive(false);
                 WinMenuUI.SetActive(true);
                 //     _winScreen.SetActive(true);
@@ -653,10 +654,10 @@ public class GameManager : MonoBehaviour
             _goldBags.Remove(child);
             Destroy(child.gameObject);
         }
-        Destroy(player.gameObject);
-        Destroy(exit.gameObject);
         _lavaTimer = 0;
         _goldTimer = 0;
+        Destroy(exit.gameObject);
+        Destroy(player.gameObject);
     }
     void GameOver()
     {
