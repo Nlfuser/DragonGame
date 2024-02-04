@@ -10,10 +10,10 @@ using TMPro;
 public class GameManager : MonoBehaviour
 {
     public static GameManager _Instance;
+    public List<Level> gameLevels;
     [SerializeField] private int _height;
     [SerializeField] private int _width;
     [SerializeField] private int GridOffset;
-
     [SerializeField] private float turnLimit;
     private float _turnTimer;
     [SerializeField] private int LavaLimit;
@@ -134,7 +134,7 @@ public class GameManager : MonoBehaviour
                 {
                     if (GetLavaAtPosition(G.transform.position) != null)
                     {
-                        Destroy(G);
+                        Destroy(G.gameObject);
                     }
                 }
                 ChangeState(GameState.GoldManagement);
@@ -386,6 +386,13 @@ public class GameManager : MonoBehaviour
             _goldBags.Add(_gold);
         }
         else print("No spots");
+        foreach (GoldBag G in _goldBags.ToList())
+        {
+            if (GetLavaAtPosition(G.transform.position) != null)
+            {
+                Destroy(G.gameObject);
+            }
+        }
     }
 
     void ExitLevel()
