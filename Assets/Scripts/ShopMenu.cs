@@ -58,7 +58,8 @@ public class ShopMenu : MonoBehaviour
     public void CloseShop(){
 
         GameManager.ChangeState(GameState.GenerateLevel);
+        print("CloseShop");        
         ShopMenuUI.SetActive(false);
-        print("CloseShop");
+
     }
 }

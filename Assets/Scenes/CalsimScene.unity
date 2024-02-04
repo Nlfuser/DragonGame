@@ -161,6 +161,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 970151740819319355}
     - target: {fileID: 3643527895345360353, guid: f269a45db0b3e6f4b94a6f90b1877779, type: 3}
+      propertyPath: ShopMenuUI
+      value: 
+      objectReference: {fileID: 269465291}
+    - target: {fileID: 3643527895345360353, guid: f269a45db0b3e6f4b94a6f90b1877779, type: 3}
       propertyPath: rockceiling
       value: 50
       objectReference: {fileID: 0}
@@ -225,6 +229,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f269a45db0b3e6f4b94a6f90b1877779, type: 3}
+--- !u!1 &269465291 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9170393278374196782, guid: 6a49b410bff8fc04e8b76b4cc56ffa13, type: 3}
+  m_PrefabInstance: {fileID: 2061664133407260514}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &385880207 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1241415875637350308, guid: 5f01233e5605a80458247457bd1d4065, type: 3}
@@ -742,7 +751,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6906a33dfacae58428c3f94e486bdba6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GameManager: {fileID: 0}
+  GameManager: {fileID: 1280295715}
+  ShopMenuUI: {fileID: 269465291}
   AttackCost: 0
   HealthCost: 0
   RefillCost: 0
