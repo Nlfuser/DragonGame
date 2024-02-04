@@ -105,12 +105,11 @@ public class GameManager : MonoBehaviour
 
         switch (newState)
         {
-            case GameState.Stop:
-                break;
             case GameState.GenerateLevel:
                 print("generating level");
-
                 GenerateGrid();
+                AttackText.SetText(string.Format("{0}", player._attack));
+                HealthText.SetText(string.Format("{0}", player._health));
                 ChangeState(GameState.WaitingInput);
                 break;
             case GameState.SpawningBlocks:
@@ -118,7 +117,7 @@ public class GameManager : MonoBehaviour
                 ChangeState(GameState.WaitingInput);
                 break;
             case GameState.WaitingInput:
-            print("waiting input");
+                print("waiting input");
                 TurnText.SetText("Your turn");
                 TurnTimerText.SetText(string.Format("{0:N2}", turnLimit));
                 break;
@@ -174,9 +173,10 @@ public class GameManager : MonoBehaviour
             //     _winScreen.SetActive(true);
             //     Invoke(nameof(DelayedWinScreenText),1.5f);
             //     break;
-            // case GameState.Lose:
-            //     _loseScreen.SetActive(true);
-            // break;
+            case GameState.Lose:
+                GameOverMenuUI.SetActive(true);
+                //_loseScreen.SetActive(true);
+                break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
         }
@@ -259,11 +259,8 @@ public class GameManager : MonoBehaviour
         exit = Instantiate(exitPrefab, pathNodes.Last() + new Vector2(0, GridOffset), Quaternion.identity, others);
         player = Instantiate(playerPrefab, pathNodes.ElementAt(1) + new Vector2(0, GridOffset), Quaternion.identity, others);
         InitEnemies(currentLevel.enemiesMelee, currentLevel.enemiesRanged);
-        AttackText.SetText(string.Format("{0}", player._attack));
-        HealthText.SetText(string.Format("{0}", player._health));
         // var board = Instantiate(_boardPrefab, center, Quaternion.identity);
         // board.size = new Vector2(_width,_height);
-
         // Camera.main.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, -10);
         Camera.main.transform.position = new Vector3(center.x, center.y, -10);
 
@@ -549,12 +546,12 @@ public class GameManager : MonoBehaviour
             _nodes.Remove(child.GetComponent<Node>());
             Destroy(child.gameObject);
         }
-        foreach(Enemy child in _enemies.ToList())
+        foreach (Enemy child in _enemies.ToList())
         {
             _enemies.Remove(child);
             Destroy(child.gameObject);
         }
-        foreach(GoldBag child in _goldBags.ToList())
+        foreach (GoldBag child in _goldBags.ToList())
         {
             _goldBags.Remove(child);
             Destroy(child.gameObject);
@@ -570,8 +567,8 @@ public class GameManager : MonoBehaviour
 
     void GameOver()
     {
-        ChangeState(GameState.Stop);
-        GameOverMenuUI.SetActive(true);
+        ChangeState(GameState.Lose);
+
     }
     public Node GetNodeAtPosition(Vector2 pos)
     {
