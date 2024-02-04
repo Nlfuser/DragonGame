@@ -6,15 +6,8 @@ public class GoldBag : MonoBehaviour
 {
     public Vector2 Pos => transform.position;
     public int value;
-    // Start is called before the first frame update
-    void Start()
+    private void OnDestroy()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        GameManager._Instance._goldBags.Remove(this);
     }
 }

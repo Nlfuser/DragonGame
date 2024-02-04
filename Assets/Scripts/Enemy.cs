@@ -7,6 +7,7 @@ using Random = UnityEngine.Random;
 using Unity.VisualScripting;
 using UnityEditor;
 using static UnityEngine.EventSystems.EventTrigger;
+using System.Linq;
 
 public class Enemy : Character
 {
@@ -52,7 +53,7 @@ public class Enemy : Character
             }
             else
             {
-                foreach (GoldBag G in GameManager._Instance._goldBags)
+                foreach (GoldBag G in GameManager._Instance._goldBags.ToList())
                 {
                     float gDist = Vector2.Distance(G.transform.position, transform.position);
                     if (gDist > goldLev)

@@ -10,8 +10,11 @@ using TMPro;
 public class GameManager : MonoBehaviour
 {
     public static GameManager _Instance;
+    public List<Level> gameLevels;
+    public int currentLevelIndex;
     [SerializeField] private int _height;
     [SerializeField] private int _width;
+    [SerializeField] private int GridOffset;
     [SerializeField] private float turnLimit;
     private float _turnTimer;
     [SerializeField] private int LavaLimit;
@@ -36,7 +39,8 @@ public class GameManager : MonoBehaviour
 
     public List<Enemy> _enemies;
     public Vector2[] cardinals;
-    public float enemyrange = 3f;
+    //public float enemyrange = 3f;
+    int enemylev = 0;
     // private List<Block> _blocks;
 
     private List<Node> _nodes;
@@ -68,17 +72,20 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
-        ChangeState(GameState.GenerateLevel);
         myCamera = Camera.main;
         cardinals = new Vector2[4];
         cardinals[0] = Vector2.right;
         cardinals[1] = Vector2.up;
         cardinals[2] = Vector2.left;
         cardinals[3] = Vector2.down;
-
-
+        currentLevelIndex = 0;
+        _nodes = new List<Node>();
+        _enemies = new List<Enemy>();
+        _lavas = new List<Lava>();
+        _goldBags = new List<GoldBag>();
         TurnText.SetText("Your turn");
         CoinText.SetText("0");
+        ChangeState(GameState.GenerateLevel);
 
     }
 
@@ -125,7 +132,14 @@ public class GameManager : MonoBehaviour
                 {
                     if (GetLavaAtPosition(e.transform.position) != null)
                     {
-                        if (e.Takedmg(lavaDamage)) _enemies.Remove(e);
+                        if (e.Takedmg(lavaDamage)) _enemies.RemoveAll(i=>i.Equals(e));
+                    }
+                }
+                foreach (GoldBag G in _goldBags.ToList())
+                {
+                    if (GetLavaAtPosition(G.transform.position) != null)
+                    {
+                        Destroy(G.gameObject);
                     }
                 }
                 ChangeState(GameState.GoldManagement);
@@ -164,10 +178,10 @@ public class GameManager : MonoBehaviour
             _turnTimer = 0;
             ChangeState(GameState.EnemiesMoving);
         }
-        try { enemybehaviourtest(); } catch { }
+        //try { enemybehaviourtest(); } catch { }
         // if(Input.GetKeyDown(KeyCode.Space)) 
     }
-    void enemybehaviourtest()
+    void enemybehaviourtest() //Deprecated
     {
         foreach (Enemy e in _enemies.ToList())
         {
@@ -190,34 +204,26 @@ public class GameManager : MonoBehaviour
     }
     void GenerateGrid()
     {
-        // _round = 0;
-        // print("grid making");
+        Level currentLevel = gameLevels.ElementAt(currentLevelIndex);
+        ++currentLevelIndex;
         _nodes = new List<Node>();
         _enemies = new List<Enemy>();
         _lavas = new List<Lava>();
         _goldBags = new List<GoldBag>();
-
-        // _blocks = new List<Block>();
+        _width = currentLevel.xtiles;
+        _height = currentLevel.ytiles;
         for (int x = 0; x < _width; x++)
         {
             for (int y = 0; y < _height; y++)
             {
-                var node = Instantiate(nodePrefab, new Vector2(x, y), Quaternion.identity, grid);
+                var node = Instantiate(nodePrefab, new Vector2(x, y + GridOffset), Quaternion.identity, grid);
                 _nodes.Add(node);
-                // if(x==0) {
-                //     var lava = Instantiate(lavaPrefab, new Vector2(x, y), Quaternion.identity, grid);
-                //     _lavas.Add(lava);
-                // }
             }
         }
         InitLavaRow(0);
-
         var center = new Vector2((float)_width / 2 - 0.5f, (float)_height / 2 - 0.5f);
-
-        exit = Instantiate(exitPrefab, new Vector2(_width - 1, Random.Range(0, _height)), Quaternion.identity, others);
-
-        InitEnemies();
-
+        exit = Instantiate(exitPrefab, new Vector2(_width - 1, Random.Range(0, _height + GridOffset)), Quaternion.identity, others);
+        InitEnemies(currentLevel.enemiesMelee, currentLevel.enemiesRanged);
         player = Instantiate(playerPrefab, new Vector2(1, _height % 2 == 0 ? _height / 2 : (float)_height / 2 - 0.5f), Quaternion.identity, others);
         AttackText.SetText(string.Format("{0}", player._attack));
         HealthText.SetText(string.Format("{0}", player._health));
@@ -229,20 +235,28 @@ public class GameManager : MonoBehaviour
         Camera.main.transform.position = new Vector3(center.x,center.y,-10);
 
     }
-    void InitEnemies()
+    void InitEnemies(int enemiesMelee, int enemiesRanged)
     {
-        var _enemy = Instantiate(enemyMeleePrefab, new Vector2(_width - 2, Random.Range(0, _height)), Quaternion.identity, others);
-        var _enemy1 = Instantiate(enemyMeleePrefab, new Vector2(_width - 3, Random.Range(0, _height)), Quaternion.identity, others);
-        var _enemy2 = Instantiate(enemyRangedPrefab, new Vector2(_width - 4, Random.Range(0, _height)), Quaternion.identity, others);
-        _enemies.Add(_enemy);
-        _enemies.Add(_enemy1);
-        _enemies.Add(_enemy2);
+        for (int i = 0; i < enemiesMelee; ++i)
+        {
+            var _enemy = Instantiate(enemyMeleePrefab, new Vector2(_width - 2, Random.Range(0, _height) + GridOffset), Quaternion.identity, others);
+            _enemy.name = "enemy" + enemylev;
+            _enemies.Add(_enemy);
+            ++enemylev;
+        }
+        for(int i = 0; i < enemiesRanged; ++i)
+        {
+            var _enemy = Instantiate(enemyRangedPrefab, new Vector2(_width - 2, Random.Range(0, _height) + GridOffset), Quaternion.identity, others);
+            _enemy.name = "enemy" + enemylev;
+            _enemies.Add(_enemy);
+            ++enemylev;
+        }
     }
     void InitLavaRow(int x)
     {
         for (int y = 0; y < _height; y++)
         {
-            var lava = Instantiate(lavaPrefab, new Vector2(x, y), Quaternion.identity, grid);
+            var lava = Instantiate(lavaPrefab, new Vector2(x, y + GridOffset), Quaternion.identity, grid);
             _lavas.Add(lava);
         }
     }
@@ -253,8 +267,7 @@ public class GameManager : MonoBehaviour
         if (possibleNode != null)
         {//if grid exists
             _turnTimer = 0;
-            ChangeState(GameState.Moving);
-            
+            ChangeState(GameState.Moving);            
             var Enemy = GetEnemyAtPosition(possibleLocation);
             if (Enemy == null)
             {//if there are no enemies at the location
@@ -282,7 +295,7 @@ public class GameManager : MonoBehaviour
     {
         foreach (Enemy e in _enemies.ToList())
         {            
-            e.Behave(player); //Mandatory coupling from GameManager singleton instance; 
+            e.Behave(player); //Mandatory coupling from GameManager singleton instance;
         }
         ChangeState(GameState.LavaMoving);
     }
@@ -361,7 +374,7 @@ public class GameManager : MonoBehaviour
         {
             for (int y = 0; y < _height; y++)
             {
-                var location = new Vector2(x, y);
+                var location = new Vector2(x, y + GridOffset);
                 if (//continue if any of condition x is true, continue if there is an object at the position. if getXatLoc() != null
                     (GetEnemyAtPosition(location) == null) ||
                     (GetLavaAtPosition(location) == null) ||
@@ -378,12 +391,30 @@ public class GameManager : MonoBehaviour
             _goldBags.Add(_gold);
         }
         else print("No spots");
+        foreach (GoldBag G in _goldBags.ToList())
+        {
+            if (GetLavaAtPosition(G.transform.position) != null)
+            {
+                Destroy(G.gameObject);
+            }
+        }
     }
 
     void ExitLevel()
     {
         foreach (Transform child in grid)
         {
+            _nodes.Remove(child.GetComponent<Node>());
+            Destroy(child.gameObject);
+        }
+        foreach(Enemy child in _enemies.ToList())
+        {
+            _enemies.Remove(child);
+            Destroy(child.gameObject);
+        }
+        foreach(GoldBag child in _goldBags.ToList())
+        {
+            _goldBags.Remove(child);
             Destroy(child.gameObject);
         }
         Destroy(player.gameObject);
@@ -391,7 +422,6 @@ public class GameManager : MonoBehaviour
         ChangeState(GameState.GenerateLevel);
         _lavaTimer = 0;
         _goldTimer = 0;
-
     }
     void GameOver()
     {
