@@ -3027,10 +3027,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ae19e3d7d9615a4f9d558f2cf4fcbf8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AttackCost: 0
-  HealthCost: 0
-  RefillCost: 0
-  FlyCost: 0
+  AttackCost: 1
+  HealthCost: 1
+  RefillCost: 5
+  FlyCost: 9
   Objects: []
   gameLevels:
   - {fileID: 11400000, guid: 4837526d7b8e76e478ad9ec176bd47e0, type: 2}
@@ -5038,6 +5038,24 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &6869105715709314978
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3062356092486479771}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6906a33dfacae58428c3f94e486bdba6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GameManager: {fileID: 3643527895413786865}
+  ShopMenuUI: {fileID: 0}
+  AttackCost: 1
+  HealthCost: 1
+  RefillCost: 5
+  FlyCost: 9
 --- !u!222 &6908219643821512556
 CanvasRenderer:
   m_ObjectHideFlags: 0
