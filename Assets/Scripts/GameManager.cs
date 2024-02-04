@@ -127,7 +127,14 @@ public class GameManager : MonoBehaviour
                 {
                     if (GetLavaAtPosition(e.transform.position) != null)
                     {
-                        if (e.Takedmg(lavaDamage)) _enemies.Remove(e);
+                        if (e.Takedmg(lavaDamage)) _enemies.RemoveAll(i=>i.Equals(e));
+                    }
+                }
+                foreach (GoldBag G in _goldBags.ToList())
+                {
+                    if (GetLavaAtPosition(G.transform.position) != null)
+                    {
+                        Destroy(G);
                     }
                 }
                 ChangeState(GameState.GoldManagement);
@@ -233,9 +240,9 @@ public class GameManager : MonoBehaviour
     }
     void InitEnemies()
     {
-        var _enemy = Instantiate(enemyMeleePrefab, new Vector2(_width - 2, Random.Range(0, _height)), Quaternion.identity, others);
-        var _enemy1 = Instantiate(enemyMeleePrefab, new Vector2(_width - 3, Random.Range(0, _height)), Quaternion.identity, others);
-        var _enemy2 = Instantiate(enemyRangedPrefab, new Vector2(_width - 4, Random.Range(0, _height)), Quaternion.identity, others);
+        var _enemy = Instantiate(enemyMeleePrefab, new Vector2(_width - 2, Random.Range(0, _height) + GridOffset), Quaternion.identity, others);
+        var _enemy1 = Instantiate(enemyMeleePrefab, new Vector2(_width - 3, Random.Range(0, _height) + GridOffset), Quaternion.identity, others);
+        var _enemy2 = Instantiate(enemyRangedPrefab, new Vector2(_width - 4, Random.Range(0, _height) + GridOffset), Quaternion.identity, others);
         _enemies.Add(_enemy);
         _enemies.Add(_enemy1);
         _enemies.Add(_enemy2);
@@ -255,8 +262,7 @@ public class GameManager : MonoBehaviour
         if (possibleNode != null)
         {//if grid exists
             _turnTimer = 0;
-            ChangeState(GameState.Moving);
-            
+            ChangeState(GameState.Moving);            
             var Enemy = GetEnemyAtPosition(possibleLocation);
             if (Enemy == null)
             {//if there are no enemies at the location
