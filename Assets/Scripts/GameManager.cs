@@ -30,7 +30,6 @@ public class GameManager : MonoBehaviour
     private int _lavaTimer;
     [SerializeField] private int GoldLimit;
     private int _goldTimer;
-    private Vector2 _lastDir = Vector2.right;
     [SerializeField] private Transform grid;
     [SerializeField] private Transform others;
     [SerializeField] private Node nodePrefab;
@@ -74,6 +73,11 @@ public class GameManager : MonoBehaviour
     private GameObject MainMenuUICanvas;
     private GameObject ShopMenuUI;
     private GameObject MainSceneUI;
+    [SerializeField] private GameObject GameOverMenuUI;
+    [SerializeField] private GameObject WinMenuUI;
+    [SerializeField] private GameObject ShopMenuUI;
+    [SerializeField] private AudioManager AM;
+    
 
 
     public int lavaholefloor;
@@ -121,6 +125,7 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
+        AM.Play("SearingEscape");
         ChangeState(GameState.Stop);
     }
 
@@ -225,6 +230,9 @@ public class GameManager : MonoBehaviour
                 MainSceneUI.SetActive(false);
                 ShopMenuUI.SetActive(false);
                 WinMenuUI.SetActive(true);
+                    AM.Stop("SearingEscape");
+
+
                 //     _winScreen.SetActive(true);
                 //     Invoke(nameof(DelayedWinScreenText),1.5f);
                 break;
@@ -446,6 +454,7 @@ public class GameManager : MonoBehaviour
             if (Enemy == null)
             {//if there are no enemies at the location
                 player.transform.position = possibleLocation;
+                AM.Play("MoveFromTile");
                 ChangeState(GameState.EnemiesMoving);
             }
             else
@@ -455,6 +464,8 @@ public class GameManager : MonoBehaviour
                 if (Enemy == null)
                 {//if there are no enemies at the location
                     player.transform.position = possibleLocation;
+                    AM.Play("MoveFromTile");
+
                 }
                 ChangeState(GameState.EnemiesMoving);
             }
@@ -501,6 +512,7 @@ public class GameManager : MonoBehaviour
     void MoveLava()
     {
         InitLavaRow(_lavaTimer / LavaLimit);
+        AM.Play("LavaMoving");
     }
     void PickupGoldCheck()
     {
@@ -512,6 +524,7 @@ public class GameManager : MonoBehaviour
                 CoinText.SetText(string.Format("{0}", player.coinCount));
                 _goldBags.Remove(g);
                 Destroy(g.gameObject);
+                AM.Play("CollectGem");
             }
 
             var e = GetEnemyAtPosition(g.Pos);
@@ -568,6 +581,8 @@ public class GameManager : MonoBehaviour
     }
     public void ExitLevel()
     {
+        print("exiting level");
+        AM.Play("ReachNextLevel");
         foreach (Transform child in grid)
         {
             _nodes.Remove(child.GetComponent<Node>());
