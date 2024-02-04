@@ -175,6 +175,34 @@ PrefabInstance:
       propertyPath: TurnTimerText
       value: 
       objectReference: {fileID: 970151740819319356}
+    - target: {fileID: 3643527895345360353, guid: f269a45db0b3e6f4b94a6f90b1877779, type: 3}
+      propertyPath: _enemies.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3643527895345360353, guid: f269a45db0b3e6f4b94a6f90b1877779, type: 3}
+      propertyPath: gameLevels.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3643527895345360353, guid: f269a45db0b3e6f4b94a6f90b1877779, type: 3}
+      propertyPath: gameLevels.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 4837526d7b8e76e478ad9ec176bd47e0, type: 2}
+    - target: {fileID: 3643527895345360353, guid: f269a45db0b3e6f4b94a6f90b1877779, type: 3}
+      propertyPath: gameLevels.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 6cbedb67ec47b424f9e7a14cdb9d0cda, type: 2}
+    - target: {fileID: 3643527895345360353, guid: f269a45db0b3e6f4b94a6f90b1877779, type: 3}
+      propertyPath: gameLevels.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 3f0c7f1ba8f9d0e44a4afd7619760c99, type: 2}
+    - target: {fileID: 3643527895345360353, guid: f269a45db0b3e6f4b94a6f90b1877779, type: 3}
+      propertyPath: gameLevels.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: f401465692f595f449ece5e9f75e4e2b, type: 2}
+    - target: {fileID: 3643527895345360353, guid: f269a45db0b3e6f4b94a6f90b1877779, type: 3}
+      propertyPath: gameLevels.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: 2915a2ab0e9b16d488fe388ad2a4c41f, type: 2}
     - target: {fileID: 7519662547171598280, guid: f269a45db0b3e6f4b94a6f90b1877779, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
