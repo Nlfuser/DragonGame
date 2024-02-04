@@ -168,7 +168,7 @@ public class GameManager : MonoBehaviour
                 ChangeState(GameState.WaitingInput);
                 break;
             case GameState.Lose:
-                GameOverMenuUI.SetActive(true);
+                GameOverMenuUI.SetActive(true);   
                 break;
             // case GameState.Win:
             //     _winScreen.SetActive(true);
@@ -265,6 +265,13 @@ public class GameManager : MonoBehaviour
         Camera.main.transform.position = new Vector3(center.x, center.y, -10);
 
     }
+    public void UIRegenerateCall()
+    {
+        GameOverMenuUI.SetActive(false);
+        RegenerateLevel();
+        ChangeState(GameState.WaitingInput);
+    }
+
     public void RegenerateLevel() //call from button
     {
         foreach (Enemy child in _enemies.ToList())
@@ -277,7 +284,12 @@ public class GameManager : MonoBehaviour
             _goldBags.Remove(child);
             Destroy(child.gameObject);
         }
-        player.transform.position = pathNodes.ElementAt(1) + new Vector2(0, GridOffset);
+        foreach(Lava child in _lavas.ToList())
+        {
+            _lavas.Remove(child);
+            Destroy(child.gameObject);
+        }
+        player = Instantiate(playerPrefab, pathNodes.ElementAt(1) + new Vector2(0, GridOffset), Quaternion.identity, others);
         _lavaTimer = 0;
         _goldTimer = 0;
         _enemies = new List<Enemy>();
