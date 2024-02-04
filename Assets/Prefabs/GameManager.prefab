@@ -1910,6 +1910,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ae19e3d7d9615a4f9d558f2cf4fcbf8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AttackCost: 1
+  HealthCost: 1
+  RefillCost: 5
+  FlyCost: 10
   Objects: []
   gameLevels:
   - {fileID: 11400000, guid: 4837526d7b8e76e478ad9ec176bd47e0, type: 2}
@@ -1947,6 +1951,7 @@ MonoBehaviour:
   HealthText: {fileID: 8750840132498535742}
   CoinText: {fileID: 6239601510639954290}
   GameOverMenuUI: {fileID: 410511436349890161}
+  WinMenuUI: {fileID: 0}
   ShopMenuUI: {fileID: 8819188507887504267}
   lavaholefloor: 8
   rockceiling: 50

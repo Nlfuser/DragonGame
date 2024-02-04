@@ -2744,7 +2744,6 @@ GameObject:
   - component: {fileID: 6339335644030853483}
   - component: {fileID: 375795606640363379}
   - component: {fileID: 7261752417401508342}
-  - component: {fileID: 6869105715709314978}
   m_Layer: 5
   m_Name: UIManager
   m_TagString: Untagged
@@ -5039,24 +5038,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &6869105715709314978
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3062356092486479771}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6906a33dfacae58428c3f94e486bdba6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GameManager: {fileID: 3643527895413786865}
-  ShopMenuUI: {fileID: 0}
-  AttackCost: 0
-  HealthCost: 0
-  RefillCost: 0
-  FlyCost: 0
 --- !u!222 &6908219643821512556
 CanvasRenderer:
   m_ObjectHideFlags: 0

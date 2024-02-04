@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 048fc80a098606843acd991d00c9aac5, type: 3}
   m_Name: Ranged
   m_EditorClassIdentifier: 
-  enemyhealth: 3
-  enemyattack: 2
+  enemyhealth: 1
+  enemyattack: 1
   vision: 8
   range: 4
   imEnemy: 1
