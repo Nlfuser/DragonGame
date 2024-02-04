@@ -414,6 +414,7 @@ public class GameManager : MonoBehaviour
             if (exit.transform.position == player.transform.position)
             {
                 ExitLevel();
+                //Gamestate shop
                 ChangeState(GameState.GenerateLevel);
             }
         }
