@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
     public static GameManager _Instance;
     [SerializeField] private int _height;
     [SerializeField] private int _width;
+    [SerializeField] private int GridOffset;
+
     [SerializeField] private float turnLimit;
     private float _turnTimer;
     [SerializeField] private int LavaLimit;
@@ -202,7 +204,7 @@ public class GameManager : MonoBehaviour
         {
             for (int y = 0; y < _height; y++)
             {
-                var node = Instantiate(nodePrefab, new Vector2(x, y), Quaternion.identity, grid);
+                var node = Instantiate(nodePrefab, new Vector2(x, y + GridOffset), Quaternion.identity, grid);
                 _nodes.Add(node);
                 // if(x==0) {
                 //     var lava = Instantiate(lavaPrefab, new Vector2(x, y), Quaternion.identity, grid);
@@ -242,7 +244,7 @@ public class GameManager : MonoBehaviour
     {
         for (int y = 0; y < _height; y++)
         {
-            var lava = Instantiate(lavaPrefab, new Vector2(x, y), Quaternion.identity, grid);
+            var lava = Instantiate(lavaPrefab, new Vector2(x, y + GridOffset), Quaternion.identity, grid);
             _lavas.Add(lava);
         }
     }
@@ -361,7 +363,7 @@ public class GameManager : MonoBehaviour
         {
             for (int y = 0; y < _height; y++)
             {
-                var location = new Vector2(x, y);
+                var location = new Vector2(x, y + GridOffset);
                 if (//continue if any of condition x is true, continue if there is an object at the position. if getXatLoc() != null
                     (GetEnemyAtPosition(location) == null) ||
                     (GetLavaAtPosition(location) == null) ||

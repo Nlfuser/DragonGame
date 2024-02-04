@@ -136,6 +136,14 @@ PrefabInstance:
       value: GameManager
       objectReference: {fileID: 0}
     - target: {fileID: 3643527895345360353, guid: f269a45db0b3e6f4b94a6f90b1877779, type: 3}
+      propertyPath: _width
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 3643527895345360353, guid: f269a45db0b3e6f4b94a6f90b1877779, type: 3}
+      propertyPath: _height
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3643527895345360353, guid: f269a45db0b3e6f4b94a6f90b1877779, type: 3}
       propertyPath: CoinText
       value: 
       objectReference: {fileID: 970151740819319354}
@@ -151,6 +159,10 @@ PrefabInstance:
       propertyPath: AttackText
       value: 
       objectReference: {fileID: 970151740819319358}
+    - target: {fileID: 3643527895345360353, guid: f269a45db0b3e6f4b94a6f90b1877779, type: 3}
+      propertyPath: GridOffset
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 3643527895345360353, guid: f269a45db0b3e6f4b94a6f90b1877779, type: 3}
       propertyPath: HealthText
       value: 
@@ -201,6 +213,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7519662547171598280, guid: f269a45db0b3e6f4b94a6f90b1877779, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8718491293442723399, guid: f269a45db0b3e6f4b94a6f90b1877779, type: 3}
+      propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -544,7 +560,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3848855856622050429, guid: 1bd2820c81c26b24d95e414f148c4432, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 3848855856622050429, guid: 1bd2820c81c26b24d95e414f148c4432, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

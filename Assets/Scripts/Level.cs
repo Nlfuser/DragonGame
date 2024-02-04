@@ -6,4 +6,6 @@ public class Level : ScriptableObject
 {
     public int enemiesRanged;
     public int enemiesMelee;
+    public int xtiles;
+    public int ytiles;
 }
