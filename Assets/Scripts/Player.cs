@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Player : Character
 {
+    [SerializeField] public bool canFly;
+
     public float coinCount;
 
     // Start is called before the first frame update

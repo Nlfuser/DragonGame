@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Character : MonoBehaviour
 {
+    [SerializeField] public int _maxhealth;
     [SerializeField] public int _health;
     [SerializeField] public int _attack;
     public Vector2 Pos => transform.position;
