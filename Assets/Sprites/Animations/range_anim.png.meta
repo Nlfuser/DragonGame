@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 823c0212926b8024d8ac2ee3b224f415
+guid: 49dad0a77b02dd24c9016e3098dacab5
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -123,13 +123,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: melee_anim_0
+      name: range_anim_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 2
-        width: 248
-        height: 286
+        y: 1
+        width: 238
+        height: 285
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -137,83 +137,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c1122a8e851184aa69a39164f94d56a9
-      internalID: 2039632917
+      spriteID: 701fab89299fc46538c5ec8ecfcbcdb4
+      internalID: 1909740994
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: melee_anim_1
+      name: range_anim_1
       rect:
         serializedVersion: 2
-        x: 285
-        y: 2
-        width: 257
-        height: 286
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: d7f3c3ba38f114aff86e600cfd16f550
-      internalID: 1021999398
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: melee_anim_2
-      rect:
-        serializedVersion: 2
-        x: 566
-        y: 6
-        width: 259
-        height: 286
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: c632e3cb663334b07ae816372aa37f6e
-      internalID: -958225325
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: melee_anim_3
-      rect:
-        serializedVersion: 2
-        x: 863
-        y: 0
-        width: 245
-        height: 286
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 3f132a942a3de437fad60a01273b5778
-      internalID: -531563212
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: melee_anim_4
-      rect:
-        serializedVersion: 2
-        x: 1149
+        x: 282
         y: 4
-        width: 248
-        height: 286
+        width: 235
+        height: 285
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -221,8 +158,71 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9b04410c20ae54f35b8eb40bd9c9ffc9
-      internalID: -1161475413
+      spriteID: 349d34c1fdcb944e1aea4b59d3cbc60b
+      internalID: -403153000
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: range_anim_2
+      rect:
+        serializedVersion: 2
+        x: 552
+        y: 0
+        width: 235
+        height: 285
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a74aeb4acad164c59ae45cba88bb77b4
+      internalID: 1079663083
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: range_anim_3
+      rect:
+        serializedVersion: 2
+        x: 787
+        y: 0
+        width: 267
+        height: 285
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ea9b16b3451254e889183eea11342233
+      internalID: -965979381
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: range_anim_4
+      rect:
+        serializedVersion: 2
+        x: 1080
+        y: 0
+        width: 240
+        height: 289
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 76dc5ea3fdf7a4724bb2a9435957d921
+      internalID: -683617099
       vertices: []
       indices: 
       edges: []
@@ -238,11 +238,11 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      melee_anim_0: 2039632917
-      melee_anim_1: 1021999398
-      melee_anim_2: -958225325
-      melee_anim_3: -531563212
-      melee_anim_4: -1161475413
+      range_anim_0: 1909740994
+      range_anim_1: -403153000
+      range_anim_2: 1079663083
+      range_anim_3: -965979381
+      range_anim_4: -683617099
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
