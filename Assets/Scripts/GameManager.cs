@@ -60,6 +60,7 @@ public class GameManager : MonoBehaviour
     public TMP_Text HealthText;
     public TMP_Text CoinText;
     [SerializeField] private GameObject GameOverMenuUI;
+    [SerializeField] private GameObject ShopMenuUI;
 
 
     public int lavaholefloor;
@@ -79,7 +80,7 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
-        //ChangeState(GameState.Stop);
+        ChangeState(GameState.Stop);
     }
 
     public void InitGameManager()
@@ -101,19 +102,21 @@ public class GameManager : MonoBehaviour
         ChangeState(GameState.GenerateLevel);
     }
 
-    private void ChangeState(GameState newState)
+    public void ChangeState(GameState newState)
     {
         _state = newState;
 
         switch (newState)
         {
+            case GameState.Stop:
+                break;
             case GameState.GenerateLevel:
                 print("generating level");
                 GenerateGrid();
                 AttackText.SetText(string.Format("{0}", player._attack));
-                HealthText.SetText(string.Format("{0}", player._health));
+                HealthText.SetText(string.Format("{0}", player._health) + " / " + string.Format("{0}", player._maxhealth));
                 ChangeState(GameState.WaitingInput);
-                break;
+                break;           
             case GameState.WaitingInput:
                 print("waiting input");
                 TurnText.SetText("Your turn");
@@ -139,7 +142,7 @@ public class GameManager : MonoBehaviour
                         GameOver();
                     }
                     player.Takedmg(lavaDamage);
-                    HealthText.SetText(string.Format("{0}", player._health));
+                    HealthText.SetText(string.Format("{0}", player._health) + " / " + string.Format("{0}", player._maxhealth));
 
                 }
                 foreach (Enemy e in _enemies.ToList())
@@ -166,6 +169,9 @@ public class GameManager : MonoBehaviour
                     SpawnGold();
                 }
                 ChangeState(GameState.WaitingInput);
+                break;
+            case GameState.Shop:
+                ShopMenuUI.SetActive(true);
                 break;
             case GameState.Lose:
                 GameOverMenuUI.SetActive(true);   
@@ -219,6 +225,7 @@ public class GameManager : MonoBehaviour
     }
     void GenerateGrid()
     {
+        print("start new level");
         currentLevel = gameLevels.ElementAt(currentLevelIndex);
         ++currentLevelIndex;
         _nodes = new List<Node>();
@@ -292,11 +299,7 @@ public class GameManager : MonoBehaviour
         player = Instantiate(playerPrefab, pathNodes.ElementAt(1) + new Vector2(0, GridOffset), Quaternion.identity, others);
         _lavaTimer = 0;
         _goldTimer = 0;
-        _enemies = new List<Enemy>();
-        _lavas = new List<Lava>();
-        _goldBags = new List<GoldBag>();
-        _lavaspool = new List<Lava>();
-        InitLavaRow(0);
+        player = Instantiate(playerPrefab, pathNodes.ElementAt(1) + new Vector2(0, GridOffset), Quaternion.identity, others);
         InitEnemies(currentLevel.enemiesMelee, currentLevel.enemiesRanged);
     }
     void RockTile(int x, int y)
@@ -426,8 +429,7 @@ public class GameManager : MonoBehaviour
             if (exit.transform.position == player.transform.position)
             {
                 ExitLevel();
-                //Gamestate shop
-                ChangeState(GameState.GenerateLevel);
+                ChangeState(GameState.Shop);
             }
         }
         else ChangeState(GameState.WaitingInput);
@@ -480,7 +482,7 @@ public class GameManager : MonoBehaviour
             GameOver();
         }
         player.Takedmg(dmg);
-        HealthText.SetText(string.Format("{0}", player._health));
+        HealthText.SetText(string.Format("{0}", player._health) + " / " + string.Format("{0}", player._maxhealth));
     }
     void MoveLava()
     {
@@ -493,7 +495,7 @@ public class GameManager : MonoBehaviour
         {
             if ((Vector2)player.transform.position == g.Pos)
             {// if player at gold position, remove gold and give gold to player
-                player.GainGold(g.value);
+                PlayerCoinGain(g.value);
                 CoinText.SetText(string.Format("{0}", player.coinCount));
                 _goldBags.Remove(g);
                 Destroy(g.gameObject);
@@ -507,6 +509,11 @@ public class GameManager : MonoBehaviour
                 Destroy(g.gameObject);
             }
         }
+    }
+
+    public void PlayerCoinGain(int amount){
+        player.GainGold(amount);
+        CoinText.SetText(string.Format("{0}", player.coinCount));
     }
 
     void SpawnGold()
@@ -570,6 +577,7 @@ public class GameManager : MonoBehaviour
         Destroy(exit.gameObject);
         _lavaTimer = 0;
         _goldTimer = 0;
+        ChangeState(GameState.Shop);
     }
 
 
@@ -596,9 +604,14 @@ public class GameManager : MonoBehaviour
         _lavaTimer = 0;
         _goldTimer = 0;
     }
+
+
+
+
     void GameOver()
     {
         ChangeState(GameState.Lose);
+
     }
     public Node GetNodeAtPosition(Vector2 pos)
     {
@@ -628,6 +641,7 @@ public enum GameState
     EnemiesMoving,
     LavaMoving,
     GoldManagement,
+    Shop,
     Win,
     Lose
 }
