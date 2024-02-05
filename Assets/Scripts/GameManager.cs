@@ -259,12 +259,15 @@ public class GameManager : MonoBehaviour
     }
     void Update()
     {
-        if (canmovelock && player != null)
+        try
         {
-            if (Input.GetKeyDown(KeyCode.LeftArrow)) MovePlayer(Vector2.left);
-            if (Input.GetKeyDown(KeyCode.RightArrow)) MovePlayer(Vector2.right);
-            if (Input.GetKeyDown(KeyCode.UpArrow)) MovePlayer(Vector2.up);
-            if (Input.GetKeyDown(KeyCode.DownArrow)) MovePlayer(Vector2.down);
+            if (canmovelock && player != null)
+            {
+                if (Input.GetKeyDown(KeyCode.LeftArrow)) MovePlayer(Vector2.left);
+                if (Input.GetKeyDown(KeyCode.RightArrow)) MovePlayer(Vector2.right);
+                if (Input.GetKeyDown(KeyCode.UpArrow)) MovePlayer(Vector2.up);
+                if (Input.GetKeyDown(KeyCode.DownArrow)) MovePlayer(Vector2.down);
+            }
             _turnTimer += Time.deltaTime;
             TurnTimerText.SetText(string.Format("{0:N2}", _turnTimer));
             if (_turnTimer >= turnLimit)
@@ -272,6 +275,11 @@ public class GameManager : MonoBehaviour
                 _turnTimer = 0;
                 ChangeState(GameState.EnemiesMoving);
             }
+
+        }
+        catch(Exception e)
+        {
+            Debug.LogException(e);
         }
         //try { enemybehaviourtest(); } catch { }
         // if(Input.GetKeyDown(KeyCode.Space)) 
@@ -434,7 +442,7 @@ public class GameManager : MonoBehaviour
             {
                 randpos = new Vector2(_width - 2, Random.Range(0, _height) + GridOffset);
 
-            } while (GetNodeAtPosition(randpos) == null);
+            } while (GetNodeAtPosition(randpos) == null && GetLavaPoolAtPosition(randpos) == null && GetEnemyAtPosition(randpos) == null);
             var _enemy = Instantiate(enemyMeleePrefab, randpos, Quaternion.identity, others);
             _enemy.name = "enemy" + enemylev;
             _enemies.Add(_enemy);
