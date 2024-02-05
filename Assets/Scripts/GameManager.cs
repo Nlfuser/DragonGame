@@ -456,7 +456,7 @@ public class GameManager : MonoBehaviour
             {
                 randpos = new Vector2(_width - 2, Random.Range(0, _height) + GridOffset);
 
-            } while (GetNodeAtPosition(randpos) == null);
+            } while (GetNodeAtPosition(randpos) == null && GetLavaPoolAtPosition(randpos) == null && GetEnemyAtPosition(randpos) == null);
             var _enemy = Instantiate(enemyRangedPrefab, randpos, Quaternion.identity, others);
             _enemy.name = "enemy" + enemylev;
             _enemies.Add(_enemy);
