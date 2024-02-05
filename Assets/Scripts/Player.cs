@@ -12,6 +12,7 @@ public class Player : Character
     {
         GameManager._Instance.UIHealthUpdate();
         GameManager._Instance.UICoinUpdate();
+        GameManager._Instance.UIAttackUpdate();
     }   
     public void GainGold(int amount){
         coinCount+=amount;

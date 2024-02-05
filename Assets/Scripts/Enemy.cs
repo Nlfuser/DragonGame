@@ -37,7 +37,7 @@ public class Enemy : Character
             switch (myData.imEnemy)
             {
                 case EnemyData.enemyClass.melee:
-                    Simplepursuit(player.transform.position);
+                    SimplePursuit(player.transform.position);
                     break;
                 case EnemyData.enemyClass.ranged:
                     RangedPursuit(player.transform.position);
@@ -49,7 +49,7 @@ public class Enemy : Character
             float goldLev = 0;
             if (myGold != null)
             {
-                Simplepursuit(myGold.transform.position);
+                SimplePursuit(myGold.transform.position);
             }
             else
             {
@@ -110,18 +110,33 @@ public class Enemy : Character
         }
         else
         {
-            Simplepursuit(playerPos);
+            SimplePursuit(playerPos);
         }
     }
-    void Simplepursuit(Vector2 player)
+    void SimplePursuit(Vector2 player)
     {
-        Vector2 possibleLocation = (Vector2)transform.position - SimplePursuitPosition(player, transform.position);
+        Vector2 movement = SimplePursuitPosition(player, transform.position);
+        Vector2 possibleLocation = (Vector2)transform.position - movement;
         var possibleNode = GameManager._Instance.GetNodeAtPosition(possibleLocation);
         if (possibleNode != null)
         {
             if (possibleLocation == player)
             {
                 GameManager._Instance.Fight(this);
+            }
+            if(myData.imEnemy == EnemyData.enemyClass.ranged)
+            {
+                foreach (Lava L in GameManager._Instance._lavaspool)
+                {
+                    if (possibleLocation == (Vector2)L.transform.position)
+                    {
+                        Vector2 Goaround = SimplePursuitPosition(possibleLocation + movement, transform.position);
+                        if (Goaround != null)
+                        {
+                            transform.position = (Vector2)transform.position - Goaround;
+                        }
+                    }
+                }
             }
             if (GameManager._Instance.GetEnemyAtPosition(possibleLocation) == null)
             {
@@ -156,6 +171,7 @@ public class Enemy : Character
                 route = route == xpursuit ? ypursuit : xpursuit;
             }
         }
+
         return route;
     }
     public void GainGold(int amount)

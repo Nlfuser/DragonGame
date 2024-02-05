@@ -3326,6 +3326,8 @@ MonoBehaviour:
   _enemies: []
   cardinals: []
   _nodes: []
+  _lavas: []
+  _lavaspool: []
   _goldBags: []
   _state: 0
   AttackText: {fileID: 213055993149646115}

@@ -57,8 +57,8 @@ public class GameManager : MonoBehaviour
     public List<Node> _nodes;
     private List<Vector2> pathNodes;
 
-    private List<Lava> _lavas;
-    private List<Lava> _lavaspool;
+    public List<Lava> _lavas;
+    public List<Lava> _lavaspool;
     public List<GoldBag> _goldBags;
 
     public GameState _state;
@@ -669,6 +669,10 @@ public class GameManager : MonoBehaviour
     {
         return _goldBags.FirstOrDefault(n => n.Pos == pos);
     }
+    public void UIAttackUpdate()
+    {
+        AttackText.SetText(string.Format("{0}", player._attack));
+    }
     public void UICoinUpdate()
     {
         CoinText.SetText(string.Format("{0}", player.coinCount));
@@ -729,6 +733,7 @@ public class GameManager : MonoBehaviour
     public void CloseShop()
     {
         ShopMenuUI.SetActive(false);
+        player.rogerUIUpdate();
         ChangeState(GameState.GenerateLevel);
     }
     //mainmenui
