@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: fd0cbb7a3ef374757b9090d42ca76189
+guid: 9dfb6b4d62e2c43d1be45a9ad3c239c8
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -45,10 +45,10 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 0
+  spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 270
+  spritePixelsToUnits: 256
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -72,7 +72,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 2
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -119,30 +119,17 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: Windows Store Apps
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: dragonfly_anim_0
+      name: gem_anim_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 272.4
-        height: 251
+        width: 256
+        height: 256
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -150,20 +137,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: dc8219d69c50d49ea89dac439e201cdf
-      internalID: 1787284427
+      spriteID: c7a5629f7730445588999c5d25ec2af5
+      internalID: 1197154905
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: dragonfly_anim_1
+      name: gem_anim_1
       rect:
         serializedVersion: 2
-        x: 272
+        x: 256
         y: 0
-        width: 272.4
-        height: 251
+        width: 256
+        height: 256
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -171,20 +158,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b0d3274ef12fd4ce5a7afadb1088ea2c
-      internalID: -779450256
+      spriteID: 2d93878ae873f43b694c6db1680f71bb
+      internalID: -1180648740
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: dragonfly_anim_2
+      name: gem_anim_2
       rect:
         serializedVersion: 2
-        x: 544
+        x: 512
         y: 0
-        width: 272.4
-        height: 251
+        width: 256
+        height: 256
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -192,50 +179,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8640d4d7a5ab3444d86c55cc711edd8c
-      internalID: 306697900
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: dragonfly_anim_3
-      rect:
-        serializedVersion: 2
-        x: 816
-        y: 0
-        width: 272.4
-        height: 251
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: c8a512e7a264b4780a54c038c66514a3
-      internalID: 1647797738
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: dragonfly_anim_4
-      rect:
-        serializedVersion: 2
-        x: 1088
-        y: 0
-        width: 272.4
-        height: 251
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 4b59ff518a0dd4dccaaff99cfe336466
-      internalID: 1419684895
+      spriteID: edf5bd9b9d30b48f8993865b1f43e652
+      internalID: -340715266
       vertices: []
       indices: 
       edges: []
@@ -251,11 +196,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      dragonfly_anim_0: 1787284427
-      dragonfly_anim_1: -779450256
-      dragonfly_anim_2: 306697900
-      dragonfly_anim_3: 1647797738
-      dragonfly_anim_4: 1419684895
+      gem_anim_0: 1197154905
+      gem_anim_1: -1180648740
+      gem_anim_2: -340715266
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

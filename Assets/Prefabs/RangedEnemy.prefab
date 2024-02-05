@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5543449069934386792}
   - component: {fileID: 8314098721331995098}
   - component: {fileID: 1015953643704528897}
+  - component: {fileID: 6724246095473797752}
   m_Layer: 0
   m_Name: RangedEnemy
   m_TagString: Untagged
@@ -74,7 +75,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: -683617099, guid: 49dad0a77b02dd24c9016e3098dacab5, type: 3}
+  m_Sprite: {fileID: -1156225508, guid: bb0e96d3ea8e946c49ab42deaad422bc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -97,7 +98,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5dbfa2bb2bef8d4b8e179e1ef6b4ba3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _maxhealth: 0
   _health: 0
   _attack: 0
   myData: {fileID: 11400000, guid: ef21c1e11ac1578489b208239e54c013, type: 2}
   coinCount: 0
+--- !u!95 &6724246095473797752
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7756160987186963550}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: da19e405c343a40759d362ddfb2e79aa, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

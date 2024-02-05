@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: fd0cbb7a3ef374757b9090d42ca76189
+guid: 8aeea2679fa2247aea47da7e9acbcfd4
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -45,7 +45,7 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 0
+  spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 270
@@ -72,7 +72,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 2
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -119,30 +119,17 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: Windows Store Apps
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: dragonfly_anim_0
+      name: melee_idleUPDATE_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 272.4
-        height: 251
+        width: 249.66667
+        height: 300
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -150,20 +137,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: dc8219d69c50d49ea89dac439e201cdf
-      internalID: 1787284427
+      spriteID: ceaa004cfd4da4bcdb6ca8ffbada19a5
+      internalID: -1684056295
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: dragonfly_anim_1
+      name: melee_idleUPDATE_1
       rect:
         serializedVersion: 2
-        x: 272
+        x: 249
         y: 0
-        width: 272.4
-        height: 251
+        width: 249.66667
+        height: 300
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -171,20 +158,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b0d3274ef12fd4ce5a7afadb1088ea2c
-      internalID: -779450256
+      spriteID: e09ee85a0bed348188fe72a94a3a3355
+      internalID: 930197162
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: dragonfly_anim_2
+      name: melee_idleUPDATE_2
       rect:
         serializedVersion: 2
-        x: 544
+        x: 498
         y: 0
-        width: 272.4
-        height: 251
+        width: 249.66667
+        height: 300
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -192,20 +179,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8640d4d7a5ab3444d86c55cc711edd8c
-      internalID: 306697900
+      spriteID: bddf3e5d3360e48e0be9c4b430279a2d
+      internalID: -238096737
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: dragonfly_anim_3
+      name: melee_idleUPDATE_3
       rect:
         serializedVersion: 2
-        x: 816
+        x: 747
         y: 0
-        width: 272.4
-        height: 251
+        width: 249.66667
+        height: 300
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -213,20 +200,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c8a512e7a264b4780a54c038c66514a3
-      internalID: 1647797738
+      spriteID: 4be34927eb8324ec3a1b0683d237f229
+      internalID: -744929776
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: dragonfly_anim_4
+      name: melee_idleUPDATE_4
       rect:
         serializedVersion: 2
-        x: 1088
+        x: 996
         y: 0
-        width: 272.4
-        height: 251
+        width: 249.66667
+        height: 300
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -234,8 +221,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4b59ff518a0dd4dccaaff99cfe336466
-      internalID: 1419684895
+      spriteID: 61b1d7f15ddc54587af7f066a5a26b81
+      internalID: 149675026
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: melee_idleUPDATE_5
+      rect:
+        serializedVersion: 2
+        x: 1245
+        y: 0
+        width: 249.66667
+        height: 300
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 39f4c1e7bdaa94f2d99c4b1e4040be45
+      internalID: 318425769
       vertices: []
       indices: 
       edges: []
@@ -251,11 +259,12 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      dragonfly_anim_0: 1787284427
-      dragonfly_anim_1: -779450256
-      dragonfly_anim_2: 306697900
-      dragonfly_anim_3: 1647797738
-      dragonfly_anim_4: 1419684895
+      melee_idleUPDATE_0: -1684056295
+      melee_idleUPDATE_1: 930197162
+      melee_idleUPDATE_2: -238096737
+      melee_idleUPDATE_3: -744929776
+      melee_idleUPDATE_4: 149675026
+      melee_idleUPDATE_5: 318425769
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
