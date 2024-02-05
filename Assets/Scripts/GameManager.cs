@@ -7,8 +7,6 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 using TMPro;
 using System.Xml.Linq;
-using static UnityEditor.Experimental.GraphView.GraphView;
-using static UnityEditor.PlayerSettings;
 
 public class GameManager : MonoBehaviour
 {
@@ -720,7 +718,7 @@ public class GameManager : MonoBehaviour
     }
     public void UIHealthUpdate()
     {
-        HealthText.SetText(string.Format("{0}", player._health) + " / " + string.Format("{0}", player._maxhealth));
+        HealthText.SetText(string.Format("{0}", player._health) + "/" + string.Format("{0}", player._maxhealth));
     }
     //shopui
     public void BoughtAttack()
