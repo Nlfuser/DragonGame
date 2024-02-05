@@ -3076,7 +3076,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 425.7627, y: 356.6192}
-  m_SizeDelta: {x: 139.611, y: 106.7213}
+  m_SizeDelta: {x: 242.2351, y: 185.1691}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2908017013273914845
 MonoBehaviour:
@@ -3518,7 +3518,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2915a2ab0e9b16d488fe388ad2a4c41f, type: 2}
   currentLevelIndex: 0
   GridOffset: -1
-  turnLimit: 10
+  turnLimit: 1
   LavaLimit: 3
   GoldLimit: 2
   grid: {fileID: 8718491293508545367}
@@ -3679,7 +3679,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &3879298567037300925
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5858,8 +5858,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -10}
-  m_SizeDelta: {x: 79.8814, y: 61.6782}
+  m_AnchoredPosition: {x: -6, y: -4.8}
+  m_SizeDelta: {x: 142.8072, y: 68.8332}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &8283501668220789085
 RectTransform:
@@ -6204,8 +6204,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 56
-  m_fontSizeBase: 56
+  m_fontSize: 42
+  m_fontSizeBase: 42
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

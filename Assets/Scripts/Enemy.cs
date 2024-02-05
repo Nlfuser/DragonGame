@@ -64,7 +64,7 @@ public class Enemy : Character
                 }
             }
         }
-        if (GameManager._Instance.player.Pos == Pos) Destroy(gameObject);
+        
     }
     bool EvadeLava(Vector2 playerPos)
     {

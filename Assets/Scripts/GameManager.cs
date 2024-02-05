@@ -8,6 +8,7 @@ using Random = UnityEngine.Random;
 using TMPro;
 using System.Xml.Linq;
 using static UnityEditor.Experimental.GraphView.GraphView;
+using static UnityEditor.PlayerSettings;
 
 public class GameManager : MonoBehaviour
 {
@@ -186,7 +187,7 @@ public class GameManager : MonoBehaviour
                 canmovelock = false;
                 break;
             case GameState.EnemiesMoving:
-                MoveEnemies();
+                MoveEnemies();                
                 break;
             case GameState.LavaMoving:
                 _lavaTimer++;
@@ -259,6 +260,16 @@ public class GameManager : MonoBehaviour
     }
     void Update()
     {
+        if(_state != GameState.Stop && _state != GameState.Win && _state != GameState.Lose && _state != GameState.Shop)
+        {
+            _turnTimer += Time.deltaTime;
+            TurnTimerText.SetText(string.Format("{0:N2}", _turnTimer));
+            if (_turnTimer >= turnLimit)
+            {
+                _turnTimer = 0;
+                ChangeState(GameState.EnemiesMoving);
+            }
+        }
         try
         {
             if (canmovelock && player != null)
@@ -268,14 +279,6 @@ public class GameManager : MonoBehaviour
                 if (Input.GetKeyDown(KeyCode.UpArrow)) MovePlayer(Vector2.up);
                 if (Input.GetKeyDown(KeyCode.DownArrow)) MovePlayer(Vector2.down);
             }
-            _turnTimer += Time.deltaTime;
-            TurnTimerText.SetText(string.Format("{0:N2}", _turnTimer));
-            if (_turnTimer >= turnLimit)
-            {
-                _turnTimer = 0;
-                ChangeState(GameState.EnemiesMoving);
-            }
-
         }
         catch(Exception e)
         {
@@ -472,6 +475,10 @@ public class GameManager : MonoBehaviour
     }
     void MovePlayer(Vector2 dir)
     {
+        foreach (Enemy e in _enemies)
+        {
+            if (player.transform.position == e.transform.position) Destroy(e);
+        }
         Vector2 possibleLocation = (Vector2)player.transform.position + dir;
         var possibleNode = GetNodeAtPosition(possibleLocation);
         if (possibleNode != null)
@@ -493,15 +500,14 @@ public class GameManager : MonoBehaviour
                 {//if there are no enemies at the location
                     player.transform.position = possibleLocation;
                     AM.Play("MoveFromTile");
-
                 }
-                ChangeState(GameState.EnemiesMoving);
+                ChangeState(GameState.EnemiesMoving);                
             }
             if (exit.transform.position == player.transform.position)
             {
                 ExitLevel();
             }
-        }
+        }        
         else ChangeState(GameState.WaitingInput);
     }
     void MoveEnemies()
