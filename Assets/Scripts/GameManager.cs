@@ -98,7 +98,7 @@ public class GameManager : MonoBehaviour
             _Instance = this;
             DontDestroyOnLoad(gameObject);
         }
-        //RecursiveChildrenWrapper(Objects, transform);
+        RecursiveChildrenWrapper(Objects, transform);
         querylev = null;
     }
     private void RecursiveChildrenWrapper(List<GameObject> objects, Transform node)
@@ -112,10 +112,23 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+    public GameObject GetObject(string query)
+    {
+        try
+        {
+            if (querylev?.name != query) querylev = Objects.Where(obj => obj.name == query).SingleOrDefault();
+            return querylev;
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e + " getObjecterror");
+            return null;
+        }
+    }
     void Start()
     {
         AM = transform.gameObject.GetComponent<AudioManager>();
-        AM.Play("SearingEscape");
+        //AM.Play("SearingEscape");
         ChangeState(GameState.Stop);
     }
 
@@ -138,11 +151,11 @@ public class GameManager : MonoBehaviour
         _lavaspool = new List<Lava>();
         TurnText.SetText("Your turn");
         CoinText.SetText("0");
-        WinMenuUI = GameObject.Find("WinMenuUI");
-        GameOverMenuUI = GameObject.Find("GameOverMenuUI");
-        MainMenuUICanvas = GameObject.Find("MainMenuUICanvas");
-        ShopMenuUI = GameObject.Find("ShopMenuUI");
-        MainSceneUI = GameObject.Find("MainSceneUI");
+        WinMenuUI = GetObject("WinMenuUI");
+        GameOverMenuUI = GetObject("GameOverMenuUI");
+        MainMenuUICanvas = GetObject("MainMenuUICanvas");
+        ShopMenuUI = GetObject("ShopMenuUI");
+        MainSceneUI = GetObject("MainSceneUI");
     }
 
     public void ChangeState(GameState newState)
@@ -232,7 +245,7 @@ public class GameManager : MonoBehaviour
                 MainSceneUI.SetActive(false);
                 ShopMenuUI.SetActive(false);
                 WinMenuUI.SetActive(true);
-                    AM.Stop("SearingEscape");
+                AM.Stop("SearingEscape");
 
 
                 //     _winScreen.SetActive(true);
@@ -769,6 +782,7 @@ public class GameManager : MonoBehaviour
     //mainmenui
     public void PlayGame()
     {
+        AM.Play("SearingEscape");
         MainMenuUICanvas.SetActive(false);
         MainSceneUI.SetActive(true);
         ChangeState(GameState.GenerateLevel);
