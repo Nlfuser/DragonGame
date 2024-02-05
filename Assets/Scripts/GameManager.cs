@@ -155,7 +155,6 @@ public class GameManager : MonoBehaviour
         MainMenuUICanvas = GetObject("MainMenuUICanvas");
         ShopMenuUI = GetObject("ShopMenuUI");
         MainSceneUI = GetObject("MainSceneUI");
-        Camera.main.orthographicSize = 4;
     }
 
     public void ChangeState(GameState newState)
@@ -271,7 +270,6 @@ public class GameManager : MonoBehaviour
     void GenerateGrid()
     {
         currentLevel = gameLevels.ElementAt(currentLevelIndex);
-        if (currentLevelIndex > 0) Camera.main.orthographicSize = 5;
         ++currentLevelIndex;
         _nodes = new List<Node>();
         _enemies = new List<Enemy>();
