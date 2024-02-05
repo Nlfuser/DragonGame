@@ -98,7 +98,7 @@ public class GameManager : MonoBehaviour
             _Instance = this;
             DontDestroyOnLoad(gameObject);
         }
-        RecursiveChildrenWrapper(Objects, transform);
+        //RecursiveChildrenWrapper(Objects, transform);
         querylev = null;
     }
     private void RecursiveChildrenWrapper(List<GameObject> objects, Transform node)
@@ -110,19 +110,6 @@ public class GameManager : MonoBehaviour
             {
                 RecursiveChildrenWrapper(objects, child);
             }
-        }
-    }
-    public GameObject GetObject(string query)
-    {
-        try
-        {
-            if (querylev?.name != query) querylev = Objects.Where(obj => obj.name == query).SingleOrDefault();
-            return querylev;
-        }
-        catch (Exception e)
-        {
-            Debug.LogError(e + " getObjecterror");
-            return null;
         }
     }
     void Start()
@@ -151,11 +138,11 @@ public class GameManager : MonoBehaviour
         _lavaspool = new List<Lava>();
         TurnText.SetText("Your turn");
         CoinText.SetText("0");
-        WinMenuUI = GetObject("WinMenuUI");
-        GameOverMenuUI = GetObject("GameOverMenuUI");
-        MainMenuUICanvas = GetObject("MainMenuUICanvas");
-        ShopMenuUI = GetObject("ShopMenuUI");
-        MainSceneUI = GetObject("MainSceneUI");
+        WinMenuUI = GameObject.Find("WinMenuUI");
+        GameOverMenuUI = GameObject.Find("GameOverMenuUI");
+        MainMenuUICanvas = GameObject.Find("MainMenuUICanvas");
+        ShopMenuUI = GameObject.Find("ShopMenuUI");
+        MainSceneUI = GameObject.Find("MainSceneUI");
     }
 
     public void ChangeState(GameState newState)
@@ -402,7 +389,7 @@ public class GameManager : MonoBehaviour
                 initpivot = UnityEngine.Random.Range(0, _height);
 
                 Vector3[] Patch = TracePatcher(levpivot, initpivot, levdimens);
-                foreach (Vector3 t in Patch)                                            //Debug here
+                foreach (Vector3 t in Patch)
                 {
                     nodeDenyList.Add(t);
                 }
