@@ -74,7 +74,7 @@ public class GameManager : MonoBehaviour
     private GameObject MainMenuUICanvas;
     private GameObject ShopMenuUI;
     private GameObject MainSceneUI;
-    [SerializeField] private AudioManager AM;
+    [SerializeField] public AudioManager AM;
 
     float coinCountMemory = 0;
     int maxhealthMemory = 10;
@@ -165,6 +165,7 @@ public class GameManager : MonoBehaviour
         switch (newState)
         {
             case GameState.Stop:
+                DebugGems();
                 InitGameManager();
                 break;
             case GameState.GenerateLevel:
@@ -235,13 +236,16 @@ public class GameManager : MonoBehaviour
                 ChangeState(GameState.WaitingInput);
                 break;
             case GameState.Shop:
+                DebugGems();
                 ShopMenuUI.SetActive(true);
                 break;
             case GameState.Lose:
+                DebugGems();
                 MainSceneUI.SetActive(false);
                 GameOverMenuUI.SetActive(true);
                 break;
             case GameState.Win:
+                DebugGems();
                 MainSceneUI.SetActive(false);
                 ShopMenuUI.SetActive(false);
                 WinMenuUI.SetActive(true);
@@ -254,6 +258,17 @@ public class GameManager : MonoBehaviour
 
             default:
                 throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
+        }
+    }
+    void DebugGems()
+    {
+        if (_goldBags.Count > 0)
+        {
+            foreach (GoldBag child in _goldBags.ToList())
+            {
+                _goldBags.Remove(child);
+                Destroy(child.gameObject);
+            }
         }
     }
     void Update()
@@ -377,7 +392,6 @@ public class GameManager : MonoBehaviour
     }
     void LavaPoolTile(int x, int y)
     {
-        RockTile(x, y);
         var lava = Instantiate(lavaPoolPrefab, new Vector2(x, y + GridOffset), Quaternion.identity, grid);
         _lavaspool.Add(lava);
     }
@@ -473,12 +487,14 @@ public class GameManager : MonoBehaviour
     }
     void MovePlayer(Vector2 dir)
     {
+        AM.Stop("ReachNextLevel");
         foreach (Enemy e in _enemies)
         {
             if (player.transform.position == e.transform.position) Destroy(e);
         }
         Vector2 possibleLocation = (Vector2)player.transform.position + dir;
         var possibleNode = GetNodeAtPosition(possibleLocation);
+        if (possibleNode == null) { GetLavaPoolAtPosition(possibleLocation); }
         if (possibleNode != null)
         {//if grid exists
             _turnTimer = 0;
@@ -487,7 +503,7 @@ public class GameManager : MonoBehaviour
             if (Enemy == null)
             {//if there are no enemies at the location
                 player.transform.position = possibleLocation;
-                AM.Play("MoveFromTile");
+                AM.Play("ReachNextLevel");
                 ChangeState(GameState.EnemiesMoving);
             }
             else
@@ -497,7 +513,7 @@ public class GameManager : MonoBehaviour
                 if (Enemy == null)
                 {//if there are no enemies at the location
                     player.transform.position = possibleLocation;
-                    AM.Play("MoveFromTile");
+                    AM.Play("ReachNextLevel");
                 }
                 ChangeState(GameState.EnemiesMoving);                
             }
@@ -571,6 +587,7 @@ public class GameManager : MonoBehaviour
     public void PlayerCoinGain(int amount)
     {
         player.GainGold(amount);
+        coinCountMemory += amount;
         UICoinUpdate();
     }
     void SpawnGold()

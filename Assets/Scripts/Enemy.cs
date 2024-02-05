@@ -27,7 +27,7 @@ public class Enemy : Character
         range = myData.range;
         attackCharge = false;
     }
-    
+
     public void Behave(Player player)
     {
 #pragma warning disable CS0642
@@ -64,7 +64,7 @@ public class Enemy : Character
                 }
             }
         }
-        
+
     }
     bool EvadeLava(Vector2 playerPos)
     {
@@ -93,7 +93,7 @@ public class Enemy : Character
         return false;
     }
     // float duration = 0.07f;
-    
+
     void RangedPursuit(Vector2 playerPos)
     {
         Vector2 pursuitShort = (Vector2)transform.position - playerPos;
@@ -125,20 +125,6 @@ public class Enemy : Character
             {
                 GameManager._Instance.Fight(this);
             }
-            if(myData.imEnemy == EnemyData.enemyClass.ranged)
-            {
-                foreach (Lava L in GameManager._Instance._lavaspool)
-                {
-                    if (possibleLocation == (Vector2)L.transform.position)
-                    {
-                        Vector2 Goaround = SimplePursuitPosition(possibleLocation + movement, transform.position);
-                        if (Goaround != null)
-                        {
-                            transform.position = (Vector2)transform.position - Goaround;
-                        }
-                    }
-                }
-            }
             if (GameManager._Instance.GetEnemyAtPosition(possibleLocation) == null)
             {
                 transform.position = possibleLocation;
@@ -162,6 +148,8 @@ public class Enemy : Character
         }
         if (GameManager._Instance.GetEnemyAtPosition(route) != null)
         {
+            GameManager._Instance.Fight(this);
+            /*
             if (route.Equals(Vector2.zero))
             {
                 int aroundRand = Random.Range(0, 2) == 0 ? -1 : 1;
@@ -170,10 +158,21 @@ public class Enemy : Character
             else
             {
                 route = route == xpursuit ? ypursuit : xpursuit;
-            }
+            }*/
         }
 
         return route;
+    }
+    new public bool Takedmg(int dmg)
+    {
+        _health -= dmg;
+        GameManager._Instance.AM.Play("EnemyHurt");
+        if (_health <= 0)
+        {
+            Destroy(gameObject);
+            return true;
+        }
+        else { return false; }
     }
     public void GainGold(int amount)
     {
