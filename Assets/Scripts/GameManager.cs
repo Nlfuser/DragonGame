@@ -168,6 +168,7 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.GenerateLevel:
                 GenerateGrid();
+                grid.gameObject.SetActive(true);
                 AttackText.SetText(string.Format("{0}", player._attack));
                 UIHealthUpdate();
                 coinCountMemory = player.coinCount;
@@ -231,6 +232,7 @@ public class GameManager : MonoBehaviour
                 ShopMenuUI.SetActive(true);
                 break;
             case GameState.Lose:
+                MainSceneUI.SetActive(false);
                 GameOverMenuUI.SetActive(true);
                 break;
             case GameState.Win:
@@ -306,7 +308,7 @@ public class GameManager : MonoBehaviour
         }
         InitLavaRow(0);
         var center = new Vector2((float)_width / 2 - 0.5f, (float)_height / 2 - 0.5f);
-        exit = Instantiate(exitPrefab, pathNodes.Last() + new Vector2(0, GridOffset), Quaternion.identity, others);
+        exit = Instantiate(exitPrefab, pathNodes.Last() + new Vector2(0, GridOffset), Quaternion.identity, grid);
         player = Instantiate(playerPrefab, pathNodes.ElementAt(1) + new Vector2(0, GridOffset), Quaternion.identity, others);
         InitEnemies(currentLevel.enemiesMelee, currentLevel.enemiesRanged);
         // var board = Instantiate(_boardPrefab, center, Quaternion.identity);
@@ -323,21 +325,7 @@ public class GameManager : MonoBehaviour
     }
     public void RegenerateLevel() //call from button
     {
-        foreach (Enemy child in _enemies.ToList())
-        {
-            _enemies.Remove(child);
-            Destroy(child.gameObject);
-        }
-        foreach (GoldBag child in _goldBags.ToList())
-        {
-            _goldBags.Remove(child);
-            Destroy(child.gameObject);
-        }
-        foreach (Lava child in _lavas.ToList())
-        {
-            _lavas.Remove(child);
-            Destroy(child.gameObject);
-        }
+        grid.gameObject.SetActive(true);
         InitLavaRow(0);
         player = Instantiate(playerPrefab, pathNodes.ElementAt(1) + new Vector2(0, GridOffset), Quaternion.identity, others);
         player._attack = attackMemory;
@@ -647,6 +635,22 @@ public class GameManager : MonoBehaviour
     }
     void GameOver()
     {
+        foreach (Enemy child in _enemies.ToList())
+        {
+            _enemies.Remove(child);
+            Destroy(child.gameObject);
+        }
+        foreach (GoldBag child in _goldBags.ToList())
+        {
+            _goldBags.Remove(child);
+            Destroy(child.gameObject);
+        }
+        foreach (Lava child in _lavas.ToList())
+        {
+            _lavas.Remove(child);
+            Destroy(child.gameObject);
+        }
+        grid.gameObject.SetActive(false);
         ChangeState(GameState.Lose);
     }
     public Node GetNodeAtPosition(Vector2 pos)
