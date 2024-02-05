@@ -794,6 +794,7 @@ public class GameManager : MonoBehaviour
         WinMenuUI.SetActive(false);
         MainMenuUICanvas.SetActive(true);
         DestroyLevel();
+        AM.Stop("SearingEscape");
         ChangeState(GameState.Stop);
     }
     public void arrowcall(float arrowDuration, Vector2 playerPos, int _attack, Transform transform)
