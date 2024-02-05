@@ -128,6 +128,7 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
+        AM = transform.gameObject.GetComponent<AudioManager>();
         AM.Play("SearingEscape");
         ChangeState(GameState.Stop);
     }
