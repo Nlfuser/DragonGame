@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4999226850970476052}
   - component: {fileID: 5475715577233070031}
   - component: {fileID: 1386358686976457132}
+  - component: {fileID: 3731001871760913580}
   m_Layer: 0
   m_Name: MeleeEnemy
   m_TagString: Untagged
@@ -74,7 +75,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: 802790986, guid: 62e24443e2173bd4581b708977e9d996, type: 3}
+  m_Sprite: {fileID: -1684056295, guid: 8aeea2679fa2247aea47da7e9acbcfd4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -102,3 +103,24 @@ MonoBehaviour:
   _attack: 0
   myData: {fileID: 11400000, guid: a8217c0f868ea6c4c96c700d6a682648, type: 2}
   coinCount: 0
+--- !u!95 &3731001871760913580
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4876970028558840428}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: bbc5569a9625442158db32b0fdb07199, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

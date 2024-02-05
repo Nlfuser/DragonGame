@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: fd0cbb7a3ef374757b9090d42ca76189
+guid: bb0e96d3ea8e946c49ab42deaad422bc
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -45,10 +45,10 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 0
+  spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 270
+  spritePixelsToUnits: 540
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -72,7 +72,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 2
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -119,30 +119,17 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: Windows Store Apps
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: dragonfly_anim_0
+      name: ranged_idleUPDATE_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 272.4
-        height: 251
+        width: 475
+        height: 585
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -150,20 +137,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: dc8219d69c50d49ea89dac439e201cdf
-      internalID: 1787284427
+      spriteID: d3e573461d4cc4ffebd931e520a2b323
+      internalID: -1156225508
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: dragonfly_anim_1
+      name: ranged_idleUPDATE_1
       rect:
         serializedVersion: 2
-        x: 272
+        x: 475
         y: 0
-        width: 272.4
-        height: 251
+        width: 475
+        height: 585
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -171,20 +158,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b0d3274ef12fd4ce5a7afadb1088ea2c
-      internalID: -779450256
+      spriteID: b2894c1110ce3405d851cd20b9af4094
+      internalID: 361974148
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: dragonfly_anim_2
+      name: ranged_idleUPDATE_2
       rect:
         serializedVersion: 2
-        x: 544
+        x: 950
         y: 0
-        width: 272.4
-        height: 251
+        width: 475
+        height: 585
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -192,20 +179,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8640d4d7a5ab3444d86c55cc711edd8c
-      internalID: 306697900
+      spriteID: 5f4f815eb79624eee88d79678aa7abcb
+      internalID: 1752846260
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: dragonfly_anim_3
+      name: ranged_idleUPDATE_3
       rect:
         serializedVersion: 2
-        x: 816
+        x: 1425
         y: 0
-        width: 272.4
-        height: 251
+        width: 475
+        height: 585
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -213,20 +200,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c8a512e7a264b4780a54c038c66514a3
-      internalID: 1647797738
+      spriteID: d2877fcbd924842f389be3ceb5839c01
+      internalID: -850835264
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: dragonfly_anim_4
+      name: ranged_idleUPDATE_4
       rect:
         serializedVersion: 2
-        x: 1088
+        x: 1900
         y: 0
-        width: 272.4
-        height: 251
+        width: 475
+        height: 585
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -234,8 +221,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4b59ff518a0dd4dccaaff99cfe336466
-      internalID: 1419684895
+      spriteID: a966c7729c6f141fdb230bd238f0e8a4
+      internalID: 436204409
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ranged_idleUPDATE_5
+      rect:
+        serializedVersion: 2
+        x: 2375
+        y: 0
+        width: 475
+        height: 585
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cc5484992eb72454e9377836a33eb2dc
+      internalID: -1740959006
       vertices: []
       indices: 
       edges: []
@@ -251,11 +259,12 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      dragonfly_anim_0: 1787284427
-      dragonfly_anim_1: -779450256
-      dragonfly_anim_2: 306697900
-      dragonfly_anim_3: 1647797738
-      dragonfly_anim_4: 1419684895
+      ranged_idleUPDATE_0: -1156225508
+      ranged_idleUPDATE_1: 361974148
+      ranged_idleUPDATE_2: 1752846260
+      ranged_idleUPDATE_3: -850835264
+      ranged_idleUPDATE_4: 436204409
+      ranged_idleUPDATE_5: -1740959006
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
