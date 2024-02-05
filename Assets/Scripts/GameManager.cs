@@ -7,6 +7,7 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 using TMPro;
 using System.Xml.Linq;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class GameManager : MonoBehaviour
 {
@@ -76,11 +77,11 @@ public class GameManager : MonoBehaviour
     private GameObject MainSceneUI;
     [SerializeField] private AudioManager AM;
 
-    float coinCountMemory;
-    int maxhealthMemory;
-    int healthMemory;
-    bool canFlyMemory;
-    int attackMemory;
+    float coinCountMemory = 0;
+    int maxhealthMemory = 10;
+    int healthMemory = 10;
+    bool canFlyMemory = false;
+    int attackMemory = 1;
 
     public int lavaholefloor;
     public int rockceiling;
@@ -171,14 +172,11 @@ public class GameManager : MonoBehaviour
                 grid.gameObject.SetActive(true);
                 AttackText.SetText(string.Format("{0}", player._attack));
                 UIHealthUpdate();
-                coinCountMemory = player.coinCount;
-                maxhealthMemory = player._maxhealth;
-                healthMemory = player._health;
-                canFlyMemory = player.canFly;
-                attackMemory = player._attack;
+                rememberPlayer();
                 ChangeState(GameState.WaitingInput);
                 break;
             case GameState.WaitingInput:
+                MainSceneUI.SetActive(true);
                 canmovelock = true;
                 TurnTimerText.SetText(string.Format("{0:N2}", turnLimit));
                 break;
@@ -199,6 +197,10 @@ public class GameManager : MonoBehaviour
                 {
                     PlayerHurt(lavaDamage);
                 }
+                if (GetLavaPoolAtPosition(player.transform.position) != null && !player.canFly)
+                {
+                    PlayerHurt(lavaDamage);
+                }
                 foreach (Enemy e in _enemies.ToList())
                 {
                     if (GetLavaAtPosition(e.transform.position) != null)
@@ -213,6 +215,10 @@ public class GameManager : MonoBehaviour
                 foreach (GoldBag G in _goldBags.ToList())
                 {
                     if (GetLavaAtPosition(G.transform.position) != null)
+                    {
+                        Destroy(G.gameObject);
+                    }
+                    if (GetLavaPoolAtPosition(G.transform.position) != null)
                     {
                         Destroy(G.gameObject);
                     }
@@ -309,8 +315,10 @@ public class GameManager : MonoBehaviour
         InitLavaRow(0);
         var center = new Vector2((float)_width / 2 - 0.5f, (float)_height / 2 - 0.5f);
         exit = Instantiate(exitPrefab, pathNodes.Last() + new Vector2(0, GridOffset), Quaternion.identity, grid);
-        player = Instantiate(playerPrefab, pathNodes.ElementAt(1) + new Vector2(0, GridOffset), Quaternion.identity, others);
         InitEnemies(currentLevel.enemiesMelee, currentLevel.enemiesRanged);
+        player = Instantiate(playerPrefab, pathNodes.ElementAt(1) + new Vector2(0, GridOffset), Quaternion.identity, others);
+        recallPlayer();
+        player.rogerUIUpdate();
         // var board = Instantiate(_boardPrefab, center, Quaternion.identity);
         // board.size = new Vector2(_width,_height);
         // Camera.main.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, -10);
@@ -323,16 +331,29 @@ public class GameManager : MonoBehaviour
         RegenerateLevel();
         ChangeState(GameState.WaitingInput);
     }
-    public void RegenerateLevel() //call from button
+    void rememberPlayer()
     {
-        grid.gameObject.SetActive(true);
-        InitLavaRow(0);
-        player = Instantiate(playerPrefab, pathNodes.ElementAt(1) + new Vector2(0, GridOffset), Quaternion.identity, others);
+        coinCountMemory = player.coinCount;
+        maxhealthMemory = player._maxhealth;
+        healthMemory = player._health;
+        canFlyMemory = player.canFly;
+        attackMemory = player._attack;
+    }
+
+    void recallPlayer()
+    {
         player._attack = attackMemory;
         player._health = healthMemory;
         player._maxhealth = maxhealthMemory;
         player.canFly = canFlyMemory;
         player.coinCount = coinCountMemory;
+    }
+    public void RegenerateLevel() //call from button
+    {
+        grid.gameObject.SetActive(true);
+        InitLavaRow(0);
+        player = Instantiate(playerPrefab, pathNodes.ElementAt(1) + new Vector2(0, GridOffset), Quaternion.identity, others);
+        recallPlayer();
         player.rogerUIUpdate();
         _lavaTimer = 0;
         _goldTimer = 0;
@@ -596,6 +617,7 @@ public class GameManager : MonoBehaviour
             _goldBags.Remove(child);
             Destroy(child.gameObject);
         }
+        rememberPlayer();
         Destroy(player.gameObject);
         Destroy(exit.gameObject);
         _lavaTimer = 0;
@@ -693,12 +715,12 @@ public class GameManager : MonoBehaviour
             print("BoughtAttack");
             PlayerCoinGain(-AttackCost);
             player._attack += 1;
+            attackMemory += 1;
             AttackText.SetText(string.Format("{0}", player._attack));
             CloseShop();
         }
 
     }
-
     public void BoughtMaxHealth()
     {
         if (player.coinCount >= HealthCost)
@@ -706,7 +728,9 @@ public class GameManager : MonoBehaviour
             print("BoughtMaxHealth");
             PlayerCoinGain(-HealthCost);
             player._maxhealth += 5;
+            maxhealthMemory += 5;
             player._health += 5;
+            healthMemory += 5;
             UIHealthUpdate();
             CloseShop();
         }
@@ -719,6 +743,7 @@ public class GameManager : MonoBehaviour
             print("BoughtRefill");
             PlayerCoinGain(-RefillCost);
             player._health = player._maxhealth;
+            healthMemory = maxhealthMemory;
             UIHealthUpdate();
             CloseShop();
         }
@@ -731,6 +756,7 @@ public class GameManager : MonoBehaviour
             print("BoughtFlight");
             PlayerCoinGain(-FlyCost);
             player.canFly = true;
+            canFlyMemory = true;
             CloseShop();
         }
     }
