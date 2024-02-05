@@ -15,5 +15,5 @@ MonoBehaviour:
   enemyhealth: 1
   enemyattack: 1
   vision: 8
-  range: 4
+  range: 3
   imEnemy: 1
